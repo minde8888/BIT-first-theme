@@ -3,7 +3,7 @@ import startAllIdeas from './idejos';
 import startHomeIdea from './ideja';
 import startGallery from './gallery.js';
 // import Calendar from './calendar.js';
-import newCalendar from './newCalendar.js';
+import Calendar from './calendar.js';
 
 
-new newCalendar('.calendar');
+new Calendar('.calendar');
