@@ -12,17 +12,6 @@ class Calendar {
         this.curentM = new Date(this.y, this.m + 1, 0).getMonth();
         this.curentDay = new Date(this.y, this.curentM, 1).getDay();
         let startDay = this.curentDay;
-        // this.DaysOfWeek = [
-        //     'S',
-        //     'P',
-        //     'A',
-        //     'T',
-        //     'K',
-        //     'Pn',
-        //     'Š'
-        // ];
-        // this.Months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birzelis', 'Liepa', 'Rugpjutis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
-        // this.monthRef = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 
         this.init(days, startDay);
     }
@@ -48,7 +37,7 @@ class Calendar {
         }
     }
 
-    render(lastDayM, curentDay) {
+    render(lastDayM, curentDay, dataDate) {
 
         let today = this.date;
 
@@ -67,9 +56,10 @@ class Calendar {
             document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
         }
 
-
         const check = document.querySelectorAll(".cview--spacer");
         const check1 = document.querySelectorAll(".cview--date");
+
+
 
         if (check.length == 0 && check1.length == 0) {
 
@@ -93,7 +83,6 @@ class Calendar {
                 calendarDays.appendChild(day);
             }
         } else {
-
             Array.from(document.querySelectorAll('.cview--spacer')).forEach(el => el.remove());
             Array.from(document.querySelectorAll('.cview--date')).forEach(el => el.remove());
 
@@ -105,22 +94,32 @@ class Calendar {
             }
 
             for (let d = 1; d <= lastDayM; d++) {
-
-                let _date = new Date(this.y, this.m, d);
+                dataDate.setDate( d);
                 const day = document.createElement("div");
                 day.className = "cview--date";
                 day.textContent = d;
-                day.setAttribute("data-date", _date);
+                day.setAttribute("data-date", dataDate);
 
                 calendarDays.appendChild(day);
-            }
 
+            }
+            const aadToday = new Date(this.y, this.m, this.date.getDate());
+            const isToday = document.querySelectorAll(".cview--date");
+            console.log(dataDate);
+            for (let i = 0; i < isToday.length; i++) {
+                if (isToday[i].dataset.date == aadToday){
+                    console.log(isToday[i]);
+                    isToday[i].classList.add("today");
+                }            
+            }
         }
+
     }
 
     month(a) {
         const curentMth = document.getElementById("calendar-month");
 
+        let dataDate = new Date(this.y, this.m+a-1);   
         let y = this.date.getFullYear(), m = this.date.getMonth();
         let curentM = new Date(y, this.date.getMonth() + a, 0);
         let curentY = curentM.toString().slice(11, -47);
@@ -133,7 +132,7 @@ class Calendar {
         let newM = new Date(y, m + a, 0).getMonth();
         let startDay = new Date(curentY, newM, 1).getDay();
 
-        this.render(lastDayM, startDay);
+        this.render(lastDayM, startDay, dataDate);
     }
 
     translate(curentM) {
@@ -176,6 +175,6 @@ class Calendar {
                 break;
         }
     }
- }
+}
 
 export default Calendar;

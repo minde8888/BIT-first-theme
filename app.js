@@ -258,7 +258,7 @@ function getText() {
   var textArea = document.getElementById("textArea");
   var txt = document.getElementById("textArea").value;
 
-  if (txt != undefined || txt != null || txt.length >= 0 || txt != "" || txt != NaN) {
+  if (txt != undefined && txt != null && txt.length >= 0 && txt != "" && txt != NaN) {
     var words = txt.split(/\s+/);
     textArea.value = '';
     axios.post(uri + path + 'idea-create-front', {
@@ -274,7 +274,7 @@ function getText() {
 /*-----------------------like button and cookie------------------------------------------*/
 
 function likeAdd(like) {
-  if (like != undefined || like != null || like.length >= -1 || like != "" || like != NaN) {
+  if (like != undefined && like != null && like.length >= -1 && like != "" && like != NaN) {
     axios.post(uri + path + 'idea-create-front', {
       idea_like: like
     });
@@ -601,18 +601,7 @@ var Calendar = /*#__PURE__*/function () {
     var days = this.lastDayM;
     this.curentM = new Date(this.y, this.m + 1, 0).getMonth();
     this.curentDay = new Date(this.y, this.curentM, 1).getDay();
-    var startDay = this.curentDay; // this.DaysOfWeek = [
-    //     'S',
-    //     'P',
-    //     'A',
-    //     'T',
-    //     'K',
-    //     'Pn',
-    //     'Š'
-    // ];
-    // this.Months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birzelis', 'Liepa', 'Rugpjutis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
-    // this.monthRef = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
-
+    var startDay = this.curentDay;
     this.init(days, startDay);
   }
 
@@ -642,7 +631,7 @@ var Calendar = /*#__PURE__*/function () {
     }
   }, {
     key: "render",
-    value: function render(lastDayM, curentDay) {
+    value: function render(lastDayM, curentDay, dataDate) {
       var today = this.date;
 
       if (curentDay == 0) {
@@ -700,16 +689,28 @@ var Calendar = /*#__PURE__*/function () {
         }
 
         for (var _d = 1; _d <= lastDayM; _d++) {
-          var _date2 = new Date(this.y, this.m, _d);
+          dataDate.setDate(_d);
 
           var _day = document.createElement("div");
 
           _day.className = "cview--date";
           _day.textContent = _d;
 
-          _day.setAttribute("data-date", _date2);
+          _day.setAttribute("data-date", dataDate);
 
           calendarDays.appendChild(_day);
+        }
+
+        var aadToday = new Date(this.y, this.m, this.date.getDate());
+        var isToday = document.querySelectorAll(".cview--date");
+        console.log(dataDate);
+
+        for (var _i = 0; _i < isToday.length; _i++) {
+          if (isToday[_i].dataset.date == aadToday) {
+            console.log(isToday[_i]);
+
+            isToday[_i].classList.add("today");
+          }
         }
       }
     }
@@ -717,6 +718,7 @@ var Calendar = /*#__PURE__*/function () {
     key: "month",
     value: function month(a) {
       var curentMth = document.getElementById("calendar-month");
+      var dataDate = new Date(this.y, this.m + a - 1);
       var y = this.date.getFullYear(),
           m = this.date.getMonth();
       var curentM = new Date(y, this.date.getMonth() + a, 0);
@@ -727,7 +729,7 @@ var Calendar = /*#__PURE__*/function () {
       var lastDayM = new Date(y, m + a, 0).getDate();
       var newM = new Date(y, m + a, 0).getMonth();
       var startDay = new Date(curentY, newM, 1).getDay();
-      this.render(lastDayM, startDay);
+      this.render(lastDayM, startDay, dataDate);
     }
   }, {
     key: "translate",

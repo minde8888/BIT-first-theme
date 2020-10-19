@@ -7,7 +7,7 @@ function getText() {
   const textArea = document.getElementById("textArea");
   const txt = document.getElementById("textArea").value;
 
-  if (txt != undefined || txt != null || txt.length >= 0 || txt != "" || txt != NaN) {
+  if (txt != undefined && txt != null && txt.length >= 0 && txt != "" && txt != NaN) {
     let words = txt.split(/\s+/);
     textArea.value = '';
     axios.post(uri + path + 'idea-create-front', {
@@ -24,7 +24,7 @@ function getText() {
 
 function likeAdd(like) {
 
-  if (like != undefined || like != null || like.length >= -1 || like != "" || like != NaN) {
+  if (like != undefined && like != null && like.length >= -1 && like != "" && like != NaN) {
 
     axios.post(uri + path + 'idea-create-front', {
       idea_like: like,
