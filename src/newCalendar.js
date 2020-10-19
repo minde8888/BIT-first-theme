@@ -9,6 +9,9 @@ class Calendar {
         this.y = this.date.getFullYear(), this.m = this.date.getMonth(), this.d = this.date.getDay();
         this.lastDayM = new Date(this.y, this.m + 1, 0).getDate();
         let days = this.lastDayM;
+        this.curentM = new Date(this.y, this.m + 1, 0).getMonth();
+        this.curentDay = new Date(this.y, this.curentM, 1).getDay();
+        let startDay = this.curentDay;
         // this.DaysOfWeek = [
         //     'S',
         //     'P',
@@ -18,12 +21,13 @@ class Calendar {
         //     'Pn',
         //     'Š'
         // ];
-        this.Months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birzelis', 'Liepa', 'Rugpjutis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
-        this.monthRef = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
+        // this.Months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birzelis', 'Liepa', 'Rugpjutis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
+        // this.monthRef = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 
-        this.init(days);
+        this.init(days, startDay);
     }
-    init(lastDayM) {
+
+    init(lastDayM, startDay) {
         const DOM = document.querySelector(this.target);
         if (DOM) {
             let a = 1;
@@ -39,32 +43,43 @@ class Calendar {
                 a = a + 1;
                 this.month(a);
             });
-            let m = this.m;
-            this.render(lastDayM, m);
+
+            this.render(lastDayM, startDay);
         }
     }
-    render(lastDayM, curentM) {
+
+    render(lastDayM, curentDay) {
 
         let today = this.date;
-        let curentDay = new Date(this.y, curentM, 1).getDay();
+
+        if (curentDay == 0) {
+            curentDay = 7;
+        }
+
         const calendarDays = document.getElementById("dates");
-        // let nowM = new Date(this.y, this.date.getMonth());
-        // let nowY = nowM.toString().slice(11, -47);
-        // nowM = nowM.toString().slice(4, -55);
-        // nowM = this.translate(nowM);
-        // document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
+        const exisitClassMonth = document.querySelector(".cview__month-current").textContent;
+
+        if (exisitClassMonth == 1) {
+            let nowM = new Date(this.y, this.date.getMonth());
+            let nowY = nowM.toString().slice(11, -47);
+            nowM = nowM.toString().slice(4, -55);
+            nowM = this.translate(nowM);
+            document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
+        }
+
 
         const check = document.querySelectorAll(".cview--spacer");
+        const check1 = document.querySelectorAll(".cview--date");
 
-        if (check.length == 0) {
-            console.log(111111111);
+        if (check.length == 0 && check1.length == 0) {
+
             for (let i = 0; i < curentDay - 1; i++) {
 
                 const spacer = document.createElement("div");
                 spacer.className = "cview--spacer";
                 calendarDays.appendChild(spacer);
             }
-            for (let d = 0; d <= lastDayM - 1; d++) {
+            for (let d = 1; d <= lastDayM; d++) {
 
                 let _date = new Date(this.y, this.m, d);
                 const day = document.createElement("div");
@@ -78,18 +93,12 @@ class Calendar {
                 calendarDays.appendChild(day);
             }
         } else {
-            console.log(2222222222);
 
             Array.from(document.querySelectorAll('.cview--spacer')).forEach(el => el.remove());
             Array.from(document.querySelectorAll('.cview--date')).forEach(el => el.remove());
 
-            // const addDates = document.getElementById("new_dates");
-            // const newDates = document.createElement("div");
-            // newDates.className = "calendar--view";
-            // newDates.setAttribute("id", "dates");
-            // addDates.appendChild(newDates);
-
             for (let x = 0; x < curentDay - 1; x++) {
+
                 const spacer = document.createElement("div");
                 spacer.className = "cview--spacer";
                 calendarDays.appendChild(spacer);
@@ -103,29 +112,28 @@ class Calendar {
                 day.textContent = d;
                 day.setAttribute("data-date", _date);
 
-                // if (d == today.getDate() && this.y == today.getFullYear() && this.m == today.getMonth()) {
-                //     day.classList.add("today");
-                // }
                 calendarDays.appendChild(day);
             }
 
         }
-
-
-
     }
+
     month(a) {
         const curentMth = document.getElementById("calendar-month");
+
         let y = this.date.getFullYear(), m = this.date.getMonth();
-        let lastDayM = new Date(y, m + a, 0).getDate();
         let curentM = new Date(y, this.date.getMonth() + a, 0);
         let curentY = curentM.toString().slice(11, -47);
         curentM = curentM.toString().slice(4, -55);
         let curM = this.translate(curentM);
-        console.log(curentY,curM);
         curentMth.innerHTML = curentY + ' ' + curM;
+
+        let lastDayM = new Date(y, m + a, 0).getDate();
+
         let newM = new Date(y, m + a, 0).getMonth();
-        this.render(lastDayM, newM);
+        let startDay = new Date(curentY, newM, 1).getDay();
+
+        this.render(lastDayM, startDay);
     }
 
     translate(curentM) {
@@ -168,10 +176,6 @@ class Calendar {
                 break;
         }
     }
-    // renderDays(curentDay){
-
-    // }
-
-}
+ }
 
 export default Calendar;

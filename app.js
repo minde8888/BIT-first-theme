@@ -598,7 +598,10 @@ var Calendar = /*#__PURE__*/function () {
     this.date = new Date();
     this.y = this.date.getFullYear(), this.m = this.date.getMonth(), this.d = this.date.getDay();
     this.lastDayM = new Date(this.y, this.m + 1, 0).getDate();
-    var days = this.lastDayM; // this.DaysOfWeek = [
+    var days = this.lastDayM;
+    this.curentM = new Date(this.y, this.m + 1, 0).getMonth();
+    this.curentDay = new Date(this.y, this.curentM, 1).getDay();
+    var startDay = this.curentDay; // this.DaysOfWeek = [
     //     'S',
     //     'P',
     //     'A',
@@ -607,15 +610,15 @@ var Calendar = /*#__PURE__*/function () {
     //     'Pn',
     //     'Š'
     // ];
+    // this.Months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birzelis', 'Liepa', 'Rugpjutis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
+    // this.monthRef = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec']
 
-    this.Months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birzelis', 'Liepa', 'Rugpjutis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
-    this.monthRef = ['jan', 'feb', 'mar', 'apr', 'may', 'jun', 'jul', 'aug', 'sep', 'oct', 'nov', 'dec'];
-    this.init(days);
+    this.init(days, startDay);
   }
 
   _createClass(Calendar, [{
     key: "init",
-    value: function init(lastDayM) {
+    value: function init(lastDayM, startDay) {
       var _this = this;
 
       var DOM = document.querySelector(this.target);
@@ -634,33 +637,40 @@ var Calendar = /*#__PURE__*/function () {
 
           _this.month(a);
         });
-        var m = this.m;
-        this.render(lastDayM, m);
+        this.render(lastDayM, startDay);
       }
     }
   }, {
     key: "render",
-    value: function render(lastDayM, curentM) {
+    value: function render(lastDayM, curentDay) {
       var today = this.date;
-      var curentDay = new Date(this.y, curentM, 1).getDay();
-      var calendarDays = document.getElementById("dates"); // let nowM = new Date(this.y, this.date.getMonth());
-      // let nowY = nowM.toString().slice(11, -47);
-      // nowM = nowM.toString().slice(4, -55);
-      // nowM = this.translate(nowM);
-      // document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
+
+      if (curentDay == 0) {
+        curentDay = 7;
+      }
+
+      var calendarDays = document.getElementById("dates");
+      var exisitClassMonth = document.querySelector(".cview__month-current").textContent;
+
+      if (exisitClassMonth == 1) {
+        var nowM = new Date(this.y, this.date.getMonth());
+        var nowY = nowM.toString().slice(11, -47);
+        nowM = nowM.toString().slice(4, -55);
+        nowM = this.translate(nowM);
+        document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
+      }
 
       var check = document.querySelectorAll(".cview--spacer");
+      var check1 = document.querySelectorAll(".cview--date");
 
-      if (check.length == 0) {
-        console.log(111111111);
-
+      if (check.length == 0 && check1.length == 0) {
         for (var i = 0; i < curentDay - 1; i++) {
           var spacer = document.createElement("div");
           spacer.className = "cview--spacer";
           calendarDays.appendChild(spacer);
         }
 
-        for (var d = 0; d <= lastDayM - 1; d++) {
+        for (var d = 1; d <= lastDayM; d++) {
           var _date = new Date(this.y, this.m, d);
 
           var day = document.createElement("div");
@@ -675,17 +685,12 @@ var Calendar = /*#__PURE__*/function () {
           calendarDays.appendChild(day);
         }
       } else {
-        console.log(2222222222);
         Array.from(document.querySelectorAll('.cview--spacer')).forEach(function (el) {
           return el.remove();
         });
         Array.from(document.querySelectorAll('.cview--date')).forEach(function (el) {
           return el.remove();
-        }); // const addDates = document.getElementById("new_dates");
-        // const newDates = document.createElement("div");
-        // newDates.className = "calendar--view";
-        // newDates.setAttribute("id", "dates");
-        // addDates.appendChild(newDates);
+        });
 
         for (var x = 0; x < curentDay - 1; x++) {
           var _spacer = document.createElement("div");
@@ -702,10 +707,7 @@ var Calendar = /*#__PURE__*/function () {
           _day.className = "cview--date";
           _day.textContent = _d;
 
-          _day.setAttribute("data-date", _date2); // if (d == today.getDate() && this.y == today.getFullYear() && this.m == today.getMonth()) {
-          //     day.classList.add("today");
-          // }
-
+          _day.setAttribute("data-date", _date2);
 
           calendarDays.appendChild(_day);
         }
@@ -717,15 +719,15 @@ var Calendar = /*#__PURE__*/function () {
       var curentMth = document.getElementById("calendar-month");
       var y = this.date.getFullYear(),
           m = this.date.getMonth();
-      var lastDayM = new Date(y, m + a, 0).getDate();
       var curentM = new Date(y, this.date.getMonth() + a, 0);
       var curentY = curentM.toString().slice(11, -47);
       curentM = curentM.toString().slice(4, -55);
       var curM = this.translate(curentM);
-      console.log(curentY, curM);
       curentMth.innerHTML = curentY + ' ' + curM;
+      var lastDayM = new Date(y, m + a, 0).getDate();
       var newM = new Date(y, m + a, 0).getMonth();
-      this.render(lastDayM, newM);
+      var startDay = new Date(curentY, newM, 1).getDay();
+      this.render(lastDayM, startDay);
     }
   }, {
     key: "translate",
@@ -779,9 +781,7 @@ var Calendar = /*#__PURE__*/function () {
           return curentM = 'Gruodis';
           break;
       }
-    } // renderDays(curentDay){
-    // }
-
+    }
   }]);
 
   return Calendar;
