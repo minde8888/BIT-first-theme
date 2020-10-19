@@ -97,6 +97,225 @@
 
 /***/ }),
 
+/***/ "./src/calendar.js":
+/*!*************************!*\
+  !*** ./src/calendar.js ***!
+  \*************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var Calendar = /*#__PURE__*/function () {
+  function Calendar(target) {
+    _classCallCheck(this, Calendar);
+
+    this.target = target;
+    this.DOM = null;
+    this.date = new Date();
+    this.y = this.date.getFullYear(), this.m = this.date.getMonth(), this.d = this.date.getDay();
+    this.lastDayM = new Date(this.y, this.m + 1, 0).getDate();
+    var days = this.lastDayM;
+    this.curentM = new Date(this.y, this.m + 1, 0).getMonth();
+    this.curentDay = new Date(this.y, this.curentM, 1).getDay();
+    var startDay = this.curentDay;
+    this.init(days, startDay);
+  }
+
+  _createClass(Calendar, [{
+    key: "init",
+    value: function init(lastDayM, startDay) {
+      var _this = this;
+
+      var DOM = document.querySelector(this.target);
+
+      if (DOM) {
+        var a = 1;
+        var lastMth = document.getElementById("calendar-month-last");
+        var nextMth = document.getElementById("calendar-month-next");
+        lastMth.addEventListener("click", function () {
+          a = a - 1;
+
+          _this.month(a);
+        });
+        nextMth.addEventListener("click", function () {
+          a = a + 1;
+
+          _this.month(a);
+        });
+        this.render(lastDayM, startDay);
+      }
+    }
+  }, {
+    key: "render",
+    value: function render(lastDayM, curentDay, dataDate) {
+      var today = this.date;
+
+      if (curentDay == 0) {
+        curentDay = 7;
+      }
+
+      var calendarDays = document.getElementById("dates");
+      var exisitClassMonth = document.querySelector(".cview__month-current").textContent;
+
+      if (exisitClassMonth == 1) {
+        var nowM = new Date(this.y, this.date.getMonth());
+        var nowY = nowM.toString().slice(11, -47);
+        nowM = nowM.toString().slice(4, -55);
+        nowM = this.translate(nowM);
+        document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
+      }
+
+      var check = document.querySelectorAll(".cview--spacer");
+      var check1 = document.querySelectorAll(".cview--date");
+
+      if (check.length == 0 && check1.length == 0) {
+        for (var i = 0; i < curentDay - 1; i++) {
+          var spacer = document.createElement("div");
+          spacer.className = "cview--spacer";
+          calendarDays.appendChild(spacer);
+        }
+
+        for (var d = 1; d <= lastDayM; d++) {
+          var _date = new Date(this.y, this.m, d);
+
+          var day = document.createElement("div");
+          day.className = "cview--date";
+          day.textContent = d;
+          day.setAttribute("data-date", _date);
+
+          if (d == today.getDate() && this.y == today.getFullYear() && this.m == today.getMonth()) {
+            day.classList.add("today");
+          }
+
+          calendarDays.appendChild(day);
+        }
+      } else {
+        Array.from(document.querySelectorAll('.cview--spacer')).forEach(function (el) {
+          return el.remove();
+        });
+        Array.from(document.querySelectorAll('.cview--date')).forEach(function (el) {
+          return el.remove();
+        });
+
+        for (var x = 0; x < curentDay - 1; x++) {
+          var _spacer = document.createElement("div");
+
+          _spacer.className = "cview--spacer";
+          calendarDays.appendChild(_spacer);
+        }
+
+        for (var _d = 1; _d <= lastDayM; _d++) {
+          dataDate.setDate(_d);
+
+          var _day = document.createElement("div");
+
+          _day.className = "cview--date";
+          _day.textContent = _d;
+
+          _day.setAttribute("data-date", dataDate);
+
+          calendarDays.appendChild(_day);
+        }
+
+        var aadToday = new Date(this.y, this.m, this.date.getDate());
+        var isToday = document.querySelectorAll(".cview--date");
+        console.log(dataDate);
+
+        for (var _i = 0; _i < isToday.length; _i++) {
+          if (isToday[_i].dataset.date == aadToday) {
+            console.log(isToday[_i]);
+
+            isToday[_i].classList.add("today");
+          }
+        }
+      }
+    }
+  }, {
+    key: "month",
+    value: function month(a) {
+      var curentMth = document.getElementById("calendar-month");
+      var dataDate = new Date(this.y, this.m + a - 1);
+      var y = this.date.getFullYear(),
+          m = this.date.getMonth();
+      var curentM = new Date(y, this.date.getMonth() + a, 0);
+      var curentY = curentM.toString().slice(11, -47);
+      curentM = curentM.toString().slice(4, -55);
+      var curM = this.translate(curentM);
+      curentMth.innerHTML = curentY + ' ' + curM;
+      var lastDayM = new Date(y, m + a, 0).getDate();
+      var newM = new Date(y, m + a, 0).getMonth();
+      var startDay = new Date(curentY, newM, 1).getDay();
+      this.render(lastDayM, startDay, dataDate);
+    }
+  }, {
+    key: "translate",
+    value: function translate(curentM) {
+      switch (curentM) {
+        case 'Jan':
+          return curentM = 'Sausis';
+          break;
+
+        case 'Feb':
+          return curentM = 'Vasaris';
+          break;
+
+        case 'Mar':
+          return curentM = 'Kovas';
+          break;
+
+        case 'Apr':
+          return curentM = 'Balandis';
+          break;
+
+        case 'May':
+          return curentM = 'Gegužė';
+          break;
+
+        case 'Jun':
+          return curentM = 'Birželis';
+          break;
+
+        case 'Jul':
+          return curentM = 'Liepa';
+          break;
+
+        case 'Aug':
+          return curentM = 'Rugpjūtis';
+          break;
+
+        case 'Sep':
+          return curentM = 'Rugsėjis';
+          break;
+
+        case 'Oct':
+          return curentM = 'Spalis';
+          break;
+
+        case 'Nov':
+          return curentM = 'Lapkritis';
+          break;
+
+        case 'Dec':
+          return curentM = 'Gruodis';
+          break;
+      }
+    }
+  }]);
+
+  return Calendar;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Calendar);
+
+/***/ }),
+
 /***/ "./src/gallery.js":
 /*!************************!*\
   !*** ./src/gallery.js ***!
@@ -564,232 +783,13 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _idejos__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./idejos */ "./src/idejos.js");
 /* harmony import */ var _ideja__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ideja */ "./src/ideja.js");
 /* harmony import */ var _gallery_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gallery.js */ "./src/gallery.js");
-/* harmony import */ var _newCalendar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./newCalendar.js */ "./src/newCalendar.js");
+/* harmony import */ var _calendar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./calendar.js */ "./src/calendar.js");
 
 
  // import Calendar from './calendar.js';
 
 
-new _newCalendar_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.calendar');
-
-/***/ }),
-
-/***/ "./src/newCalendar.js":
-/*!****************************!*\
-  !*** ./src/newCalendar.js ***!
-  \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-var Calendar = /*#__PURE__*/function () {
-  function Calendar(target) {
-    _classCallCheck(this, Calendar);
-
-    this.target = target;
-    this.DOM = null;
-    this.date = new Date();
-    this.y = this.date.getFullYear(), this.m = this.date.getMonth(), this.d = this.date.getDay();
-    this.lastDayM = new Date(this.y, this.m + 1, 0).getDate();
-    var days = this.lastDayM;
-    this.curentM = new Date(this.y, this.m + 1, 0).getMonth();
-    this.curentDay = new Date(this.y, this.curentM, 1).getDay();
-    var startDay = this.curentDay;
-    this.init(days, startDay);
-  }
-
-  _createClass(Calendar, [{
-    key: "init",
-    value: function init(lastDayM, startDay) {
-      var _this = this;
-
-      var DOM = document.querySelector(this.target);
-
-      if (DOM) {
-        var a = 1;
-        var lastMth = document.getElementById("calendar-month-last");
-        var nextMth = document.getElementById("calendar-month-next");
-        lastMth.addEventListener("click", function () {
-          a = a - 1;
-
-          _this.month(a);
-        });
-        nextMth.addEventListener("click", function () {
-          a = a + 1;
-
-          _this.month(a);
-        });
-        this.render(lastDayM, startDay);
-      }
-    }
-  }, {
-    key: "render",
-    value: function render(lastDayM, curentDay, dataDate) {
-      var today = this.date;
-
-      if (curentDay == 0) {
-        curentDay = 7;
-      }
-
-      var calendarDays = document.getElementById("dates");
-      var exisitClassMonth = document.querySelector(".cview__month-current").textContent;
-
-      if (exisitClassMonth == 1) {
-        var nowM = new Date(this.y, this.date.getMonth());
-        var nowY = nowM.toString().slice(11, -47);
-        nowM = nowM.toString().slice(4, -55);
-        nowM = this.translate(nowM);
-        document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
-      }
-
-      var check = document.querySelectorAll(".cview--spacer");
-      var check1 = document.querySelectorAll(".cview--date");
-
-      if (check.length == 0 && check1.length == 0) {
-        for (var i = 0; i < curentDay - 1; i++) {
-          var spacer = document.createElement("div");
-          spacer.className = "cview--spacer";
-          calendarDays.appendChild(spacer);
-        }
-
-        for (var d = 1; d <= lastDayM; d++) {
-          var _date = new Date(this.y, this.m, d);
-
-          var day = document.createElement("div");
-          day.className = "cview--date";
-          day.textContent = d;
-          day.setAttribute("data-date", _date);
-
-          if (d == today.getDate() && this.y == today.getFullYear() && this.m == today.getMonth()) {
-            day.classList.add("today");
-          }
-
-          calendarDays.appendChild(day);
-        }
-      } else {
-        Array.from(document.querySelectorAll('.cview--spacer')).forEach(function (el) {
-          return el.remove();
-        });
-        Array.from(document.querySelectorAll('.cview--date')).forEach(function (el) {
-          return el.remove();
-        });
-
-        for (var x = 0; x < curentDay - 1; x++) {
-          var _spacer = document.createElement("div");
-
-          _spacer.className = "cview--spacer";
-          calendarDays.appendChild(_spacer);
-        }
-
-        for (var _d = 1; _d <= lastDayM; _d++) {
-          dataDate.setDate(_d);
-
-          var _day = document.createElement("div");
-
-          _day.className = "cview--date";
-          _day.textContent = _d;
-
-          _day.setAttribute("data-date", dataDate);
-
-          calendarDays.appendChild(_day);
-        }
-
-        var aadToday = new Date(this.y, this.m, this.date.getDate());
-        var isToday = document.querySelectorAll(".cview--date");
-        console.log(dataDate);
-
-        for (var _i = 0; _i < isToday.length; _i++) {
-          if (isToday[_i].dataset.date == aadToday) {
-            console.log(isToday[_i]);
-
-            isToday[_i].classList.add("today");
-          }
-        }
-      }
-    }
-  }, {
-    key: "month",
-    value: function month(a) {
-      var curentMth = document.getElementById("calendar-month");
-      var dataDate = new Date(this.y, this.m + a - 1);
-      var y = this.date.getFullYear(),
-          m = this.date.getMonth();
-      var curentM = new Date(y, this.date.getMonth() + a, 0);
-      var curentY = curentM.toString().slice(11, -47);
-      curentM = curentM.toString().slice(4, -55);
-      var curM = this.translate(curentM);
-      curentMth.innerHTML = curentY + ' ' + curM;
-      var lastDayM = new Date(y, m + a, 0).getDate();
-      var newM = new Date(y, m + a, 0).getMonth();
-      var startDay = new Date(curentY, newM, 1).getDay();
-      this.render(lastDayM, startDay, dataDate);
-    }
-  }, {
-    key: "translate",
-    value: function translate(curentM) {
-      switch (curentM) {
-        case 'Jan':
-          return curentM = 'Sausis';
-          break;
-
-        case 'Feb':
-          return curentM = 'Vasaris';
-          break;
-
-        case 'Mar':
-          return curentM = 'Kovas';
-          break;
-
-        case 'Apr':
-          return curentM = 'Balandis';
-          break;
-
-        case 'May':
-          return curentM = 'Gegužė';
-          break;
-
-        case 'Jun':
-          return curentM = 'Birželis';
-          break;
-
-        case 'Jul':
-          return curentM = 'Liepa';
-          break;
-
-        case 'Aug':
-          return curentM = 'Rugpjūtis';
-          break;
-
-        case 'Sep':
-          return curentM = 'Rugsėjis';
-          break;
-
-        case 'Oct':
-          return curentM = 'Spalis';
-          break;
-
-        case 'Nov':
-          return curentM = 'Lapkritis';
-          break;
-
-        case 'Dec':
-          return curentM = 'Gruodis';
-          break;
-      }
-    }
-  }]);
-
-  return Calendar;
-}();
-
-/* harmony default export */ __webpack_exports__["default"] = (Calendar);
+new _calendar_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.calendar');
 
 /***/ }),
 
