@@ -1,1 +1,5 @@
-<h1>labas</h1>
+<div class="album">
+	<div class="test">
+
+	</div>
+</div>

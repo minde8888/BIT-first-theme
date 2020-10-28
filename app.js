@@ -2121,6 +2121,75 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
+/***/ "./src/album.js":
+/*!**********************!*\
+  !*** ./src/album.js ***!
+  \**********************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Album = /*#__PURE__*/function () {
+  function Album(target) {
+    _classCallCheck(this, Album);
+
+    this.target = target;
+    this.DOM = null;
+    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+    this.uri = document.location.origin;
+    this.init();
+  }
+
+  _createClass(Album, [{
+    key: "init",
+    value: function init() {
+      var DOM = document.querySelector(this.target);
+
+      if (DOM) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.uri + this.path + 'album-create-admin', {}).then(function (response) {
+          var test = document.querySelector(".test");
+
+          if (response.status == 200 && response.statusText == 'OK') {
+            var HTML = response.data.html;
+            test.innerHTML = HTML;
+          }
+        })["catch"](function (error) {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log('Error', error.message);
+          }
+
+          console.log(error);
+        });
+      }
+    }
+  }]);
+
+  return Album;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Album);
+
+/***/ }),
+
 /***/ "./src/app.scss":
 /*!**********************!*\
   !*** ./src/app.scss ***!
@@ -3000,11 +3069,14 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _ideja__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ideja */ "./src/ideja.js");
 /* harmony import */ var _gallery_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gallery.js */ "./src/gallery.js");
 /* harmony import */ var _calendar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./calendar.js */ "./src/calendar.js");
+/* harmony import */ var _album_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./album.js */ "./src/album.js");
+
 
 
 
 
 new _calendar_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.calendar');
+new _album_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.album');
 
 /***/ }),
 
