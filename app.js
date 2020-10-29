@@ -2151,6 +2151,7 @@ var Album = /*#__PURE__*/function () {
     this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
     this.uri = document.location.origin;
     this.init();
+    console.log(window.location.pathname);
   }
 
   _createClass(Album, [{

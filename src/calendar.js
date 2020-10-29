@@ -271,11 +271,6 @@ class Calendar {
 
 
                                 }
-                                    //  clickShow.insertAdjacentHTML('afterbegin', HTML1); ??????????????????
-
-                                    // if (!timeClick) {
-                                    //    console.log(timeClick)
-                                    // }
                             });
 
                     }
