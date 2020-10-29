@@ -644,6 +644,19 @@ h1 {
   text-align: left;
 }
 
+.calendarContainer .todayContainer .clickToday span:first-of-type {
+  font-weight: 700;
+  margin: 0 0 0 150px;
+}
+
+.calendarContainer .todayContainer .clickToday span:first-of-type::before {
+  content: "(";
+}
+
+.calendarContainer .todayContainer .clickToday span:first-of-type::after {
+  content: ")";
+}
+
 .calendarContainer .events {
   text-align: right;
   font-weight: 600;

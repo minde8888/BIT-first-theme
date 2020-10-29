@@ -10,6 +10,7 @@ class Album {
         this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
         this.uri = document.location.origin;
         this.init();
+console.log(window.location.pathname)
     }
 
     init() {
@@ -17,6 +18,7 @@ class Album {
         if (DOM) {
             axios.post(this.uri + this.path + 'album-create-admin', {})
                 .then(function(response) {
+
                     const test = document.querySelector(".test");
                     if (response.status == 200 && response.statusText == 'OK') {
                         const HTML = response.data.html;
