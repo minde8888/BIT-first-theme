@@ -22,7 +22,6 @@
   <div class="events">
     ŠIANDIENOS ĮVYKIAI:
     <div class="todayEvents">
-      ivikis
     </div>
     <div>
       ARTIMIAUSI ĮVYKIAI:
@@ -32,9 +31,7 @@
     </div>
   </div>
   <div class="todayContainer">
-    ŠIANDIEN
     <div class="clickToday">
-      ivikis
     </div>
   </div>
 </div>

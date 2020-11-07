@@ -12,8 +12,6 @@
     <option>Oranges</option>
 </select>
 </div>
-
-
 <div class="galleryContainer" id="loadeGallery">
     <output class="gallerGrid" id='result' />
     <div id="message">

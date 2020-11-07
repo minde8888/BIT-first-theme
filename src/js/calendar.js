@@ -13,7 +13,7 @@ class Calendar {
         this.curentM = new Date(this.y, this.m + 1, 0).getMonth();
         this.curentDay = new Date(this.y, this.curentM, 1).getDay();
         let startDay = this.curentDay;
-
+        this.dayToday = new Date(this.y, this.m, this.day);
 
         this.init(days, startDay);
     }
@@ -274,20 +274,10 @@ class Calendar {
                             });
 
                     }
-
-                    for (let e = 0; e < keys.length; e++) {
-
-                        let value = data[keys[e]];
-                        let date1 = date.toString().slice(8, -52);
-                        let value1 = value.event_date.toString().slice(8, -52);
-                        if (date1 < value1) {
-                            y[e] = data[keys[e]];
-                        }
-                    }
-
+//isrusioti pagal valandas----------------------------------------------------------//
                     let a = [];
                     let HTML = '';
-                    y = call.sort(y);
+                    y = call.sortObject(keys, data);
 
                     for (let key in y) {
                         a.push(y);
@@ -344,6 +334,39 @@ class Calendar {
     sort(action) {
         return action.sort((a, b) => (a.event_date > b.event_date) ? 1 : (a.event_date === b.event_date) ? ((a.event_time > b.event_time) ? 1 : -1) : -1);
     }
+
+    sortObject(keys, action) {
+
+        let a = 0;
+        let start = true;
+        let daysCheck = 0;
+        let newDate = [];
+
+
+        while (start) {
+
+            let addDay = new Date(this.y, this.m, this.day + a++);
+
+            daysCheck++;
+
+            if (daysCheck == 30) {
+                start = false;
+            }
+
+            for (let i = 0; i < keys.length; i++) {
+
+                if (addDay == action[keys[i]].event_date &&
+                    this.dayToday != action[keys[i]].event_date) {
+                    newDate.push(action[keys[i]]);
+                }
+            }
+
+        }
+
+        return newDate;
+    }
+
+
 }
 
 export default Calendar;

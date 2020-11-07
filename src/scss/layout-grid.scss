@@ -1,3 +1,16 @@
+$xl: 1440px;
+$lg: 1100px;
+$md: 768px;
+$sm: 270px;
+
+.wd {
+    margin: 0 calc(50% - 550px);
+}
+
+.wdl {
+    margin: 0 calc(50% - 750px);
+}
+
 .grid-container {
     letter-spacing: -.31em;
     text-rendering: optimizespeed;

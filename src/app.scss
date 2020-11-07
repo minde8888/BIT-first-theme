@@ -6,8 +6,10 @@ Author: BIT
 Author URI: <AUTHOR_URI>
 Version: 1.0
 */
-// @import 'old';
-// @import 'layout-grid';
-@import 'idea';
-@import'gallery';
-@import 'calendar';
+@import './scss/reset';
+@import './scss/layout-grid';
+@import './scss/variables';
+@import './scss/idea';
+@import'./scss/gallery';
+@import './scss/calendar';
+@import './scss/event';
