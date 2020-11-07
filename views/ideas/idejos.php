@@ -1,3 +1,6 @@
+<div class="lg-12-24">
+
+</div>
 <div class="container" id="startIdeas">
     <div class="idea">
         <label>
@@ -13,7 +16,7 @@
         </textarea>
     </div><span class="textCount" id="count"></span>
     <button id="send">
-    Siusti
+        Siusti
     </button>
     <div class="wrapper" id="renderIdeas">
     </div>

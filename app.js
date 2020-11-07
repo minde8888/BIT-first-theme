@@ -2121,10 +2121,21 @@ process.umask = function() { return 0; };
 
 /***/ }),
 
-/***/ "./src/album.js":
+/***/ "./src/app.scss":
 /*!**********************!*\
-  !*** ./src/album.js ***!
+  !*** ./src/app.scss ***!
   \**********************/
+/*! no static exports found */
+/***/ (function(module, exports) {
+
+// removed by extract-text-webpack-plugin
+
+/***/ }),
+
+/***/ "./src/js/album.js":
+/*!*************************!*\
+  !*** ./src/js/album.js ***!
+  \*************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2150,8 +2161,7 @@ var Album = /*#__PURE__*/function () {
     this.DOM = null;
     this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
     this.uri = document.location.origin;
-    this.init();
-    console.log(window.location.pathname);
+    this.init(); // console.log(window.location.pathname)
   }
 
   _createClass(Album, [{
@@ -2191,21 +2201,10 @@ var Album = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/app.scss":
-/*!**********************!*\
-  !*** ./src/app.scss ***!
-  \**********************/
-/*! no static exports found */
-/***/ (function(module, exports) {
-
-// removed by extract-text-webpack-plugin
-
-/***/ }),
-
-/***/ "./src/calendar.js":
-/*!*************************!*\
-  !*** ./src/calendar.js ***!
-  \*************************/
+/***/ "./src/js/calendar.js":
+/*!****************************!*\
+  !*** ./src/js/calendar.js ***!
+  \****************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2234,6 +2233,7 @@ var Calendar = /*#__PURE__*/function () {
     this.curentM = new Date(this.y, this.m + 1, 0).getMonth();
     this.curentDay = new Date(this.y, this.curentM, 1).getDay();
     var startDay = this.curentDay;
+    this.dayToday = new Date(this.y, this.m, this.day);
     this.init(days, startDay);
   }
 
@@ -2505,32 +2505,18 @@ var Calendar = /*#__PURE__*/function () {
                   }
 
                   clickE.innerHTML = HTML;
-                } //  clickShow.insertAdjacentHTML('afterbegin', HTML1); ??????????????????
-                // if (!timeClick) {
-                //    console.log(timeClick)
-                // }
-
+                }
               });
             };
 
             for (var _i2 = 0; _i2 < events.length; _i2++) {
               _loop(_i2);
-            }
+            } //isrusioti pagal valandas----------------------------------------------------------//
 
-            for (var e = 0; e < keys.length; e++) {
-              var _value = data[keys[e]];
-              var date1 = date.toString().slice(8, -52);
-
-              var value1 = _value.event_date.toString().slice(8, -52);
-
-              if (date1 < value1) {
-                y[e] = data[keys[e]];
-              }
-            }
 
             var a = [];
             var HTML = '';
-            y = call.sort(y);
+            y = call.sortObject(keys, data);
 
             for (var _key in y) {
               a.push(y);
@@ -2593,6 +2579,31 @@ var Calendar = /*#__PURE__*/function () {
         return a.event_date > b.event_date ? 1 : a.event_date === b.event_date ? a.event_time > b.event_time ? 1 : -1 : -1;
       });
     }
+  }, {
+    key: "sortObject",
+    value: function sortObject(keys, action) {
+      var a = 0;
+      var start = true;
+      var daysCheck = 0;
+      var newDate = [];
+
+      while (start) {
+        var addDay = new Date(this.y, this.m, this.day + a++);
+        daysCheck++;
+
+        if (daysCheck == 30) {
+          start = false;
+        }
+
+        for (var i = 0; i < keys.length; i++) {
+          if (addDay == action[keys[i]].event_date && this.dayToday != action[keys[i]].event_date) {
+            newDate.push(action[keys[i]]);
+          }
+        }
+      }
+
+      return newDate;
+    }
   }]);
 
   return Calendar;
@@ -2602,10 +2613,166 @@ var Calendar = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/gallery.js":
-/*!************************!*\
-  !*** ./src/gallery.js ***!
-  \************************/
+/***/ "./src/js/events.js":
+/*!**************************!*\
+  !*** ./src/js/events.js ***!
+  \**************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
+/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _calendar_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./calendar.js */ "./src/js/calendar.js");
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+
+var Events = /*#__PURE__*/function () {
+  function Events(target) {
+    _classCallCheck(this, Events);
+
+    this.target = target;
+    this.DOM = null;
+    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+    this.uri = document.location.origin;
+    this.calendar = new _calendar_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.d = this.calendar.date.getDate();
+    this.m = this.calendar.date.getMonth();
+    this.y = this.calendar.date.getFullYear();
+    this.dayToday = new Date(this.y, this.m, this.d);
+    this.init();
+  }
+
+  _createClass(Events, [{
+    key: "init",
+    value: function init() {
+      var DOM = document.querySelector(this.target);
+
+      if (DOM) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.uri + this.path + 'event-create-front', {}).then(function (response) {
+          var call = new Events();
+          call.calendar = new _calendar_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
+
+          if (response.status == 200 && response.statusText == 'OK') {
+            var action = response.data.html;
+            var keys = [];
+
+            for (var key in action) {
+              keys.push(key);
+            }
+
+            var HTML = '';
+            var data = [];
+            var keys1 = [];
+            var todaysEvents = document.querySelector('.todaysEvents');
+
+            for (var i = 0; i < keys.length; i++) {
+              if (call.dayToday == action[keys[i]].event_date) {
+                data[i] = action[keys[i]];
+              }
+            }
+
+            var sorteToday = call.calendar.sort(data);
+            var newData = call.sortObject(keys, action);
+
+            for (var key1 in sorteToday) {
+              keys1.push(key1);
+            }
+
+            for (var _i = 0; _i < keys1.length; _i++) {
+              var y = sorteToday[keys1[_i]].event_date.toString().slice(11, -47);
+
+              var m = sorteToday[keys1[_i]].event_date.toString().slice(4, -55);
+
+              m = call.calendar.translate(m);
+
+              var d = sorteToday[keys1[_i]].event_date.toString().slice(8, -52);
+
+              HTML += "<div> ".concat(y, " ").concat(m, " ").concat(d, "</div>\n                            <div> ").concat(sorteToday[keys1[_i]].event_description, " </div>");
+            }
+
+            todaysEvents.innerHTML = HTML;
+            var nearestEvents = document.querySelector('.nearestEvents');
+            HTML = '';
+
+            for (var _i2 = 0; _i2 < newData.length; _i2++) {
+              var value = newData[_i2];
+
+              var _y = value.event_date.toString().slice(11, -47);
+
+              var _m = value.event_date.toString().slice(4, -55);
+
+              _m = call.calendar.translate(_m);
+
+              var _d = value.event_date.toString().slice(8, -52);
+
+              HTML += "<div> ".concat(_y, " ").concat(_m, " ").concat(_d, " </div>\n                            <div> ").concat(value.event_description, " </div>");
+            }
+
+            nearestEvents.innerHTML = HTML;
+          }
+        })["catch"](function (error) {
+          if (error.response) {
+            console.log(error.response.data);
+            console.log(error.response.status);
+            console.log(error.response.headers);
+          } else if (error.request) {
+            console.log(error.request);
+          } else {
+            console.log('Error', error.message);
+          }
+
+          console.log(error);
+        });
+      }
+    }
+  }, {
+    key: "sortObject",
+    value: function sortObject(keys, action) {
+      var a = 0;
+      var start = true;
+      var daysCheck = 0;
+      var newDate = [];
+
+      while (start) {
+        var addDay = new Date(this.y, this.m, this.d + a++);
+        daysCheck++;
+
+        if (daysCheck == 30) {
+          start = false;
+        }
+
+        for (var i = 0; i < keys.length; i++) {
+          if (addDay == action[keys[i]].event_date && this.dayToday != action[keys[i]].event_date) {
+            newDate.push(action[keys[i]]);
+          }
+        }
+      }
+
+      return newDate;
+    }
+  }]);
+
+  return Events;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Events);
+
+/***/ }),
+
+/***/ "./src/js/gallery.js":
+/*!***************************!*\
+  !*** ./src/js/gallery.js ***!
+  \***************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2746,10 +2913,10 @@ function filter(filesAll) {
 
 /***/ }),
 
-/***/ "./src/ideja.js":
-/*!**********************!*\
-  !*** ./src/ideja.js ***!
-  \**********************/
+/***/ "./src/js/ideja.js":
+/*!*************************!*\
+  !*** ./src/js/ideja.js ***!
+  \*************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -2902,10 +3069,10 @@ function renderTreeColons() {
 
 /***/ }),
 
-/***/ "./src/idejos.js":
-/*!***********************!*\
-  !*** ./src/idejos.js ***!
-  \***********************/
+/***/ "./src/js/idejos.js":
+/*!**************************!*\
+  !*** ./src/js/idejos.js ***!
+  \**************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
@@ -3066,18 +3233,21 @@ function getText() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _idejos__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./idejos */ "./src/idejos.js");
-/* harmony import */ var _ideja__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./ideja */ "./src/ideja.js");
-/* harmony import */ var _gallery_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./gallery.js */ "./src/gallery.js");
-/* harmony import */ var _calendar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./calendar.js */ "./src/calendar.js");
-/* harmony import */ var _album_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./album.js */ "./src/album.js");
+/* harmony import */ var _js_idejos_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/idejos.js */ "./src/js/idejos.js");
+/* harmony import */ var _js_ideja_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/ideja.js */ "./src/js/ideja.js");
+/* harmony import */ var _js_gallery_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/gallery.js */ "./src/js/gallery.js");
+/* harmony import */ var _js_calendar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/calendar.js */ "./src/js/calendar.js");
+/* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
+/* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
 
 
 
 
 
-new _calendar_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.calendar');
-new _album_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.album');
+
+new _js_calendar_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.calendar');
+new _js_album_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.album');
+new _js_events_js__WEBPACK_IMPORTED_MODULE_5__["default"]('.eventsHome');
 
 /***/ }),
 
