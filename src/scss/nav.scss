@@ -1,0 +1,35 @@
+nav {
+    width  : 100%;
+    display: inline-block;
+
+    .logo {
+        cursor: pointer;
+        float : left;
+    }
+
+    div {
+
+        float: right;
+
+        a {
+            text-decoration: none;
+            font-weight    : 700;
+            color          : black;
+            float          : right;
+            margin         : 0 0 30px 10px;
+            cursor         : pointer;
+        }
+    }
+}
+
+.topContainer {
+    display: inline-block;
+    width  : 100%;
+    height : 80px;
+
+    div {
+        cursor: pointer;
+        float : right;
+        margin: 40px 0 0 8px;
+    }
+}

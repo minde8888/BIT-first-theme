@@ -1,6 +1,6 @@
     /*-----------idejos-----------------*/
     .al {
-      height: 480px;
+      height: 420px;
 
       .bl {
         background-color: $light-silver-gray;
@@ -20,11 +20,6 @@
       background-color: grey;
     }
 
-    // .container {
-    // width:calc(100% - 300px) ;
-    // margin-left: auto;
-    // margin-right: auto;
-    // max-width: 1000px;
 
     .idea-container {
       height: 550px;
@@ -41,7 +36,6 @@
       }
 
       .wrapper {
-        max-width            : 1200px;
         margin               : 0 auto;
         display              : grid;
         grid-gap             : 1rem;
@@ -263,17 +257,22 @@
       transform: translate(-50%, -50%);
     }
 
-    // @media (max-width: 600px) {
-    //   textarea, .container{
-    //     width: 260px;
-    //   }
-    //   .like__number{
-    //     margin: 10px 0 0 0;
-    //   }
-    //   .like__btn {
-    //     margin: 20px 0 10px 0;
-    //   }
-    // }
+    @media (max-width: 600px) {
+
+      textarea,
+      .container {
+        width: 260px;
+      }
+
+      .like__number {
+        margin: 10px 0 0 0;
+      }
+
+      .like__btn {
+        margin: 20px 0 10px 0;
+      }
+    }
+
     .likeBox {
       display         : flex;
       justify-content : center;
