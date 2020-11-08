@@ -126,7 +126,7 @@ function renderTreeColons() {
         }
       }
       return response;
-      
+
     }).catch(function (error) {
       // Error 
       if (error.response) {

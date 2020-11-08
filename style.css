@@ -24,6 +24,10 @@ body * {
   margin: 0 calc(50% - 550px);
 }
 
+.wdm {
+  margin: 0 calc(50% - 650px);
+}
+
 .wdl {
   margin: 0 calc(50% - 750px);
 }
@@ -796,7 +800,7 @@ body * {
 /*-----------idejos-----------------*/
 
 .al {
-  height: 480px;
+  height: 420px;
 }
 
 .al .bl {
@@ -832,7 +836,6 @@ body * {
 }
 
 .idea-container .wrapper {
-  max-width: 1200px;
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
@@ -1043,6 +1046,21 @@ button:focus {
   left: 50%;
   top: 92%;
   transform: translate(-50%, -50%);
+}
+
+@media (max-width: 600px) {
+  textarea,
+  .container {
+    width: 260px;
+  }
+
+  .like__number {
+    margin: 10px 0 0 0;
+  }
+
+  .like__btn {
+    margin: 20px 0 10px 0;
+  }
 }
 
 .likeBox {
@@ -1490,7 +1508,6 @@ h1 {
 }
 
 .cl {
-  background-color: #0073AA;
   height: 120px;
   width: 100%;
 }
@@ -1500,7 +1517,6 @@ h1 {
   width: 49%;
   float: left;
   height: 60px;
-  background-color: antiquewhite;
   margin: 0 3px 0 0px;
   border: solid #82878C;
   overflow: hidden;
@@ -1511,7 +1527,6 @@ h1 {
   width: 49%;
   float: right;
   height: 60px;
-  background-color: #7e5219;
   margin: 0 0 0 3px;
   border: solid #82878C;
   overflow: hidden;
@@ -1583,5 +1598,97 @@ h1 {
   100% {
     margin-top: 10px;
   }
+}
+
+nav {
+  width: 100%;
+  display: inline-block;
+}
+
+nav .logo {
+  cursor: pointer;
+  float: left;
+}
+
+nav div {
+  float: right;
+}
+
+nav div a {
+  text-decoration: none;
+  font-weight: 700;
+  color: black;
+  float: right;
+  margin: 0 0 30px 10px;
+  cursor: pointer;
+}
+
+.topContainer {
+  display: inline-block;
+  width: 100%;
+  height: 80px;
+}
+
+.topContainer div {
+  cursor: pointer;
+  float: right;
+  margin: 40px 0 0 8px;
+}
+
+.container {
+  width: calc(100% - 300px);
+  margin-left: auto;
+  margin-right: auto;
+  max-width: 1000px;
+}
+
+.container .wrapper {
+  margin: 0 auto;
+  display: grid;
+  grid-gap: 1rem;
+  grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.container .box {
+  border: 1px solid black;
+  padding: 10px;
+  height: 335px;
+  width: 100%;
+  position: relative;
+  z-index: 1;
+}
+
+.container .box .ideaContent {
+  width: 100%;
+  height: 210px;
+  overflow: hidden;
+  font-size: 22px;
+  line-height: 30px;
+}
+
+.container .box .ideaSolutionText {
+  margin-top: 20px;
+  font-weight: bold;
+  font-size: 22px;
+  line-height: 30px;
+  width: 90%;
+  height: 90%;
+  margin: 10px 15px 10px 15px;
+}
+
+.container .box .text {
+  display: inline-block;
+  width: 100%;
+  font-size: 28px;
+  line-height: 30px;
+  color: #585858;
+}
+
+.container .box .text .data {
+  font-size: 14px;
+  line-height: 20px;
+  margin: 0 12px 20px 0;
+  font-weight: bold;
+  color: black;
 }
 
