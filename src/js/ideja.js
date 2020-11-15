@@ -33,18 +33,6 @@ function likeAdd(like) {
   }
 };
 
-function getCookie(newCookie) {
-  let checkCookie;
-  let existCookie = [];
-  const cookies = document.cookie.split(';');
-  for (let i = 0; i < cookies.length; i++) {
-    existCookie.push(cookies[i].split('=')[0].toLowerCase());
-    if (existCookie[i] == newCookie) {
-      return existCookie[i];
-    }
-  }
-}
-
 /*------------------------------render data  axios-----------------------------------------*/
 
 const startIdea = document.getElementById("startIdeaFront");
@@ -56,7 +44,7 @@ function startHomeIdea() {
     if (postBtn) {
       postBtn.addEventListener("click", getText);
     }
-    textArea.addEventListener("input", function () {
+    textArea.addEventListener("input", function() {
 
       let maxlength = this.getAttribute("maxlength");
       let currentLength = this.value.length;
@@ -68,21 +56,12 @@ function startHomeIdea() {
         //console.log(maxlength - currentLength + " chars left");
       }
     });
-    const clickFunction = function (event) {
-      let like = this.getAttribute("data-custom-id");
-      let likeId = ' idea_cookie-' + like;
-
-      if (likeId != getCookie(likeId)) {
-        likeAdd(like);
-      }
-    };
   }
 }
 
 function renderTreeColons() {
-  axios.get(uri + path + 'idea-render-front', {
-  })
-    .then(function (response) {
+  axios.get(uri + path + 'idea-render-front', {})
+    .then(function(response) {
       if (response.status == 200 && response.statusText == 'OK') {
         const data = response.data.allData;
 
@@ -122,12 +101,15 @@ function renderTreeColons() {
         const likeBtn = document.querySelectorAll(".like");
 
         for (let i = 0; i < likeBtn.length; i++) {
-          likeBtn[i].addEventListener('click', clickFunction, false);
+          likeBtn[i].addEventListener('click', () => {
+            let like = likeBtn[i].getAttribute("data-custom-id");
+            likeAdd(like);
+          });
         }
       }
       return response;
 
-    }).catch(function (error) {
+    }).catch(function(error) {
       // Error 
       if (error.response) {
         /*

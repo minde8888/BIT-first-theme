@@ -20,9 +20,11 @@ function renderGallery() {
         let filesInput = document.getElementById("files");
 
         filesInput.addEventListener("change", function (event) {
-
+            // let images = [];
             let array = Array.from(event.target.files);
-
+            // let files = event.target.files;
+            //    let a = Array.prototype.push.apply(images, files);
+            //    console.log(files);
             renderImages(array);
         });
     } else {
@@ -46,26 +48,75 @@ function renderImages(filesAll) {
 
                     const picFile = event.target;
                     let deleteId = getID();
-                    let deleteBtn = getID();
+                    let imagesId = getID();
+                    let dot = getID();
                     const output = document.getElementById("result");
                     const div = document.createElement("div");
                     div.className = "galleryDiv";
-                    div.id = deleteId;
+                    // div.id = deleteId;
 
-                    div.innerHTML = `<img class="uploadeImageGallery" src=" ${picFile.result} "
+                    div.innerHTML = `<img class="uploadeImageGallery" data="false" id="${imagesId}" src="${picFile.result} "
                       alt=" "/>
-                      <label for="${deleteBtn}">Tag: </label>
-                      <input type="text" id="${filesAll[i].name}" class="altInput" name="altImage" value="">
-                      <div class="deleteImd" id="${deleteBtn}">Trinti<div/>`;
-
+                      <div class="dots" id="${dot}"><div/>`;
                     output.insertBefore(div, currentDiv);
 
-                    const imgDeleteBtn = document.getElementById(deleteBtn);
-                    const deleteDiv = document.getElementById(deleteId);
 
-                    imgDeleteBtn.addEventListener("click", () => {
-                        filesAll.splice(i, 1);
-                        deleteDiv.remove();
+                    // rende.innerHTML = HTMLString;
+
+                    let deleteDiv = document.querySelectorAll(".galleryDiv");
+                    let dots = document.getElementById(dot);
+                    const actionBtn = document.getElementById("actionBox");
+                    const actionBtn2 = document.getElementById("actionBox2");
+                    const deleteBtn = document.querySelector(".deleteImd");
+                    const checkBox = document.getElementById("c1");
+                    const image = document.querySelectorAll(".uploadeImageGallery");
+
+                    let counter = 0;
+                    dots.addEventListener("click", () => {
+                        //console.log(i);//dubliuoja i
+                       // console.log(11111111);
+                        deleteDiv[i].setAttribute("id", deleteId);
+                        actionBtn.classList.remove("EventBoxHidden");
+                        actionBtn2.classList.remove("EventBoxHidden2");
+                        actionBtn.classList.add("boxImg");
+
+                        actionBtn.addEventListener("click", () => {
+
+                            // console.log(i);
+                            console.log(counter++);
+                            dots.removeEventListener("click",  () =>{
+                                console.log('Button Clicked');
+                            });
+                            if (checkBox.checked) {
+                                deleteDiv[i].classList.add("albumImage");
+                                // console.log(i);
+                                image[i].setAttribute("data", "true");
+                                actionBtn.removeEventListener;
+                            } else {
+                                image[i].setAttribute("data", "false");
+                                deleteDiv[i].classList.remove("albumImage");
+                                deleteDiv[i].removeAttribute("id");
+                                actionBtn.removeEventListener;
+                            }
+                            actionBtn.classList.remove("boxImg");
+                            actionBtn.classList.add("EventBoxHidden");
+                            actionBtn2.classList.add("EventBoxHidden2");
+                        })
+                    });
+
+
+
+                    deleteBtn.addEventListener("click", () => {
+
+                        let deleteImage = document.getElementById(deleteId);
+
+                        if (deleteImage) {
+                            deleteImage.remove();
+                            filesAll.splice(i, 1);
+                        }
+                        actionBtn.classList.remove("boxImg");
+                        actionBtn.classList.add("EventBoxHidden");
+
                     });
                 });
 
@@ -104,6 +155,7 @@ function sendImageData(filesAll) {
 
     for (let i = 0; i < filesAll.length; i++) {
         tagInput = document.getElementById(filesAll[i].name);
+
         formData.append('files' + i, filesAll[i]);
         formData.append('tag' + i, tagInput.value + ' ');
     }
@@ -156,3 +208,6 @@ function filter(filesAll) {
 }
 
 export default startGallery();
+
+
+
