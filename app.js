@@ -2769,150 +2769,6 @@ var Events = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/js/gallery.js":
-/*!***************************!*\
-  !*** ./src/js/gallery.js ***!
-  \***************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-
-var path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-var uri = document.location.origin;
-var gallery = document.getElementById("loadeGallery");
-var arraySend = [];
-var isListener = true;
-
-function startGallery() {
-  if (gallery) {
-    window.addEventListener("load", renderGallery, false);
-  }
-}
-
-function renderGallery() {
-  //Check File API support
-  if (window.File && window.FileList && window.FileReader) {
-    var filesInput = document.getElementById("files");
-    filesInput.addEventListener("change", function (event) {
-      var array = Array.from(event.target.files);
-      renderImages(array);
-    });
-  } else {
-    console.log("Your browser does not support File API");
-  }
-}
-
-function renderImages(filesAll) {
-  var currentDiv = document.getElementById("message");
-
-  var _loop = function _loop(i) {
-    if (filesAll[i].size < 1048576) {
-      if (filesAll[i].type.match('image')) {
-        var picReader = new FileReader();
-        picReader.addEventListener("load", function (event) {
-          var picFile = event.target;
-          var deleteId = getID();
-          var deleteBtn = getID();
-          var output = document.getElementById("result");
-          var div = document.createElement("div");
-          div.className = "galleryDiv";
-          div.id = deleteId;
-          div.innerHTML = "<img class=\"uploadeImageGallery\" src=\" ".concat(picFile.result, " \"\n                      alt=\" \"/>\n                      <label for=\"").concat(deleteBtn, "\">Tag: </label>\n                      <input type=\"text\" id=\"").concat(filesAll[i].name, "\" class=\"altInput\" name=\"altImage\" value=\"\">\n                      <div class=\"deleteImd\" id=\"").concat(deleteBtn, "\">Trinti<div/>");
-          output.insertBefore(div, currentDiv);
-          var imgDeleteBtn = document.getElementById(deleteBtn);
-          var deleteDiv = document.getElementById(deleteId);
-          imgDeleteBtn.addEventListener("click", function () {
-            filesAll.splice(i, 1);
-            deleteDiv.remove();
-          });
-        });
-        picReader.readAsDataURL(filesAll[i]);
-      } else {
-        alert("Tai nera paveikslelio tipo formatas");
-      }
-    } else {
-      alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb"); //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
-      //   currentDiv.appendChild(newContent);
-    }
-  };
-
-  for (var i = 0; i < filesAll.length; i++) {
-    _loop(i);
-  }
-
-  arraySend.push(filesAll);
-  var uploadeImg = document.getElementById("submitImg");
-
-  if (isListener) {
-    uploadeImg.addEventListener('click', function () {
-      arraySend = filter(arraySend);
-      sendImageData(arraySend);
-    });
-    isListener = false;
-  }
-}
-
-function sendImageData(filesAll) {
-  var tagInput;
-  var formData = new FormData();
-  var album = document.getElementById('albumName');
-
-  for (var i = 0; i < filesAll.length; i++) {
-    tagInput = document.getElementById(filesAll[i].name);
-    formData.append('files' + i, filesAll[i]);
-    formData.append('tag' + i, tagInput.value + ' ');
-  }
-
-  formData.append('album', album.value);
-  axios.post(uri + path + 'gallery-store-front', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  }).then(function (response) {})["catch"](function (error) {
-    if (error.response) {
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else if (error.request) {
-      console.log(error.request);
-    } else {
-      console.log('Error', error.message);
-    }
-
-    console.log(error);
-  }); // location.reload();
-}
-
-function getID() {
-  return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
-}
-
-function filter(filesAll) {
-  var file = [];
-
-  for (var i = 0; i < filesAll.length; i++) {
-    for (var j = 0; j < filesAll[i].length; j++) {
-      if (filesAll[i][j] != undefined && filesAll[i][j] != null && filesAll[i][j] != "" && filesAll[i][j] != NaN && filesAll[i][j].size < 1048576) {
-        file.push(filesAll[i][j]);
-      }
-    }
-  }
-
-  file = file.filter(function (power, toThe, yellowVests) {
-    return yellowVests.map(function (updateDemocracy) {
-      return updateDemocracy['name'];
-    }).indexOf(power['name']) === toThe;
-  });
-  return file;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (startGallery());
-
-/***/ }),
-
 /***/ "./src/js/ideja.js":
 /*!*************************!*\
   !*** ./src/js/ideja.js ***!
@@ -2955,22 +2811,7 @@ function likeAdd(like) {
 }
 
 ;
-
-function getCookie(newCookie) {
-  var checkCookie;
-  var existCookie = [];
-  var cookies = document.cookie.split(';');
-
-  for (var i = 0; i < cookies.length; i++) {
-    existCookie.push(cookies[i].split('=')[0].toLowerCase());
-
-    if (existCookie[i] == newCookie) {
-      return existCookie[i];
-    }
-  }
-}
 /*------------------------------render data  axios-----------------------------------------*/
-
 
 var startIdea = document.getElementById("startIdeaFront");
 
@@ -2993,49 +2834,50 @@ function startHomeIdea() {
         document.getElementById("count").innerHTML = maxlength - currentLength + " simboliu liko"; //console.log(maxlength - currentLength + " chars left");
       }
     });
-
-    var _clickFunction = function _clickFunction(event) {
-      var like = this.getAttribute("data-custom-id");
-      var likeId = ' idea_cookie-' + like;
-
-      if (likeId != getCookie(likeId)) {
-        likeAdd(like);
-      }
-    };
   }
 }
 
 function renderTreeColons() {
   axios.get(uri + path + 'idea-render-front', {}).then(function (response) {
     if (response.status == 200 && response.statusText == 'OK') {
-      var data = response.data.allData;
-      var keys = [];
+      (function () {
+        var data = response.data.allData;
+        var keys = [];
 
-      for (var key in data) {
-        keys.push(key);
-      }
-
-      var rende = document.getElementById('box');
-      var HTMLString = '';
-      var count = 0;
-
-      for (var i = keys.length - 1; i >= 0; i--) {
-        var value = data[keys[i]];
-        count++;
-
-        if (count <= 3) {
-          HTMLString += "<div class=\"box\"> \n          <div class=\"text\"><div class=\"data\" >".concat(value.post_date, "</div>                 \n            </div>\n            <div class=\"ideaContent\">\n                  ").concat(value.idea_content, "\n            </div>   \n            <div class=\"like\" data-custom-id=\"").concat(value.ID, "\">\n              <svg class=\"like__btn animated\" id=\"Capa_1\" enable-background=\"new 0 0 512 512\" height=\"40\" viewBox=\"0 0 512 512\" width=\"40\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"><linearGradient id=\"SVGID_1_\" gradientUnits=\"userSpaceOnUse\" x1=\"256\" x2=\"256\" y1=\"512\" y2=\"0\"><stop offset=\"0\" stop-color=\"#fd3a84\"/><stop offset=\"1\" stop-color=\"#ffa68d\"/></linearGradient><linearGradient id=\"SVGID_2_\" gradientUnits=\"userSpaceOnUse\" x1=\"256\" x2=\"256\" y1=\"421\" y2=\"121\"><stop offset=\"0\" stop-color=\"#ffc2cc\"/><stop offset=\"1\" stop-color=\"#fff2f4\"/></linearGradient><g><g><g><circle cx=\"256\" cy=\"256\" fill=\"url(#SVGID_1_)\" r=\"256\"/></g></g><g><g><path d=\"m331 121c-32.928 0-58.183 18.511-75 46.058-16.82-27.552-42.077-46.058-75-46.058-25.511 0-48.788 10.768-65.541 30.32-15.772 18.409-24.459 42.993-24.459 69.225 0 28.523 10.698 54.892 33.666 82.986 20.138 24.632 49.048 49.971 82.524 79.313 12.376 10.848 25.174 22.065 38.775 34.306 2.853 2.567 6.444 3.85 10.035 3.85s7.182-1.283 10.035-3.851c13.601-12.241 26.398-23.458 38.775-34.306 33.476-29.341 62.386-54.681 82.524-79.313 22.968-28.092 33.666-54.462 33.666-82.985 0-53.637-36.748-99.545-90-99.545z\" fill=\"url(#SVGID_2_)\"/></g></g></g> \n                <span class=\"like__number\">").concat(value.idea_like, "</span>\n              </svg>\n          </div>            \n        </div>");
-        } else {
-          break;
+        for (var key in data) {
+          keys.push(key);
         }
-      }
 
-      rende.innerHTML = HTMLString;
-      var likeBtn = document.querySelectorAll(".like");
+        var rende = document.getElementById('box');
+        var HTMLString = '';
+        var count = 0;
 
-      for (var _i = 0; _i < likeBtn.length; _i++) {
-        likeBtn[_i].addEventListener('click', clickFunction, false);
-      }
+        for (var i = keys.length - 1; i >= 0; i--) {
+          var value = data[keys[i]];
+          count++;
+
+          if (count <= 3) {
+            HTMLString += "<div class=\"box\"> \n          <div class=\"text\"><div class=\"data\" >".concat(value.post_date, "</div>                 \n            </div>\n            <div class=\"ideaContent\">\n                  ").concat(value.idea_content, "\n            </div>   \n            <div class=\"like\" data-custom-id=\"").concat(value.ID, "\">\n              <svg class=\"like__btn animated\" id=\"Capa_1\" enable-background=\"new 0 0 512 512\" height=\"40\" viewBox=\"0 0 512 512\" width=\"40\" xmlns=\"http://www.w3.org/2000/svg\" xmlns:xlink=\"http://www.w3.org/1999/xlink\"><linearGradient id=\"SVGID_1_\" gradientUnits=\"userSpaceOnUse\" x1=\"256\" x2=\"256\" y1=\"512\" y2=\"0\"><stop offset=\"0\" stop-color=\"#fd3a84\"/><stop offset=\"1\" stop-color=\"#ffa68d\"/></linearGradient><linearGradient id=\"SVGID_2_\" gradientUnits=\"userSpaceOnUse\" x1=\"256\" x2=\"256\" y1=\"421\" y2=\"121\"><stop offset=\"0\" stop-color=\"#ffc2cc\"/><stop offset=\"1\" stop-color=\"#fff2f4\"/></linearGradient><g><g><g><circle cx=\"256\" cy=\"256\" fill=\"url(#SVGID_1_)\" r=\"256\"/></g></g><g><g><path d=\"m331 121c-32.928 0-58.183 18.511-75 46.058-16.82-27.552-42.077-46.058-75-46.058-25.511 0-48.788 10.768-65.541 30.32-15.772 18.409-24.459 42.993-24.459 69.225 0 28.523 10.698 54.892 33.666 82.986 20.138 24.632 49.048 49.971 82.524 79.313 12.376 10.848 25.174 22.065 38.775 34.306 2.853 2.567 6.444 3.85 10.035 3.85s7.182-1.283 10.035-3.851c13.601-12.241 26.398-23.458 38.775-34.306 33.476-29.341 62.386-54.681 82.524-79.313 22.968-28.092 33.666-54.462 33.666-82.985 0-53.637-36.748-99.545-90-99.545z\" fill=\"url(#SVGID_2_)\"/></g></g></g> \n                <span class=\"like__number\">").concat(value.idea_like, "</span>\n              </svg>\n          </div>            \n        </div>");
+          } else {
+            break;
+          }
+        }
+
+        rende.innerHTML = HTMLString;
+        var likeBtn = document.querySelectorAll(".like");
+
+        var _loop = function _loop(_i) {
+          likeBtn[_i].addEventListener('click', function () {
+            var like = likeBtn[_i].getAttribute("data-custom-id");
+
+            likeAdd(like);
+          });
+        };
+
+        for (var _i = 0; _i < likeBtn.length; _i++) {
+          _loop(_i);
+        }
+      })();
     }
 
     return response;
@@ -3224,6 +3066,199 @@ function getText() {
 
 /***/ }),
 
+/***/ "./src/js/uploade-image.js":
+/*!*********************************!*\
+  !*** ./src/js/uploade-image.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+
+var path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+var uri = document.location.origin;
+var gallery = document.getElementById("loadeGallery");
+var arraySend = [];
+var isListener = true;
+
+function startGallery() {
+  if (gallery) {
+    window.addEventListener("load", renderGallery, false);
+  }
+}
+
+function renderGallery() {
+  //Check File API support
+  if (window.File && window.FileList && window.FileReader) {
+    var filesInput = document.getElementById("files");
+    filesInput.addEventListener("change", function (event) {
+      // let images = [];
+      var array = Array.from(event.target.files); // let files = event.target.files;
+      //    let a = Array.prototype.push.apply(images, files);
+      //    console.log(files);
+
+      renderImages(array, filesInput);
+    });
+  } else {
+    console.log("Your browser does not support File API");
+  }
+}
+
+function renderImages(filesAll, filesInput) {
+  var currentDiv = document.getElementById("message");
+
+  var _loop = function _loop(i) {
+    if (filesAll[i].size < 1048576) {
+      if (filesAll[i].type.match('image')) {
+        var picReader = new FileReader();
+        picReader.addEventListener("load", function (event) {
+          var picFile = event.target;
+          var deleteId = getID();
+          var imagesId = getID();
+          var dot = getID();
+          var output = document.getElementById("result");
+          var div = document.createElement("div");
+          div.className = "galleryDiv"; // div.id = deleteId;
+
+          div.innerHTML = "<img class=\"uploadeImageGallery\" data=\"false\" id=\"".concat(imagesId, "\" src=\"").concat(picFile.result, " \"\n                      alt=\" \"/>\n                      <div class=\"dots\" id=\"").concat(dot, "\"><div/>");
+          output.insertBefore(div, currentDiv); // rende.innerHTML = HTMLString;
+
+          var deleteDiv = document.querySelectorAll(".galleryDiv");
+          var dots = document.getElementById(dot);
+          var actionBtn = document.getElementById("actionBox");
+          var actionBtn2 = document.getElementById("actionBox2");
+          var deleteBtn = document.querySelector(".deleteImd");
+          var checkBox = document.getElementById("c1");
+          var image = document.querySelectorAll(".uploadeImageGallery");
+          var counter = 0;
+          dots.addEventListener("click", function () {
+            //console.log(i);//dubliuoja i
+            // console.log(11111111);
+            deleteDiv[i].setAttribute("id", deleteId);
+            actionBtn.classList.remove("EventBoxHidden");
+            actionBtn2.classList.remove("EventBoxHidden2");
+            actionBtn.classList.add("boxImg");
+            actionBtn.addEventListener("click", function () {
+              // console.log(i);
+              // console.log(counter++);
+              // dots.removeEventListener("click",  () =>{
+              //     console.log('Button Clicked');
+              // });
+              if (checkBox.checked) {
+                deleteDiv[i].classList.add("albumImage");
+                image[i].setAttribute("data", "true");
+                actionBtn.removeEventListener;
+              } else {
+                image[i].setAttribute("data", "false");
+                deleteDiv[i].classList.remove("albumImage");
+                deleteDiv[i].removeAttribute("id");
+                actionBtn.removeEventListener;
+              }
+
+              actionBtn.classList.remove("boxImg");
+              actionBtn.classList.add("EventBoxHidden");
+              actionBtn2.classList.add("EventBoxHidden2");
+            });
+          });
+          deleteBtn.addEventListener("click", function () {
+            var deleteImage = document.getElementById(deleteId);
+
+            if (deleteImage) {
+              deleteImage.remove();
+              filesAll.splice(i, 1);
+              filesInput.value = '';
+            }
+
+            actionBtn.classList.remove("boxImg");
+            actionBtn.classList.add("EventBoxHidden");
+          });
+        });
+        picReader.readAsDataURL(filesAll[i]);
+      } else {
+        alert("Tai nera paveikslelio tipo formatas");
+      }
+    } else {
+      alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb"); //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+      //   currentDiv.appendChild(newContent);
+    }
+  };
+
+  for (var i = 0; i < filesAll.length; i++) {
+    _loop(i);
+  }
+
+  arraySend.push(filesAll);
+  var uploadeImg = document.getElementById("submitImg");
+
+  if (isListener) {
+    uploadeImg.addEventListener('click', function () {
+      arraySend = filter(arraySend);
+      sendImageData(arraySend);
+    });
+    isListener = false;
+  }
+}
+
+function sendImageData(filesAll) {
+  var tagInput;
+  var formData = new FormData();
+  var album = document.getElementById('albumName');
+
+  for (var i = 0; i < filesAll.length; i++) {
+    tagInput = document.getElementById(filesAll[i].name);
+    formData.append('files' + i, filesAll[i]);
+    formData.append('tag' + i, tagInput.value + ' ');
+  }
+
+  formData.append('album', album.value);
+  axios.post(uri + path + 'gallery-store-front', formData, {
+    headers: {
+      'Content-Type': 'multipart/form-data'
+    }
+  }).then(function (response) {})["catch"](function (error) {
+    if (error.response) {
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log('Error', error.message);
+    }
+
+    console.log(error);
+  }); // location.reload();
+}
+
+function getID() {
+  return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+}
+
+function filter(filesAll) {
+  var file = [];
+
+  for (var i = 0; i < filesAll.length; i++) {
+    for (var j = 0; j < filesAll[i].length; j++) {
+      if (filesAll[i][j] != undefined && filesAll[i][j] != null && filesAll[i][j] != "" && filesAll[i][j] != NaN && filesAll[i][j].size < 1048576) {
+        file.push(filesAll[i][j]);
+      }
+    }
+  }
+
+  file = file.filter(function (power, toThe, yellowVests) {
+    return yellowVests.map(function (updateDemocracy) {
+      return updateDemocracy['name'];
+    }).indexOf(power['name']) === toThe;
+  });
+  return file;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (startGallery());
+
+/***/ }),
+
 /***/ "./src/main.js":
 /*!*********************!*\
   !*** ./src/main.js ***!
@@ -3235,19 +3270,20 @@ function getText() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_idejos_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/idejos.js */ "./src/js/idejos.js");
 /* harmony import */ var _js_ideja_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/ideja.js */ "./src/js/ideja.js");
-/* harmony import */ var _js_gallery_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/gallery.js */ "./src/js/gallery.js");
-/* harmony import */ var _js_calendar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/calendar.js */ "./src/js/calendar.js");
-/* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
-/* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
+/* harmony import */ var _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/calendar.js */ "./src/js/calendar.js");
+/* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
+/* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
+/* harmony import */ var _js_uploade_image_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade-image.js */ "./src/js/uploade-image.js");
+
+ // import startGallery from './js/gallery.js';
 
 
 
 
 
-
-new _js_calendar_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.calendar');
-new _js_album_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.album');
-new _js_events_js__WEBPACK_IMPORTED_MODULE_5__["default"]('.eventsHome');
+new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
+new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
+new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 
 /***/ }),
 

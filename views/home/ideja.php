@@ -57,7 +57,22 @@
 </div>
 
 <div class="xl-4-5 wdl imgBlock">
-    <img class="backg" src="" alt="kava">
+    <img class="imgHome" src="http://localhost/wordpress/wp-content/uploads/2020/11/kava.jpg" alt="kava">
+        <div>
+            Welcome to the Rally Template
+        </div>
+        <div>
+            to get started, watch these short videos
+        </div>
+        <div>
+            on squarespace basics and read the
+        </div>
+        <div>
+            template guide.
+        </div>
+        <div>
+            reade more
+        </div>
     </img>
 </div>
 <div class="xl-3-5 wd">
