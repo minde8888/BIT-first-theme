@@ -1,3 +1,5 @@
+@charset "UTF-8";
+
 /*   
 Theme Name: BIT-FIRST-THEME
 Theme URI: <THEME_URI>
@@ -1111,12 +1113,12 @@ h1 {
 .galleryContainer .galleryUploade .uplodeBtn {
   height: 50px;
   width: 95%;
-  color: #1d1d1d;
+  color: #c3c3c3;
   font-weight: 100;
   border: none;
   font-size: 20px;
   line-height: 25px;
-  margin-top: -100px;
+  margin-top: -9px;
   cursor: pointer;
 }
 
@@ -1162,17 +1164,16 @@ h1 {
 .galleryContainer .wrapper .file-upload {
   height: 200px;
   width: 200px;
-  border-radius: 100px;
+  border-radius: 10px;
   position: relative;
   display: flex;
   justify-content: center;
   align-items: center;
-  border: 4px solid #FFFFFF;
+  border: dashed;
   overflow: hidden;
-  background-image: linear-gradient(to bottom, #2590EB 50%, #FFFFFF 50%);
   background-size: 100% 200%;
   transition: all 1s;
-  color: #FFFFFF;
+  color: #c3c3c3;
   font-size: 100px;
 }
 
@@ -1188,7 +1189,7 @@ h1 {
 
 .galleryContainer .wrapper .file-upload:hover {
   background-position: 0 -100%;
-  color: #2590EB;
+  color: #c3c3c3;
 }
 
 .gallerGrid {
@@ -1196,7 +1197,12 @@ h1 {
   margin: 0 auto;
   display: grid;
   grid-gap: 1rem;
+  height: 200px;
   grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
+}
+
+.gallerGrid .galleryDiv {
+  cursor: pointer;
 }
 
 .gallerGrid .galleryDiv .deleteImd {
@@ -1236,23 +1242,79 @@ h1 {
 
 .gallerGrid input[type=text] {
   border: none;
-  border-bottom: 2px solid #23344d;
+  border-bottom: 1px solid #23344d;
   line-height: 20px;
+  font-size: 16px;
 }
 
 @media (max-width: 600px) {
-  .galleryContainer {
-    width: 260px;
+  .form__input {
+    width: 90%;
   }
 
-  .galleryContainer .deleteImd {
-    margin: 10px 0 0 0;
-    text-align: center;
+  .galleryContainer {
+    width: calc(100% - 60px);
+  }
+
+  .galleryContainer .gallerGrid {
+    grid-template-columns: repeat(auto-fit, minmax(100px, 1fr));
+    grid-gap: 0rem;
+  }
+
+  .galleryContainer .gallerGrid .dots {
+    width: 6px;
+    height: 6px;
+    border-radius: 50%;
+    background-color: #c3c3c3;
+    box-shadow: 0px 10px 0px #c3c3c3, 0px 20px 0px #c3c3c3;
+    position: absolute;
+    margin: 2px 50px 0 50px;
+  }
+
+  .galleryContainer .gallerGrid .dots div {
+    margin: 0 0 0 -16px;
+    height: 30px;
+    width: 30px;
+    z-index: 1;
+  }
+
+  .galleryContainer .gallerGrid .file-upload {
+    width: 100px;
+    height: 100px;
+    border: dashed;
+    color: #c3c3c3;
+    border-radius: 5px;
+    background-image: none;
+  }
+
+  .galleryContainer .gallerGrid .file-upload input[type=file] {
+    width: 100px;
+    height: 100px;
+  }
+
+  .galleryContainer .gallerGrid .galleryDiv {
+    height: 130px;
+  }
+
+  .galleryContainer .gallerGrid .galleryDiv .uploadeImageGallery {
+    width: 100px;
+    height: 100px;
+  }
+
+  .galleryContainer .gallerGrid .albumImage::after {
+    content: "\2713";
+    color: #6dc01a;
+    line-height: 85px;
+    font-size: 85px;
+    font-weight: 1000;
+    margin: 10px 0 0 -75px;
+    position: absolute;
   }
 
   .galleryContainer input[type=text] {
     margin: 10px 0 0 0;
     width: 50%;
+    font-size: 15px;
   }
 }
 
@@ -1288,7 +1350,7 @@ h1 {
   padding: 0.5rem 2rem;
   border-radius: 0.2rem;
   background-color: white;
-  width: 25%;
+  width: 90%;
   border-top: 0.3rem solid transparent;
   border-left: 0.3rem solid transparent;
   border-right: 0.3rem solid transparent;
@@ -1338,6 +1400,269 @@ h1 {
 
 .form__group .select-css option {
   font-weight: normal;
+}
+
+.boxImg {
+  height: 640px;
+  width: 360px;
+  background-color: #e2e2e2;
+  margin: auto;
+  position: absolute;
+  top: 0;
+  left: 0;
+  bottom: 0;
+  right: 0;
+}
+
+.boxImg .deleteImd {
+  position: absolute;
+  top: 70%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  box-shadow: 1px 27px 20px -3px #872918;
+  background: linear-gradient(to bottom, #d1352a 5%, #d1352a 100%);
+  background-color: #d1352a;
+  border-radius: 7px;
+  border: 1px solid #572620;
+  display: inline-block;
+  cursor: pointer;
+  color: #ffffff;
+  font-family: Arial;
+  font-size: 13px;
+  font-weight: bold;
+  padding: 10px 28px;
+  text-decoration: none;
+  text-shadow: 0px 0px 0px #e35e2d;
+}
+
+.boxImg .deleteImd:hover {
+  background: linear-gradient(to bottom, #d1352a 5%, #d1352a 100%);
+  background-color: #d1352a;
+}
+
+.EventBoxHidden {
+  visibility: hidden;
+}
+
+.EventBoxHidden2 {
+  visibility: hidden;
+}
+
+.tagImg {
+  display: inline-block;
+  position: absolute;
+  top: 55%;
+  left: 65%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+}
+
+.tagImg label {
+  line-height: 20px;
+  font-size: 18px;
+}
+
+.tagImg input[type=text] {
+  border: none;
+  border-bottom: 1px solid #23344d;
+  line-height: 20px;
+  font-size: 18px;
+  background-color: #e2e2e2;
+}
+
+@supports (-webkit-appearance: none) or (-moz-appearance: none) {
+  input[type=checkbox],
+  input[type=radio] {
+    --active: #275EFE;
+    --active-inner: #fff;
+    --focus: 2px rgba(39, 94, 254, .3);
+    --border: #BBC1E1;
+    --border-hover: #275EFE;
+    --background: #fff;
+    --disabled: #F6F8FF;
+    --disabled-inner: #E1E6F9;
+    -webkit-appearance: none;
+    -moz-appearance: none;
+    height: 21px;
+    outline: none;
+    display: inline-block;
+    vertical-align: top;
+    position: relative;
+    margin: 0;
+    cursor: pointer;
+    border: 1px solid var(--bc, var(--border));
+    background: var(--b, var(--background));
+    transition: background 0.3s, border-color 0.3s, box-shadow 0.2s;
+  }
+
+  input[type=checkbox]:after,
+  input[type=radio]:after {
+    content: "";
+    display: block;
+    left: 0;
+    top: 0;
+    position: absolute;
+    transition: transform var(--d-t, 0.3s) var(--d-t-e, ease), opacity var(--d-o, 0.2s);
+  }
+
+  input[type=checkbox]:checked,
+  input[type=radio]:checked {
+    --b: var(--active);
+    --bc: var(--active);
+    --d-o: .3s;
+    --d-t: .6s;
+    --d-t-e: cubic-bezier(.2, .85, .32, 1.2);
+  }
+
+  input[type=checkbox]:disabled,
+  input[type=radio]:disabled {
+    --b: var(--disabled);
+    cursor: not-allowed;
+    opacity: 0.9;
+  }
+
+  input[type=checkbox]:disabled:checked,
+  input[type=radio]:disabled:checked {
+    --b: var(--disabled-inner);
+    --bc: var(--border);
+  }
+
+  input[type=checkbox]:disabled + label,
+  input[type=radio]:disabled + label {
+    cursor: not-allowed;
+  }
+
+  input[type=checkbox]:hover:not(:checked):not(:disabled),
+  input[type=radio]:hover:not(:checked):not(:disabled) {
+    --bc: var(--border-hover);
+  }
+
+  input[type=checkbox]:focus,
+  input[type=radio]:focus {
+    box-shadow: 0 0 0 var(--focus);
+  }
+
+  input[type=checkbox]:not(.switch),
+  input[type=radio]:not(.switch) {
+    width: 21px;
+  }
+
+  input[type=checkbox]:not(.switch):after,
+  input[type=radio]:not(.switch):after {
+    opacity: var(--o, 0);
+  }
+
+  input[type=checkbox]:not(.switch):checked,
+  input[type=radio]:not(.switch):checked {
+    --o: 1;
+  }
+
+  input[type=checkbox] + label,
+  input[type=radio] + label {
+    font-size: 14px;
+    line-height: 21px;
+    display: inline-block;
+    vertical-align: top;
+    cursor: pointer;
+    margin-left: 4px;
+  }
+
+  input[type=checkbox]:not(.switch) {
+    border-radius: 7px;
+    border: 1px solid #3a4045;
+  }
+
+  input[type=checkbox]:not(.switch):after {
+    width: 5px;
+    height: 9px;
+    border: 2px solid var(--active-inner);
+    border-top: 0;
+    border-left: 0;
+    left: 7px;
+    top: 4px;
+    transform: rotate(var(--r, 20deg));
+  }
+
+  input[type=checkbox]:not(.switch):checked {
+    --r: 43deg;
+  }
+
+  input[type=checkbox].switch {
+    width: 38px;
+    border-radius: 11px;
+  }
+
+  input[type=checkbox].switch:after {
+    left: 2px;
+    top: 2px;
+    border-radius: 50%;
+    width: 15px;
+    height: 15px;
+    background: var(--ab, var(--border));
+    transform: translateX(var(--x, 0));
+  }
+
+  input[type=checkbox].switch:checked {
+    --ab: var(--active-inner);
+    --x: 17px;
+  }
+
+  input[type=checkbox].switch:disabled:not(:checked):after {
+    opacity: 0.6;
+  }
+
+  input[type=radio] {
+    border-radius: 50%;
+  }
+
+  input[type=radio]:after {
+    width: 19px;
+    height: 19px;
+    border-radius: 50%;
+    background: var(--active-inner);
+    opacity: 0;
+    transform: scale(var(--s, 0.7));
+  }
+
+  input[type=radio]:checked {
+    --s: .5;
+  }
+}
+
+ul {
+  position: absolute;
+  top: 70%;
+  margin: 12px;
+  padding: 0;
+  list-style: none;
+  width: 100%;
+}
+
+ul li {
+  margin: -140px 0 0 10px;
+  position: relative;
+}
+
+ul li label {
+  color: black;
+  font-size: 22px;
+}
+
+html {
+  box-sizing: border-box;
+}
+
+* {
+  box-sizing: inherit;
+}
+
+*:before,
+*:after {
+  box-sizing: inherit;
+}
+
+.checkBox {
+  float: left;
 }
 
 .calendarContainer {
@@ -1690,5 +2015,12 @@ nav div a {
   margin: 0 12px 20px 0;
   font-weight: bold;
   color: black;
+}
+
+.imgHome {
+  -o-object-fit: cover;
+     object-fit: cover;
+  height: 650px;
+  width: 100%;
 }
 

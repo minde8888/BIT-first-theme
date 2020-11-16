@@ -1,158 +1,164 @@
-"use strict";
+// "use strict";
 
-const path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-const uri = document.location.origin;
+// const path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+// const uri = document.location.origin;
 
-const gallery = document.getElementById("loadeGallery");
-let arraySend = [];
-let isListener = true;
+// const gallery = document.getElementById("loadeGallery");
+// let arraySend = [];
+// let isListener = true;
 
-function startGallery() {
-    if (gallery) {
-        window.addEventListener("load", renderGallery, false);
-    }
-}
+// function startGallery() {
+//     if (gallery) {
+//         window.addEventListener("load", renderGallery, false);
+//     }
+// }
 
-function renderGallery() {
-    //Check File API support
-    if (window.File && window.FileList && window.FileReader) {
+// function renderGallery() {
+//     //Check File API support
+//     if (window.File && window.FileList && window.FileReader) {
 
-        let filesInput = document.getElementById("files");
+//         let filesInput = document.getElementById("files");
 
-        filesInput.addEventListener("change", function (event) {
+//         filesInput.addEventListener("change", function(event) {
 
-            let array = Array.from(event.target.files);
+//             let array = Array.from(event.target.files);
 
-            renderImages(array);
-        });
-    } else {
-        console.log("Your browser does not support File API");
-    }
-}
+//             renderImages(array,  filesInput);
+//         });
+//     } else {
+//         console.log("Your browser does not support File API");
+//     }
+// }
 
-function renderImages(filesAll) {
+// function renderImages(filesAll,  filesInput) {
 
-    const currentDiv = document.getElementById("message");
+//     const currentDiv = document.getElementById("message");
 
-    for (let i = 0; i < filesAll.length; i++) {
+//     for (let i = 0; i < filesAll.length; i++) {
 
-        if (filesAll[i].size < 1048576) {
+//         if (filesAll[i].size < 1048576) {
 
-            if (filesAll[i].type.match('image')) {
+//             if (filesAll[i].type.match('image')) {
 
-                const picReader = new FileReader();
+//                 const picReader = new FileReader();
 
-                picReader.addEventListener("load", function (event) {
+//                 picReader.addEventListener("load", function(event) {
 
-                    const picFile = event.target;
-                    let deleteId = getID();
-                    let deleteBtn = getID();
-                    const output = document.getElementById("result");
-                    const div = document.createElement("div");
-                    div.className = "galleryDiv";
-                    div.id = deleteId;
+//                     const picFile = event.target;
+//                     let deleteId = getID();
+//                     let deleteBtn = getID();
+//                     const output = document.getElementById("result");
+//                     const div = document.createElement("div");
+//                     div.className = "galleryDiv";
+//                     div.id = deleteId;
 
-                    div.innerHTML = `<img class="uploadeImageGallery" src=" ${picFile.result} "
-                      alt=" "/>
-                      <label for="${deleteBtn}">Tag: </label>
-                      <input type="text" id="${filesAll[i].name}" class="altInput" name="altImage" value="">
-                      <div class="deleteImd" id="${deleteBtn}">Trinti<div/>`;
+//                     div.innerHTML = `<img class="uploadeImageGallery" src=" ${picFile.result} "
+//                       alt=" "/>
+//                      <div class="checkBox">
+//                       <input id="c1" type="checkbox">
+//                       </div>
+//                       <label for="${deleteBtn}">Tag: </label>
+//                       <input type="text" id="${filesAll[i].name}" class="altInput" name="altImage" value="">
+//                       <div class="deleteImd" id="${deleteBtn}">Trinti<div/>`;           
 
-                    output.insertBefore(div, currentDiv);
+//                     output.insertBefore(div, currentDiv);
 
-                    const imgDeleteBtn = document.getElementById(deleteBtn);
-                    const deleteDiv = document.getElementById(deleteId);
+//                     const imgDeleteBtn = document.getElementById(deleteBtn);
+//                     const deleteDiv = document.getElementById(deleteId);
 
-                    imgDeleteBtn.addEventListener("click", () => {
-                        filesAll.splice(i, 1);
-                        deleteDiv.remove();
-                    });
-                });
+//                     imgDeleteBtn.addEventListener("click", () => {
+//                         filesAll.splice(i, 1);
+//                         deleteDiv.remove();
+//                        filesInput.value = '';
+//                     });
+//                 });
 
-                picReader.readAsDataURL(filesAll[i]);
+//                 picReader.readAsDataURL(filesAll[i]);
 
-            } else {
-                alert("Tai nera paveikslelio tipo formatas");
-            }
-        } else {
-            alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
-            //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
-            //   currentDiv.appendChild(newContent);
-        }
-    }
+//             } else {
+//                 alert("Tai nera paveikslelio tipo formatas");
+//             }
+//         } else {
+//             alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+//             //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+//             //   currentDiv.appendChild(newContent);
+//         }
+//     }
 
-    arraySend.push(filesAll);
+//     arraySend.push(filesAll);
 
-    const uploadeImg = document.getElementById("submitImg");
+//     const uploadeImg = document.getElementById("submitImg");
 
-    if (isListener) {
-        uploadeImg.addEventListener('click', function () {
+//     if (isListener) {
+//         uploadeImg.addEventListener('click', function() {
 
-            arraySend = filter(arraySend);
-            sendImageData(arraySend);
+//             arraySend = filter(arraySend);
+//             sendImageData(arraySend);
 
-        });
-        isListener = false;
-    }
-}
+//         });
+//         isListener = false;
+//     }
+// }
 
-function sendImageData(filesAll) {
+// function sendImageData(filesAll) {
 
-    let tagInput;
-    let formData = new FormData();
-    const album = document.getElementById('albumName');
+//     let tagInput;
+//     let formData = new FormData();
 
-    for (let i = 0; i < filesAll.length; i++) {
-        tagInput = document.getElementById(filesAll[i].name);
-        formData.append('files' + i, filesAll[i]);
-        formData.append('tag' + i, tagInput.value + ' ');
-    }
+//     const album = document.getElementById('albumName');
 
-    formData.append('album', album.value);
+//     for (let i = 0; i < filesAll.length; i++) {
+//         tagInput = document.getElementById(filesAll[i].name);
+//         formData.append('files' + i, filesAll[i]);
+//         formData.append('tag' + i, tagInput.value + ' ');
+//     }
 
-    axios.post(uri + path + 'gallery-store-front', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        },
-    }).then(function (response) {
+//     formData.append('album', album.value);
+//     console.log(Object.fromEntries(formData))
+//     axios.post(uri + path + 'gallery-store-admin', formData, {
 
-    }).catch(function (error) {
-        if (error.response) {
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-        } else if (error.request) {
-            console.log(error.request);
-        } else {
-            console.log('Error', error.message);
-        }
-        console.log(error);
-    });
-    // location.reload();
-}
+//         headers: {
+//             'Content-Type': 'multipart/form-data'
+//         },
+//     }).then(function (response) {
+//     }).catch(function (error) {
+//         if (error.response) {
+//             console.log(error.response.data);
+//             console.log(error.response.status);
+//             console.log(error.response.headers);
+//         } else if (error.request) {
+//             console.log(error.request);
+//         } else {
+//             console.log('Error', error.message);
+//         }
+//         console.log(error);
+//     });
+//     //  location.reload();
 
-function getID() {
-    return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
-}
+// }
 
-function filter(filesAll) {
+// function getID() {
+//     return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+// }
 
-    let file = [];
-    for (let i = 0; i < filesAll.length; i++) {
-        for (let j = 0; j < filesAll[i].length; j++) {
-            if (filesAll[i][j] != undefined &&
-                filesAll[i][j] != null &&
-                filesAll[i][j] != "" &&
-                filesAll[i][j] != NaN &&
-                filesAll[i][j].size < 1048576) {
+// function filter(filesAll) {
 
-                file.push(filesAll[i][j]);
-            }
-        }
-    }
-    file = file.filter((power, toThe, yellowVests) => yellowVests.map(updateDemocracy => updateDemocracy['name']).indexOf(power['name']) === toThe)
+//     let file = [];
+//     for (let i = 0; i < filesAll.length; i++) {
+//         for (let j = 0; j < filesAll[i].length; j++) {
+//             if (filesAll[i][j] != undefined &&
+//                 filesAll[i][j] != null &&
+//                 filesAll[i][j] != "" &&
+//                 filesAll[i][j] != NaN &&
+//                 filesAll[i][j].size < 1048576) {
 
-    return file;
-}
+//                 file.push(filesAll[i][j]);
+//             }
+//         }
+//     }
+//     file = file.filter((power, toThe, yellowVests) => yellowVests.map(updateDemocracy => updateDemocracy['name']).indexOf(power['name']) === toThe)
 
-export default startGallery();
+//     return file;
+// }
+
+// export default startGallery();
