@@ -80,22 +80,19 @@ h1 {
 
         .file-upload {
 
-            height       : 200px;
-            width        : 200px;
-            border-radius: 100px;
-            position     : relative;
-
+            height         : 200px;
+            width          : 200px;
+            border-radius  : 10px;
+            position       : relative;
             display        : flex;
             justify-content: center;
             align-items    : center;
-
-            border          : 4px solid #FFFFFF;
-            overflow        : hidden;
-            background-image: #c3c3c3;
-            background-size : 100% 200%;
-            transition      : all 1s;
-            color           : #FFFFFF;
-            font-size       : 100px;
+            border         : dashed;
+            overflow       : hidden;
+            background-size: 100% 200%;
+            transition     : all 1s;
+            color          : #c3c3c3;
+            font-size      : 100px;
 
             input[type='file'] {
 
@@ -128,7 +125,38 @@ h1 {
     height               : 200px;
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 
-    .galleryDiv {}
+    .galleryDiv {
+                cursor: pointer;
+
+        .deleteImd {
+            box-shadow      : inset 0px 1px 0px 0px #f5978e;
+            background      : linear-gradient(to bottom, #f5d5d2 5%, #c62d1f 100%);
+            background-color: #f5d5d2;
+            border-radius   : 6px;
+            border          : 1px solid #d02718;
+            display         : inline-block;
+            cursor          : pointer;
+            color           : #ffffff;
+            font-family     : Arial;
+            font-size       : 15px;
+            font-weight     : bold;
+            padding         : 6px 24px;
+            text-decoration : none;
+            text-shadow     : 0px 1px 0px #810e05;
+            float           : right;
+        }
+
+        .deleteImd:hover {
+            background      : linear-gradient(to bottom, #c62d1f 5%, #f5d5d2 100%);
+            background-color: #c62d1f;
+        }
+
+        .deleteImd:active {
+            position: relative;
+            top     : 1px;
+        }
+    }
+
 
     .uploadeImageGallery {
         width     : 100%;
@@ -143,6 +171,7 @@ h1 {
         font-size    : 16px;
     }
 }
+ 
 
 @media (max-width: 600px) {
     .form__input {
@@ -499,6 +528,7 @@ h1 {
     input[type='checkbox'] {
         &:not(.switch) {
             border-radius: 7px;
+            border: 1px solid #3a4045;
 
             &:after {
                 width      : 5px;
@@ -567,7 +597,8 @@ h1 {
 
 ul {
     position     : absolute;
-    top          : 80%;
+    top          : 70%;
+    // left         : 45%; //laikinai
     margin       : 12px;
     padding      : 0;
     list-style   : none;
@@ -579,6 +610,7 @@ ul {
         position: relative;
 
         label {
+            color: black;
             font-size: 22px;
         }
     }
@@ -595,4 +627,7 @@ html {
     &:after {
         box-sizing: inherit;
     }
+}
+.checkBox{
+    float: left;
 }
