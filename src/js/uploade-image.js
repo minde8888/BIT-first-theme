@@ -1,214 +1,214 @@
-"use strict";
+// "use strict";
 
-const path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-const uri = document.location.origin;
+// const path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+// const uri = document.location.origin;
 
-const gallery = document.getElementById("loadeGallery");
-let arraySend = [];
-let isListener = true;
+// const gallery = document.getElementById("loadeGallery");
+// let arraySend = [];
+// let isListener = true;
 
-function startGallery() {
-    if (gallery) {
-        window.addEventListener("load", renderGallery, false);
-    }
-}
+// function startGallery() {
+//     if (gallery) {
+//         window.addEventListener("load", renderGallery, false);
+//     }
+// }
 
-function renderGallery() {
-    //Check File API support
-    if (window.File && window.FileList && window.FileReader) {
+// function renderGallery() {
+//     //Check File API support
+//     if (window.File && window.FileList && window.FileReader) {
 
-        let filesInput = document.getElementById("files");
+//         let filesInput = document.getElementById("files");
 
-        filesInput.addEventListener("change", function (event) {
-            // let images = [];
-            let array = Array.from(event.target.files);
-            // let files = event.target.files;
-            //    let a = Array.prototype.push.apply(images, files);
-            //    console.log(files);
-            renderImages(array, filesInput);
-        });
-    } else {
-        console.log("Your browser does not support File API");
-    }
-}
+//         filesInput.addEventListener("change", function (event) {
+//             // let images = [];
+//             let array = Array.from(event.target.files);
+//             // let files = event.target.files;
+//             //    let a = Array.prototype.push.apply(images, files);
+//             //    console.log(files);
+//             renderImages(array, filesInput);
+//         });
+//     } else {
+//         console.log("Your browser does not support File API");
+//     }
+// }
 
-function renderImages(filesAll, filesInput) {
+// function renderImages(filesAll, filesInput) {
 
-    const currentDiv = document.getElementById("message");
+//     const currentDiv = document.getElementById("message");
 
-    for (let i = 0; i < filesAll.length; i++) {
+//     for (let i = 0; i < filesAll.length; i++) {
 
-        if (filesAll[i].size < 1048576) {
+//         if (filesAll[i].size < 1048576) {
 
-            if (filesAll[i].type.match('image')) {
+//             if (filesAll[i].type.match('image')) {
 
-                const picReader = new FileReader();
+//                 const picReader = new FileReader();
 
-                picReader.addEventListener("load", function (event) {
+//                 picReader.addEventListener("load", function (event) {
 
-                    const picFile = event.target;
-                    let deleteId = getID();
-                    let imagesId = getID();
-                    let dot = getID();
-                    const output = document.getElementById("result");
-                    const div = document.createElement("div");
-                    div.className = "galleryDiv";
-                    // div.id = deleteId;
+//                     const picFile = event.target;
+//                     let deleteId = getID();
+//                     let imagesId = getID();
+//                     let dot = getID();
+//                     const output = document.getElementById("result");
+//                     const div = document.createElement("div");
+//                     div.className = "galleryDiv";
+//                     // div.id = deleteId;
 
-                    div.innerHTML = `<img class="uploadeImageGallery" data="false" id="${imagesId}" src="${picFile.result} "
-                      alt=" "/>
-                      <div class="dots" id="${dot}"><div/>`;
-                    output.insertBefore(div, currentDiv);
-
-
-                    // rende.innerHTML = HTMLString;
-
-                    let deleteDiv = document.querySelectorAll(".galleryDiv");
-                    let dots = document.getElementById(dot);
-                    const actionBtn = document.getElementById("actionBox");
-                    const actionBtn2 = document.getElementById("actionBox2");
-                    const deleteBtn = document.querySelector(".deleteImd");
-                    const checkBox = document.getElementById("c1");
-                    const image = document.querySelectorAll(".uploadeImageGallery");
-
-                    let counter = 0;
-                    dots.addEventListener("click", () => {
-                        //console.log(i);//dubliuoja i
-                       // console.log(11111111);
-                        deleteDiv[i].setAttribute("id", deleteId);
-                        actionBtn.classList.remove("EventBoxHidden");
-                        actionBtn2.classList.remove("EventBoxHidden2");
-                        actionBtn.classList.add("boxImg");
-
-                        actionBtn.addEventListener("click", () => {
-
-                            // console.log(i);
-                            // console.log(counter++);
-                            // dots.removeEventListener("click",  () =>{
-                            //     console.log('Button Clicked');
-                            // });
-                            if (checkBox.checked) {
-                                deleteDiv[i].classList.add("albumImage");
-                                image[i].setAttribute("data", "true");
-                                actionBtn.removeEventListener;
-                            } else {
-                                image[i].setAttribute("data", "false");
-                                deleteDiv[i].classList.remove("albumImage");
-                                deleteDiv[i].removeAttribute("id");
-                                actionBtn.removeEventListener;
-
-                            }
-                            actionBtn.classList.remove("boxImg");
-                            actionBtn.classList.add("EventBoxHidden");
-                            actionBtn2.classList.add("EventBoxHidden2");
-                        })
-                    });
+//                     div.innerHTML = `<img class="uploadeImageGallery" data="false" id="${imagesId}" src="${picFile.result} "
+//                       alt=" "/>
+//                       <div class="dots" id="${dot}"><div/>`;
+//                     output.insertBefore(div, currentDiv);
 
 
+//                     // rende.innerHTML = HTMLString;
 
-                    deleteBtn.addEventListener("click", () => {
+//                     let deleteDiv = document.querySelectorAll(".galleryDiv");
+//                     let dots = document.getElementById(dot);
+//                     const actionBtn = document.getElementById("actionBox");
+//                     const actionBtn2 = document.getElementById("actionBox2");
+//                     const deleteBtn = document.querySelector(".deleteImd");
+//                     const checkBox = document.getElementById("c1");
+//                     const image = document.querySelectorAll(".uploadeImageGallery");
 
-                        let deleteImage = document.getElementById(deleteId);
+//                     let counter = 0;
+//                     dots.addEventListener("click", () => {
+//                         //console.log(i);//dubliuoja i
+//                        // console.log(11111111);
+//                         deleteDiv[i].setAttribute("id", deleteId);
+//                         actionBtn.classList.remove("EventBoxHidden");
+//                         actionBtn2.classList.remove("EventBoxHidden2");
+//                         actionBtn.classList.add("boxImg");
 
-                        if (deleteImage) {
-                            deleteImage.remove();
-                            filesAll.splice(i, 1);
-                            filesInput.value = '';
-                        }
-                        actionBtn.classList.remove("boxImg");
-                        actionBtn.classList.add("EventBoxHidden");
+//                         actionBtn.addEventListener("click", () => {
 
-                    });
-                });
+//                             // console.log(i);
+//                             // console.log(counter++);
+//                             // dots.removeEventListener("click",  () =>{
+//                             //     console.log('Button Clicked');
+//                             // });
+//                             if (checkBox.checked) {
+//                                 deleteDiv[i].classList.add("albumImage");
+//                                 image[i].setAttribute("data", "true");
+//                                 actionBtn.removeEventListener;
+//                             } else {
+//                                 image[i].setAttribute("data", "false");
+//                                 deleteDiv[i].classList.remove("albumImage");
+//                                 deleteDiv[i].removeAttribute("id");
+//                                 actionBtn.removeEventListener;
 
-                picReader.readAsDataURL(filesAll[i]);
+//                             }
+//                             actionBtn.classList.remove("boxImg");
+//                             actionBtn.classList.add("EventBoxHidden");
+//                             actionBtn2.classList.add("EventBoxHidden2");
+//                         })
+//                     });
 
-            } else {
-                alert("Tai nera paveikslelio tipo formatas");
-            }
-        } else {
-            alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
-            //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
-            //   currentDiv.appendChild(newContent);
-        }
-    }
 
-    arraySend.push(filesAll);
 
-    const uploadeImg = document.getElementById("submitImg");
+//                     deleteBtn.addEventListener("click", () => {
 
-    if (isListener) {
-        uploadeImg.addEventListener('click', function () {
+//                         let deleteImage = document.getElementById(deleteId);
 
-            arraySend = filter(arraySend);
-            sendImageData(arraySend);
+//                         if (deleteImage) {
+//                             deleteImage.remove();
+//                             filesAll.splice(i, 1);
+//                             filesInput.value = '';
+//                         }
+//                         actionBtn.classList.remove("boxImg");
+//                         actionBtn.classList.add("EventBoxHidden");
 
-        });
-        isListener = false;
-    }
-}
+//                     });
+//                 });
 
-function sendImageData(filesAll) {
+//                 picReader.readAsDataURL(filesAll[i]);
 
-    let tagInput;
-    let formData = new FormData();
-    const album = document.getElementById('albumName');
+//             } else {
+//                 alert("Tai nera paveikslelio tipo formatas");
+//             }
+//         } else {
+//             alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+//             //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+//             //   currentDiv.appendChild(newContent);
+//         }
+//     }
 
-    for (let i = 0; i < filesAll.length; i++) {
-        tagInput = document.getElementById(filesAll[i].name);
+//     arraySend.push(filesAll);
 
-        formData.append('files' + i, filesAll[i]);
-        formData.append('tag' + i, tagInput.value + ' ');
-    }
+//     const uploadeImg = document.getElementById("submitImg");
 
-    formData.append('album', album.value);
+//     if (isListener) {
+//         uploadeImg.addEventListener('click', function () {
 
-    axios.post(uri + path + 'gallery-store-front', formData, {
-        headers: {
-            'Content-Type': 'multipart/form-data'
-        },
-    }).then(function (response) {
+//             arraySend = filter(arraySend);
+//             sendImageData(arraySend);
 
-    }).catch(function (error) {
-        if (error.response) {
-            console.log(error.response.data);
-            console.log(error.response.status);
-            console.log(error.response.headers);
-        } else if (error.request) {
-            console.log(error.request);
-        } else {
-            console.log('Error', error.message);
-        }
-        console.log(error);
-    });
-    // location.reload();
-}
+//         });
+//         isListener = false;
+//     }
+// }
 
-function getID() {
-    return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
-}
+// function sendImageData(filesAll) {
 
-function filter(filesAll) {
+//     let tagInput;
+//     let formData = new FormData();
+//     const album = document.getElementById('albumName');
 
-    let file = [];
-    for (let i = 0; i < filesAll.length; i++) {
-        for (let j = 0; j < filesAll[i].length; j++) {
-            if (filesAll[i][j] != undefined &&
-                filesAll[i][j] != null &&
-                filesAll[i][j] != "" &&
-                filesAll[i][j] != NaN &&
-                filesAll[i][j].size < 1048576) {
+//     for (let i = 0; i < filesAll.length; i++) {
+//         tagInput = document.getElementById(filesAll[i].name);
 
-                file.push(filesAll[i][j]);
-            }
-        }
-    }
-    file = file.filter((power, toThe, yellowVests) => yellowVests.map(updateDemocracy => updateDemocracy['name']).indexOf(power['name']) === toThe)
+//         formData.append('files' + i, filesAll[i]);
+//         formData.append('tag' + i, tagInput.value + ' ');
+//     }
 
-    return file;
-}
+//     formData.append('album', album.value);
 
-export default startGallery();
+//     axios.post(uri + path + 'gallery-store-front', formData, {
+//         headers: {
+//             'Content-Type': 'multipart/form-data'
+//         },
+//     }).then(function (response) {
+
+//     }).catch(function (error) {
+//         if (error.response) {
+//             console.log(error.response.data);
+//             console.log(error.response.status);
+//             console.log(error.response.headers);
+//         } else if (error.request) {
+//             console.log(error.request);
+//         } else {
+//             console.log('Error', error.message);
+//         }
+//         console.log(error);
+//     });
+//     // location.reload();
+// }
+
+// function getID() {
+//     return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+// }
+
+// function filter(filesAll) {
+
+//     let file = [];
+//     for (let i = 0; i < filesAll.length; i++) {
+//         for (let j = 0; j < filesAll[i].length; j++) {
+//             if (filesAll[i][j] != undefined &&
+//                 filesAll[i][j] != null &&
+//                 filesAll[i][j] != "" &&
+//                 filesAll[i][j] != NaN &&
+//                 filesAll[i][j].size < 1048576) {
+
+//                 file.push(filesAll[i][j]);
+//             }
+//         }
+//     }
+//     file = file.filter((power, toThe, yellowVests) => yellowVests.map(updateDemocracy => updateDemocracy['name']).indexOf(power['name']) === toThe)
+
+//     return file;
+// }
+
+// export default startGallery();
 
 
 
