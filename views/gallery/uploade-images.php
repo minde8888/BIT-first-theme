@@ -43,7 +43,7 @@
         <label>
             Tag:
         </label>
-        <input type="text" class="altInput" name="altImage" value="">
+        <input type="text" class="tagInput" name="tagImage" value="">
     </div>
     <ul>
         <li>

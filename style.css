@@ -1451,7 +1451,7 @@ h1 {
 .tagImg {
   display: inline-block;
   position: absolute;
-  top: 55%;
+  top: 60%;
   left: 65%;
   transform: translate(-50%, -50%);
   width: 100%;
@@ -1639,7 +1639,7 @@ ul {
 }
 
 ul li {
-  margin: -140px 0 0 10px;
+  margin: -160px 0 0 10px;
   position: relative;
 }
 

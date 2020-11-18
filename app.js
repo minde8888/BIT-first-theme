@@ -2769,6 +2769,212 @@ var Events = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./src/js/gallery.js":
+/*!***************************!*\
+  !*** ./src/js/gallery.js ***!
+  \***************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+
+var path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+var uri = document.location.origin;
+var gallery = document.getElementById("loadeGallery");
+var arraySend = [];
+var isListener = true;
+var incomingArray = 0;
+
+function startGallery() {
+  if (gallery) {
+    window.addEventListener("load", renderGallery, false);
+  }
+}
+
+function renderGallery() {
+  //Check File API support
+  if (window.File && window.FileList && window.FileReader) {
+    var filesInput = document.getElementById("files");
+    filesInput.addEventListener("change", function (event) {
+      // let images = [];
+      var array = Array.from(event.target.files);
+      var indexedArray = [];
+      var index = 0;
+
+      while (index < array.length) {
+        indexedArray[incomingArray] = array[index];
+        index++;
+        incomingArray++;
+      }
+
+      renderImages(indexedArray, filesInput);
+    });
+  } else {
+    console.log("Your browser does not support File API");
+  }
+}
+
+function renderImages(filesAll, filesInput) {
+  var tagInput = document.querySelector(".tagInput");
+  var currentDiv = document.getElementById("message");
+
+  var _loop = function _loop(i) {
+    if (filesAll[i]) {
+      if (filesAll[i].size < 1048576) {
+        if (filesAll[i].type.match("image")) {
+          var picReader = new FileReader();
+          picReader.addEventListener("load", function (event) {
+            var picFile = event.target;
+            var deleteId = getID();
+            var dot = getID();
+            var imageId = getID();
+            var output = document.getElementById("result");
+            var div = document.createElement("div");
+            div.className = "galleryDiv";
+            div.innerHTML = "<img class=\"uploadeImageGallery\" data=\"false\" tag=\"\" id=\"".concat(imageId, "\" src=\"").concat(picFile.result, " \"\n                          alt=\" \"/>\n                          <div class=\"dots\" id=\"").concat(dot, "\"><div/>");
+            output.insertBefore(div, currentDiv);
+            var deleteDiv = document.querySelectorAll(".galleryDiv");
+            var dots = document.getElementById(dot);
+            var actionBtn = document.getElementById("actionBox");
+            var actionBtn2 = document.getElementById("actionBox2");
+            var deleteBtn = document.querySelector(".deleteImd");
+            var checkBox = document.getElementById("c1");
+            var image = document.querySelectorAll(".uploadeImageGallery");
+            dots.addEventListener("click", function () {
+              tagInput.value = "";
+              deleteDiv[i].setAttribute("id", deleteId);
+              actionBtn.classList.remove("EventBoxHidden");
+              actionBtn2.classList.remove("EventBoxHidden2");
+              actionBtn.classList.add("boxImg");
+              actionBtn.addEventListener("click", renderActionBtn);
+
+              function renderActionBtn() {
+                actionBtn.removeEventListener("click", renderActionBtn);
+                var checked = document.querySelector(".albumImage");
+
+                if (checkBox.checked && !checked) {
+                  deleteDiv[i].classList.add("albumImage");
+                  image[i].setAttribute("data", "true");
+                  actionBtn.removeEventListener;
+                  deleteDiv[i].removeAttribute("id", deleteId);
+                } else {
+                  image[i].setAttribute("data", "false");
+                  deleteDiv[i].classList.remove("albumImage");
+                  deleteDiv[i].removeAttribute("id");
+                  actionBtn.removeEventListener;
+                }
+
+                actionBtn.classList.remove("boxImg");
+                actionBtn.classList.add("EventBoxHidden");
+                actionBtn2.classList.add("EventBoxHidden2");
+                checkBox.checked = false;
+                image[i].setAttribute("tag", tagInput.value);
+              }
+            });
+            deleteBtn.addEventListener("click", function () {
+              var deleteImage = document.getElementById(deleteId);
+
+              if (deleteImage) {
+                deleteImage.remove();
+                filesAll.splice(i, 1);
+                incomingArray--;
+                filesInput.value = "";
+              }
+
+              actionBtn.classList.remove("boxImg");
+              actionBtn.classList.add("EventBoxHidden");
+            });
+          });
+          picReader.readAsDataURL(filesAll[i]);
+        } else {
+          alert("Tai nera paveikslelio tipo formatas");
+        }
+      } else {
+        alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb"); //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+        //   currentDiv.appendChild(newContent);
+      }
+    }
+  };
+
+  for (var i = 0; i < filesAll.length; i++) {
+    _loop(i);
+  }
+
+  arraySend.push(filesAll);
+  var uploadeImg = document.getElementById("submitImg");
+
+  if (isListener) {
+    uploadeImg.addEventListener("click", function () {
+      arraySend = filter(arraySend); // console.log(arraySend);
+
+      sendImageData(arraySend);
+    });
+    isListener = false;
+  }
+}
+
+function sendImageData(filesAll) {
+  var image = document.querySelectorAll(".uploadeImageGallery");
+  var formData = new FormData();
+  var album = document.getElementById("albumName");
+
+  for (var i = 0; i < image.length; i++) {
+    var albumImage = image[i].getAttribute("data");
+    var tag = image[i].getAttribute("tag");
+    formData.append("files" + i, filesAll[i]);
+    formData.append("tag" + i, tag + ' ');
+    formData.append("album" + i, albumImage);
+  }
+
+  formData.append("album", album.value);
+  axios.post(uri + path + "gallery-store-front", {
+    headers: {
+      "Content-Type": "multipart/form-data"
+    }
+  }).then(function (response) {})["catch"](function (error) {
+    if (error.response) {
+      console.log(error.response.data);
+      console.log(error.response.status);
+      console.log(error.response.headers);
+    } else if (error.request) {
+      console.log(error.request);
+    } else {
+      console.log("Error", error.message);
+    }
+
+    console.log(error);
+  }); // location.reload();
+}
+
+function getID() {
+  return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+}
+
+function filter(filesAll) {
+  var file = [];
+
+  for (var i = 0; i < filesAll.length; i++) {
+    for (var j = 0; j < filesAll[i].length; j++) {
+      if (filesAll[i][j] != undefined && filesAll[i][j] != null && filesAll[i][j] != "" && filesAll[i][j] != NaN && filesAll[i][j].size < 1048576) {
+        file.push(filesAll[i][j]);
+      }
+    }
+  }
+
+  file = file.filter(function (power, toThe, yellowVests) {
+    return yellowVests.map(function (updateDemocracy) {
+      return updateDemocracy["name"];
+    }).indexOf(power["name"]) === toThe;
+  });
+  return file;
+}
+
+/* harmony default export */ __webpack_exports__["default"] = (startGallery());
+
+/***/ }),
+
 /***/ "./src/js/ideja.js":
 /*!*************************!*\
   !*** ./src/js/ideja.js ***!
@@ -3066,199 +3272,6 @@ function getText() {
 
 /***/ }),
 
-/***/ "./src/js/uploade-image.js":
-/*!*********************************!*\
-  !*** ./src/js/uploade-image.js ***!
-  \*********************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-
-var path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-var uri = document.location.origin;
-var gallery = document.getElementById("loadeGallery");
-var arraySend = [];
-var isListener = true;
-
-function startGallery() {
-  if (gallery) {
-    window.addEventListener("load", renderGallery, false);
-  }
-}
-
-function renderGallery() {
-  //Check File API support
-  if (window.File && window.FileList && window.FileReader) {
-    var filesInput = document.getElementById("files");
-    filesInput.addEventListener("change", function (event) {
-      // let images = [];
-      var array = Array.from(event.target.files); // let files = event.target.files;
-      //    let a = Array.prototype.push.apply(images, files);
-      //    console.log(files);
-
-      renderImages(array, filesInput);
-    });
-  } else {
-    console.log("Your browser does not support File API");
-  }
-}
-
-function renderImages(filesAll, filesInput) {
-  var currentDiv = document.getElementById("message");
-
-  var _loop = function _loop(i) {
-    if (filesAll[i].size < 1048576) {
-      if (filesAll[i].type.match('image')) {
-        var picReader = new FileReader();
-        picReader.addEventListener("load", function (event) {
-          var picFile = event.target;
-          var deleteId = getID();
-          var imagesId = getID();
-          var dot = getID();
-          var output = document.getElementById("result");
-          var div = document.createElement("div");
-          div.className = "galleryDiv"; // div.id = deleteId;
-
-          div.innerHTML = "<img class=\"uploadeImageGallery\" data=\"false\" id=\"".concat(imagesId, "\" src=\"").concat(picFile.result, " \"\n                      alt=\" \"/>\n                      <div class=\"dots\" id=\"").concat(dot, "\"><div/>");
-          output.insertBefore(div, currentDiv); // rende.innerHTML = HTMLString;
-
-          var deleteDiv = document.querySelectorAll(".galleryDiv");
-          var dots = document.getElementById(dot);
-          var actionBtn = document.getElementById("actionBox");
-          var actionBtn2 = document.getElementById("actionBox2");
-          var deleteBtn = document.querySelector(".deleteImd");
-          var checkBox = document.getElementById("c1");
-          var image = document.querySelectorAll(".uploadeImageGallery");
-          var counter = 0;
-          dots.addEventListener("click", function () {
-            //console.log(i);//dubliuoja i
-            // console.log(11111111);
-            deleteDiv[i].setAttribute("id", deleteId);
-            actionBtn.classList.remove("EventBoxHidden");
-            actionBtn2.classList.remove("EventBoxHidden2");
-            actionBtn.classList.add("boxImg");
-            actionBtn.addEventListener("click", function () {
-              // console.log(i);
-              // console.log(counter++);
-              // dots.removeEventListener("click",  () =>{
-              //     console.log('Button Clicked');
-              // });
-              if (checkBox.checked) {
-                deleteDiv[i].classList.add("albumImage");
-                image[i].setAttribute("data", "true");
-                actionBtn.removeEventListener;
-              } else {
-                image[i].setAttribute("data", "false");
-                deleteDiv[i].classList.remove("albumImage");
-                deleteDiv[i].removeAttribute("id");
-                actionBtn.removeEventListener;
-              }
-
-              actionBtn.classList.remove("boxImg");
-              actionBtn.classList.add("EventBoxHidden");
-              actionBtn2.classList.add("EventBoxHidden2");
-            });
-          });
-          deleteBtn.addEventListener("click", function () {
-            var deleteImage = document.getElementById(deleteId);
-
-            if (deleteImage) {
-              deleteImage.remove();
-              filesAll.splice(i, 1);
-              filesInput.value = '';
-            }
-
-            actionBtn.classList.remove("boxImg");
-            actionBtn.classList.add("EventBoxHidden");
-          });
-        });
-        picReader.readAsDataURL(filesAll[i]);
-      } else {
-        alert("Tai nera paveikslelio tipo formatas");
-      }
-    } else {
-      alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb"); //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
-      //   currentDiv.appendChild(newContent);
-    }
-  };
-
-  for (var i = 0; i < filesAll.length; i++) {
-    _loop(i);
-  }
-
-  arraySend.push(filesAll);
-  var uploadeImg = document.getElementById("submitImg");
-
-  if (isListener) {
-    uploadeImg.addEventListener('click', function () {
-      arraySend = filter(arraySend);
-      sendImageData(arraySend);
-    });
-    isListener = false;
-  }
-}
-
-function sendImageData(filesAll) {
-  var tagInput;
-  var formData = new FormData();
-  var album = document.getElementById('albumName');
-
-  for (var i = 0; i < filesAll.length; i++) {
-    tagInput = document.getElementById(filesAll[i].name);
-    formData.append('files' + i, filesAll[i]);
-    formData.append('tag' + i, tagInput.value + ' ');
-  }
-
-  formData.append('album', album.value);
-  axios.post(uri + path + 'gallery-store-front', formData, {
-    headers: {
-      'Content-Type': 'multipart/form-data'
-    }
-  }).then(function (response) {})["catch"](function (error) {
-    if (error.response) {
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else if (error.request) {
-      console.log(error.request);
-    } else {
-      console.log('Error', error.message);
-    }
-
-    console.log(error);
-  }); // location.reload();
-}
-
-function getID() {
-  return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
-}
-
-function filter(filesAll) {
-  var file = [];
-
-  for (var i = 0; i < filesAll.length; i++) {
-    for (var j = 0; j < filesAll[i].length; j++) {
-      if (filesAll[i][j] != undefined && filesAll[i][j] != null && filesAll[i][j] != "" && filesAll[i][j] != NaN && filesAll[i][j].size < 1048576) {
-        file.push(filesAll[i][j]);
-      }
-    }
-  }
-
-  file = file.filter(function (power, toThe, yellowVests) {
-    return yellowVests.map(function (updateDemocracy) {
-      return updateDemocracy['name'];
-    }).indexOf(power['name']) === toThe;
-  });
-  return file;
-}
-
-/* harmony default export */ __webpack_exports__["default"] = (startGallery());
-
-/***/ }),
-
 /***/ "./src/main.js":
 /*!*********************!*\
   !*** ./src/main.js ***!
@@ -3270,20 +3283,20 @@ function filter(filesAll) {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_idejos_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/idejos.js */ "./src/js/idejos.js");
 /* harmony import */ var _js_ideja_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/ideja.js */ "./src/js/ideja.js");
-/* harmony import */ var _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/calendar.js */ "./src/js/calendar.js");
-/* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
-/* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
-/* harmony import */ var _js_uploade_image_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade-image.js */ "./src/js/uploade-image.js");
-
- // import startGallery from './js/gallery.js';
+/* harmony import */ var _js_gallery_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/gallery.js */ "./src/js/gallery.js");
+/* harmony import */ var _js_calendar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/calendar.js */ "./src/js/calendar.js");
+/* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
+/* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
 
 
 
 
 
-new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
-new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
-new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
+ // import uploade from './js/uploade-image.js';
+
+new _js_calendar_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.calendar');
+new _js_album_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.album');
+new _js_events_js__WEBPACK_IMPORTED_MODULE_5__["default"]('.eventsHome');
 
 /***/ }),
 
