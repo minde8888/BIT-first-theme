@@ -126,7 +126,7 @@ h1 {
     grid-template-columns: repeat(auto-fit, minmax(250px, 1fr));
 
     .galleryDiv {
-                cursor: pointer;
+        cursor: pointer;
 
         .deleteImd {
             box-shadow      : inset 0px 1px 0px 0px #f5978e;
@@ -171,7 +171,7 @@ h1 {
         font-size    : 16px;
     }
 }
- 
+
 
 @media (max-width: 600px) {
     .form__input {
@@ -224,6 +224,7 @@ h1 {
                     height: 100px;
                 }
             }
+
             .albumImage::after {
                 content    : "\2713";
                 color      : #6dc01a;
@@ -415,7 +416,7 @@ h1 {
 
     display  : inline-block;
     position : absolute;
-    top      : 55%;
+    top      : 60%;
     left     : 65%;
     transform: translate(-50%, -50%);
     width    : 100%;
@@ -528,7 +529,7 @@ h1 {
     input[type='checkbox'] {
         &:not(.switch) {
             border-radius: 7px;
-            border: 1px solid #3a4045;
+            border       : 1px solid #3a4045;
 
             &:after {
                 width      : 5px;
@@ -598,7 +599,6 @@ h1 {
 ul {
     position     : absolute;
     top          : 70%;
-    // left         : 45%; //laikinai
     margin       : 12px;
     padding      : 0;
     list-style   : none;
@@ -606,11 +606,11 @@ ul {
     // max-width : 320px;
 
     li {
-        margin  : -140px 0 0 10px;
+        margin  : -160px 0 0 10px;
         position: relative;
 
         label {
-            color: black;
+            color    : black;
             font-size: 22px;
         }
     }
@@ -628,6 +628,7 @@ html {
         box-sizing: inherit;
     }
 }
-.checkBox{
+
+.checkBox {
     float: left;
 }
