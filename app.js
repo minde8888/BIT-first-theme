@@ -3082,6 +3082,7 @@ var uri = document.location.origin;
 var gallery = document.getElementById("loadeGallery");
 var arraySend = [];
 var isListener = true;
+var incomingArray = 0;
 
 function startGallery() {
   if (gallery) {
@@ -3095,11 +3096,20 @@ function renderGallery() {
     var filesInput = document.getElementById("files");
     filesInput.addEventListener("change", function (event) {
       // let images = [];
-      var array = Array.from(event.target.files); // let files = event.target.files;
+      var array = Array.from(event.target.files);
+      var indexedArray = [];
+      var index = 0;
+
+      while (index < array.length) {
+        indexedArray[incomingArray] = array[index];
+        index++;
+        incomingArray++;
+      } // let files = event.target.files;
       //    let a = Array.prototype.push.apply(images, files);
       //    console.log(files);
 
-      renderImages(array, filesInput);
+
+      renderImages(indexedArray, filesInput);
     });
   } else {
     console.log("Your browser does not support File API");
@@ -3107,81 +3117,84 @@ function renderGallery() {
 }
 
 function renderImages(filesAll, filesInput) {
+  console.log(filesAll);
   var currentDiv = document.getElementById("message");
 
   var _loop = function _loop(i) {
-    if (filesAll[i].size < 1048576) {
-      if (filesAll[i].type.match('image')) {
-        var picReader = new FileReader();
-        picReader.addEventListener("load", function (event) {
-          var picFile = event.target;
-          var deleteId = getID();
-          var imagesId = getID();
-          var dot = getID();
-          var output = document.getElementById("result");
-          var div = document.createElement("div");
-          div.className = "galleryDiv"; // div.id = deleteId;
+    if (filesAll[i]) {
+      if (filesAll[i].size < 1048576) {
+        if (filesAll[i].type.match('image')) {
+          var picReader = new FileReader();
+          picReader.addEventListener("load", function (event) {
+            var picFile = event.target;
+            var deleteId = getID();
+            var imagesId = getID();
+            var dot = getID();
+            var output = document.getElementById("result");
+            var div = document.createElement("div");
+            div.className = "galleryDiv"; // div.id = deleteId;
 
-          div.innerHTML = "<img class=\"uploadeImageGallery\" data=\"false\" id=\"".concat(imagesId, "\" src=\"").concat(picFile.result, " \"\n                      alt=\" \"/>\n                      <div class=\"dots\" id=\"").concat(dot, "\"><div/>");
-          output.insertBefore(div, currentDiv); // rende.innerHTML = HTMLString;
+            div.innerHTML = "<img class=\"uploadeImageGallery\" data=\"false\" id=\"".concat(imagesId, "\" src=\"").concat(picFile.result, " \"\n                        alt=\" \"/>\n                        <div class=\"dots\" id=\"").concat(dot, "\"><div/>");
+            output.insertBefore(div, currentDiv); // rende.innerHTML = HTMLString;
 
-          var deleteDiv = document.querySelectorAll(".galleryDiv");
-          var dots = document.getElementById(dot);
-          var actionBtn = document.getElementById("actionBox");
-          var actionBtn2 = document.getElementById("actionBox2");
-          var deleteBtn = document.querySelector(".deleteImd");
-          var checkBox = document.getElementById("c1");
-          var image = document.querySelectorAll(".uploadeImageGallery");
-          var counter = 0;
-          dots.addEventListener("click", function () {
-            //console.log(i);//dubliuoja i
-            // console.log(11111111);
-            deleteDiv[i].setAttribute("id", deleteId);
-            actionBtn.classList.remove("EventBoxHidden");
-            actionBtn2.classList.remove("EventBoxHidden2");
-            actionBtn.classList.add("boxImg");
-            actionBtn.addEventListener("click", function () {
-              // console.log(i);
-              // console.log(counter++);
-              // dots.removeEventListener("click",  () =>{
-              //     console.log('Button Clicked');
-              // });
-              if (checkBox.checked) {
-                deleteDiv[i].classList.add("albumImage");
-                image[i].setAttribute("data", "true");
-                actionBtn.removeEventListener;
-              } else {
-                image[i].setAttribute("data", "false");
-                deleteDiv[i].classList.remove("albumImage");
-                deleteDiv[i].removeAttribute("id");
-                actionBtn.removeEventListener;
+            var deleteDiv = document.querySelectorAll(".galleryDiv");
+            var dots = document.getElementById(dot);
+            var actionBtn = document.getElementById("actionBox");
+            var actionBtn2 = document.getElementById("actionBox2");
+            var deleteBtn = document.querySelector(".deleteImd");
+            var checkBox = document.getElementById("c1");
+            var image = document.querySelectorAll(".uploadeImageGallery");
+            dots.addEventListener("click", function () {
+              deleteDiv[i].setAttribute("id", deleteId);
+              actionBtn.classList.remove("EventBoxHidden");
+              actionBtn2.classList.remove("EventBoxHidden2");
+              actionBtn.classList.add("boxImg");
+              actionBtn.addEventListener("click", renderActionBtn, false);
+
+              function renderActionBtn() {
+                actionBtn.removeEventListener("click", renderActionBtn, false); // console.log(counter++);
+                // dots.removeEventListener("click",  () =>{
+                //     console.log('Button Clicked');
+                // });
+
+                if (checkBox.checked) {
+                  deleteDiv[i].classList.add("albumImage");
+                  image[i].setAttribute("data", "true");
+                  actionBtn.removeEventListener;
+                } else {
+                  image[i].setAttribute("data", "false");
+                  deleteDiv[i].classList.remove("albumImage");
+                  deleteDiv[i].removeAttribute("id");
+                  actionBtn.removeEventListener;
+                }
+
+                actionBtn.classList.remove("boxImg");
+                actionBtn.classList.add("EventBoxHidden");
+                actionBtn2.classList.add("EventBoxHidden2");
+              }
+            });
+            deleteBtn.addEventListener("click", function () {
+              var deleteImage = document.getElementById(deleteId);
+
+              if (deleteImage) {
+                deleteImage.remove();
+                filesAll.splice(i, 1);
+                incomingArray--;
+                filesInput.value = '';
               }
 
               actionBtn.classList.remove("boxImg");
               actionBtn.classList.add("EventBoxHidden");
-              actionBtn2.classList.add("EventBoxHidden2");
             });
           });
-          deleteBtn.addEventListener("click", function () {
-            var deleteImage = document.getElementById(deleteId);
-
-            if (deleteImage) {
-              deleteImage.remove();
-              filesAll.splice(i, 1);
-              filesInput.value = '';
-            }
-
-            actionBtn.classList.remove("boxImg");
-            actionBtn.classList.add("EventBoxHidden");
-          });
-        });
-        picReader.readAsDataURL(filesAll[i]);
+          picReader.readAsDataURL(filesAll[i]);
+        } else {
+          alert("Tai nera paveikslelio tipo formatas");
+        }
       } else {
-        alert("Tai nera paveikslelio tipo formatas");
+        alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb"); //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+        //   currentDiv.appendChild(newContent);
       }
-    } else {
-      alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb"); //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
-      //   currentDiv.appendChild(newContent);
     }
   };
 
@@ -3207,9 +3220,8 @@ function sendImageData(filesAll) {
   var album = document.getElementById('albumName');
 
   for (var i = 0; i < filesAll.length; i++) {
-    tagInput = document.getElementById(filesAll[i].name);
-    formData.append('files' + i, filesAll[i]);
-    formData.append('tag' + i, tagInput.value + ' ');
+    // tagInput = document.getElementById(filesAll[i].name);
+    formData.append('files' + i, filesAll[i]); // formData.append('tag' + i, tagInput.value + ' ');
   }
 
   formData.append('album', album.value);
