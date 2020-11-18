@@ -2886,6 +2886,7 @@ function renderImages(filesAll, filesInput) {
               actionBtn.classList.remove("boxImg");
               actionBtn.classList.add("EventBoxHidden");
             });
+            arraySend.push(filesAll[i]);
           });
           picReader.readAsDataURL(filesAll[i]);
         } else {
@@ -2902,13 +2903,10 @@ function renderImages(filesAll, filesInput) {
     _loop(i);
   }
 
-  arraySend.push(filesAll);
   var uploadeImg = document.getElementById("submitImg");
 
   if (isListener) {
     uploadeImg.addEventListener("click", function () {
-      arraySend = filter(arraySend); // console.log(arraySend);
-
       sendImageData(arraySend);
     });
     isListener = false;
@@ -2929,7 +2927,7 @@ function sendImageData(filesAll) {
   }
 
   formData.append("album", album.value);
-  axios.post(uri + path + "gallery-store-front", {
+  axios.post(uri + path + "gallery-store-front", formData, {
     headers: {
       "Content-Type": "multipart/form-data"
     }
