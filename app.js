@@ -2886,6 +2886,7 @@ function renderImages(filesAll, filesInput) {
               actionBtn.classList.remove("boxImg");
               actionBtn.classList.add("EventBoxHidden");
             });
+            arraySend.push(filesAll[i]);
           });
           picReader.readAsDataURL(filesAll[i]);
         } else {
@@ -2902,12 +2903,10 @@ function renderImages(filesAll, filesInput) {
     _loop(i);
   }
 
-  arraySend.push(filesAll);
   var uploadeImg = document.getElementById("submitImg");
 
   if (isListener) {
     uploadeImg.addEventListener("click", function () {
-      arraySend = filter(arraySend);
       sendImageData(arraySend);
     });
     isListener = false;
