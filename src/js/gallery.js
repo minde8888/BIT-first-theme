@@ -16,7 +16,7 @@ function renderGallery() {
     //Check File API support
     if (window.File && window.FileList && window.FileReader) {
         let filesInput = document.getElementById("files");
-        filesInput.addEventListener("change", function (event) {
+        filesInput.addEventListener("change", function(event) {
             // let images = [];
             let array = Array.from(event.target.files);
             let indexedArray = [];
@@ -44,7 +44,7 @@ function renderImages(filesAll, filesInput) {
             if (filesAll[i].size < 1048576) {
                 if (filesAll[i].type.match("image")) {
                     const picReader = new FileReader();
-                    picReader.addEventListener("load", function (event) {
+                    picReader.addEventListener("load", function(event) {
 
                         const picFile = event.target;
                         let deleteId = getID();
@@ -75,6 +75,7 @@ function renderImages(filesAll, filesInput) {
                             actionBtn.classList.add("boxImg");
 
                             actionBtn.addEventListener("click", renderActionBtn);
+
                             function renderActionBtn() {
 
                                 actionBtn.removeEventListener("click", renderActionBtn);
@@ -104,11 +105,12 @@ function renderImages(filesAll, filesInput) {
                                 deleteImage.remove();
                                 filesAll.splice(i, 1);
                                 incomingArray--;
-                                filesInput.value = "";                               
+                                filesInput.value = "";
                             }
                             actionBtn.classList.remove("boxImg");
                             actionBtn.classList.add("EventBoxHidden");
                         });
+                        arraySend.push(filesAll[i]);
                     });
                     picReader.readAsDataURL(filesAll[i]);
                 } else {
@@ -122,12 +124,11 @@ function renderImages(filesAll, filesInput) {
         }
     }
 
-    arraySend.push(filesAll);
+
     const uploadeImg = document.getElementById("submitImg");
     if (isListener) {
-        uploadeImg.addEventListener("click", function () {
-            arraySend = filter(arraySend);
-            sendImageData(arraySend);
+        uploadeImg.addEventListener("click", function() {
+                sendImageData(arraySend);
         });
         isListener = false;
     }
@@ -147,12 +148,11 @@ function sendImageData(filesAll) {
         formData.append("album" + i, albumImage)
     }
     formData.append("album", album.value);
-    axios.post(uri + path + "gallery-store-front", {
+    axios.post(uri + path + "gallery-store-front", formData, {
         headers: {
             "Content-Type": "multipart/form-data"
         },
-    }).then(function (response) {
-    }).catch(function (error) {
+    }).then(function(response) {}).catch(function(error) {
         if (error.response) {
             console.log(error.response.data);
             console.log(error.response.status);
