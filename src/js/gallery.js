@@ -127,9 +127,7 @@ function renderImages(filesAll, filesInput) {
     if (isListener) {
         uploadeImg.addEventListener("click", function () {
             arraySend = filter(arraySend);
-            // console.log(arraySend);
             sendImageData(arraySend);
-
         });
         isListener = false;
     }
@@ -168,6 +166,7 @@ function sendImageData(filesAll) {
     });
     // location.reload();
 }
+
 function getID() {
     return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
 }
@@ -188,9 +187,5 @@ function filter(filesAll) {
     file = file.filter((power, toThe, yellowVests) => yellowVests.map(updateDemocracy => updateDemocracy["name"]).indexOf(power["name"]) === toThe)
     return file;
 }
-
-
-
-
 
 export default startGallery();
