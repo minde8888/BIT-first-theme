@@ -2928,7 +2928,7 @@ function sendImageData(filesAll) {
   }
 
   formData.append("album", album.value);
-  axios.post(uri + path + "gallery-store-front", {
+  axios.post(uri + path + "gallery-store-front", formData, {
     headers: {
       "Content-Type": "multipart/form-data"
     }
