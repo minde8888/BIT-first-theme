@@ -2932,8 +2932,7 @@ function sendImageData(filesAll) {
   }
 
   formData.append("album", album.value);
-  axios.post(uri + path + "gallery-store-front", {
-    //formData,
+  axios.post(uri + path + "gallery-store-front", formData, {
     headers: {
       "Content-Type": "multipart/form-data"
     }
@@ -3051,7 +3050,7 @@ function renderTreeColons() {
   axios.get(uri + path + 'idea-render-front', {}).then(function (response) {
     if (response.status == 200 && response.statusText == 'OK') {
       (function () {
-        var data = response.data.allData;
+        var data = response.data.html;
         var keys = [];
 
         for (var key in data) {
