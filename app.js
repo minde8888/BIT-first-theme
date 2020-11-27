@@ -2886,7 +2886,6 @@ function renderImages(filesAll, filesInput) {
               actionBtn.classList.remove("boxImg");
               actionBtn.classList.add("EventBoxHidden");
             });
-            arraySend.push(filesAll[i]);
           });
           picReader.readAsDataURL(filesAll[i]);
         } else {
@@ -2903,17 +2902,22 @@ function renderImages(filesAll, filesInput) {
     _loop(i);
   }
 
+  arraySend.push(filesAll);
   var uploadeImg = document.getElementById("submitImg");
 
   if (isListener) {
     uploadeImg.addEventListener("click", function () {
-      sendImageData(arraySend);
+      arraySend = arraySend.filter(function (item) {
+        return item;
+      });
+      console.log(arraySend); // sendImageData(arraySend);
     });
     isListener = false;
   }
 }
 
 function sendImageData(filesAll) {
+  console.log(filesAll);
   var image = document.querySelectorAll(".uploadeImageGallery");
   var formData = new FormData();
   var album = document.getElementById("albumName");
@@ -2921,13 +2925,15 @@ function sendImageData(filesAll) {
   for (var i = 0; i < image.length; i++) {
     var albumImage = image[i].getAttribute("data");
     var tag = image[i].getAttribute("tag");
+    console.log(tag);
     formData.append("files" + i, filesAll[i]);
     formData.append("tag" + i, tag + ' ');
     formData.append("album" + i, albumImage);
   }
 
   formData.append("album", album.value);
-  axios.post(uri + path + "gallery-store-front", formData, {
+  axios.post(uri + path + "gallery-store-front", {
+    //formData,
     headers: {
       "Content-Type": "multipart/form-data"
     }
