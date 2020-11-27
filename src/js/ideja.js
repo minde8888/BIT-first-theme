@@ -63,7 +63,7 @@ function renderTreeColons() {
   axios.get(uri + path + 'idea-render-front', {})
     .then(function(response) {
       if (response.status == 200 && response.statusText == 'OK') {
-        const data = response.data.allData;
+        const data = response.data.html;
 
         let keys = [];
 

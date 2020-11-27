@@ -17,7 +17,7 @@ function renderGallery() {
     if (window.File && window.FileList && window.FileReader) {
         let filesInput = document.getElementById("files");
         filesInput.addEventListener("change", function(event) {
-            // let images = [];
+                // let images = [];
             let array = Array.from(event.target.files);
             let indexedArray = [];
             let index = 0;
@@ -110,7 +110,7 @@ function renderImages(filesAll, filesInput) {
                             actionBtn.classList.remove("boxImg");
                             actionBtn.classList.add("EventBoxHidden");
                         });
-                        arraySend.push(filesAll[i]);
+
                     });
                     picReader.readAsDataURL(filesAll[i]);
                 } else {
@@ -124,25 +124,31 @@ function renderImages(filesAll, filesInput) {
         }
     }
 
-
+    arraySend.push(filesAll);
     const uploadeImg = document.getElementById("submitImg");
     if (isListener) {
         uploadeImg.addEventListener("click", function() {
-                sendImageData(arraySend);
+            arraySend = arraySend.filter(item => item);
+            console.log(arraySend);
+            // sendImageData(arraySend);
         });
         isListener = false;
     }
 }
 
 function sendImageData(filesAll) {
+    console.log(filesAll);
     const image = document.querySelectorAll(".uploadeImageGallery");
 
     let formData = new FormData();
     const album = document.getElementById("albumName");
 
     for (let i = 0; i < image.length; i++) {
+
         let albumImage = image[i].getAttribute("data");
+
         let tag = image[i].getAttribute("tag");
+        console.log(tag);
         formData.append("files" + i, filesAll[i]);
         formData.append("tag" + i, tag + ' ');
         formData.append("album" + i, albumImage)
