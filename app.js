@@ -2786,6 +2786,7 @@ var gallery = document.getElementById("loadeGallery");
 var arraySend = [];
 var isListener = true;
 var incomingArray = 0;
+var index;
 
 function startGallery() {
   if (gallery) {
@@ -2830,11 +2831,15 @@ function renderImages(filesAll, filesInput) {
             var deleteId = getID();
             var dot = getID();
             var imageId = getID();
+            var imadeDivId = getID();
             var output = document.getElementById("result");
             var div = document.createElement("div");
             div.className = "galleryDiv";
-            div.innerHTML = "<img class=\"uploadeImageGallery\" data=\"false\" tag=\"\" id=\"".concat(imageId, "\" src=\"").concat(picFile.result, " \"\n                          alt=\" \"/>\n                          <div class=\"dots\" id=\"").concat(dot, "\"><div/>");
+            div.setAttribute("id", imadeDivId);
+            div.setAttribute("draggable", true);
+            div.innerHTML = "<img class=\"uploadeImageGallery galleryCell\" data=\"false\" tag=\"\" id=\"".concat(imageId, "\" src=\"").concat(picFile.result, " \"\n                          alt=\" \"/>\n                          <div class=\"dots\" id=\"").concat(dot, "\"><div/>");
             output.insertBefore(div, currentDiv);
+            move(imageId, imadeDivId);
             var deleteDiv = document.querySelectorAll(".galleryDiv");
             var dots = document.getElementById(dot);
             var actionBtn = document.getElementById("actionBox");
@@ -2879,6 +2884,7 @@ function renderImages(filesAll, filesInput) {
               if (deleteImage) {
                 deleteImage.remove();
                 filesAll.splice(i, 1);
+                index = i;
                 incomingArray--;
                 filesInput.value = "";
               }
@@ -2903,14 +2909,17 @@ function renderImages(filesAll, filesInput) {
   }
 
   arraySend.push(filesAll);
+
+  if (index) {
+    arraySend.splice(index, 1);
+  }
+
   var uploadeImg = document.getElementById("submitImg");
 
   if (isListener) {
     uploadeImg.addEventListener("click", function () {
-      arraySend = arraySend.filter(function (item) {
-        return item;
-      });
-      console.log(arraySend); // sendImageData(arraySend);
+      arraySend = filter(arraySend);
+      sendImageData(arraySend);
     });
     isListener = false;
   }
@@ -2974,6 +2983,62 @@ function filter(filesAll) {
   return file;
 }
 
+function move(imageId, imadeDivId) {
+  var card = document.getElementById(imadeDivId);
+  var cell = document.getElementById(imageId);
+
+  var dragStart = function dragStart() {
+    var _this = this;
+
+    setTimeout(function () {
+      console.log('start');
+
+      _this.classList.add('EventBoxHidden');
+    }, 0);
+  };
+
+  var dragEnd = function dragEnd() {
+    console.log('end');
+    this.classList.remove('EventBoxHidden');
+  };
+
+  var dragOver = function dragOver(evt) {
+    console.log('over');
+    evt.preventDefault();
+  };
+
+  var dragEnter = function dragEnter(evt) {
+    evt.preventDefault(); // console.log(this);
+    // this.insertAdjacentHTML('beforebegin', '<div class="galleryDiv" draggable="true"></div>');
+
+    this.classList.add('hovered');
+  };
+
+  var dragLeave = function dragLeave() {
+    console.log(this);
+    this.remove;
+    this.classList.remove('hovered');
+  };
+
+  var dragDrop = function dragDrop() {
+    console.log('drop');
+    this.append(card);
+    this.classList.remove('hovered');
+  }; // const dragDrop = function () {
+  //     console.log(card[i]);
+  //     this.append(card);
+  //     this.classList.remove('hovered');
+  // };
+
+
+  cell.addEventListener('dragover', dragOver);
+  cell.addEventListener('drop', dragDrop);
+  card.addEventListener('dragleave', dragLeave);
+  card.addEventListener('dragenter', dragEnter);
+  card.addEventListener('dragstart', dragStart);
+  card.addEventListener('dragend', dragEnd);
+}
+
 /* harmony default export */ __webpack_exports__["default"] = (startGallery());
 
 /***/ }),
@@ -3008,7 +3073,7 @@ function getText() {
 }
 
 ;
-/*-----------------------like button and cookie------------------------------------------*/
+/*-----------------------like button ------------------------------------------*/
 
 function likeAdd(like) {
   if (like != undefined && like != null && like.length >= -1 && like != "" && like != NaN) {

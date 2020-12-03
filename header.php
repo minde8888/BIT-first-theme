@@ -29,7 +29,7 @@
 		        <div class="logo">
 		            <a href="http://localhost/wordpress/ideja"><img src="http://localhost/wordpress/wp-content/uploads/2020/11/logo.jpg" alt="log"></a>
 		        </div>
-		        <div>
+		        <div class="navMenu">
 		            <a href="#">KONTAKTAI</a>
 		            <a href="#">FILOSOFIJA</a>
 		            <a href="#">TAISYKLĖS</a>

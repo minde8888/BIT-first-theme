@@ -1,0 +1,28 @@
+.news{
+	font-weight: bolder;
+	margin: 0 0 50px 0;
+}
+.postConteiner{
+	display: inline-block;
+	width: 100%;
+	height: 330px;
+	.postTitle{
+		width: 70%;
+		float: right;
+		a{
+		text-decoration: none;
+		color: black;
+		float: left;
+		}
+	}
+	.postImage{
+		img{
+			height: 270px;
+			width: 270px;
+		}
+	}
+	.postContent{
+		width: 70%;
+		float: right;
+	}
+}

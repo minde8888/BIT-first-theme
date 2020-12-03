@@ -1,10 +1,13 @@
 "use strict";
+
 const path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
 const uri = document.location.origin;
 const gallery = document.getElementById("loadeGallery");
+
 let arraySend = [];
 let isListener = true;
 let incomingArray = 0;
+let index;
 
 function startGallery() {
     if (gallery) {
@@ -16,8 +19,8 @@ function renderGallery() {
     //Check File API support
     if (window.File && window.FileList && window.FileReader) {
         let filesInput = document.getElementById("files");
-        filesInput.addEventListener("change", function(event) {
-                // let images = [];
+        filesInput.addEventListener("change", function (event) {
+            // let images = [];
             let array = Array.from(event.target.files);
             let indexedArray = [];
             let index = 0;
@@ -44,19 +47,24 @@ function renderImages(filesAll, filesInput) {
             if (filesAll[i].size < 1048576) {
                 if (filesAll[i].type.match("image")) {
                     const picReader = new FileReader();
-                    picReader.addEventListener("load", function(event) {
+                    picReader.addEventListener("load", function (event) {
 
                         const picFile = event.target;
                         let deleteId = getID();
                         let dot = getID();
                         let imageId = getID();
+                        let imadeDivId = getID();
                         const output = document.getElementById("result");
                         const div = document.createElement("div");
                         div.className = "galleryDiv";
-                        div.innerHTML = `<img class="uploadeImageGallery" data="false" tag="" id="${imageId}" src="${picFile.result} "
+                        div.setAttribute("id", imadeDivId);
+                        div.setAttribute("draggable", true);
+                        div.innerHTML = `<img class="uploadeImageGallery galleryCell" data="false" tag="" id="${imageId}" src="${picFile.result} "
                           alt=" "/>
                           <div class="dots" id="${dot}"><div/>`;
                         output.insertBefore(div, currentDiv);
+
+                        move(imageId, imadeDivId);
 
                         let deleteDiv = document.querySelectorAll(".galleryDiv");
                         let dots = document.getElementById(dot);
@@ -104,8 +112,10 @@ function renderImages(filesAll, filesInput) {
                             if (deleteImage) {
                                 deleteImage.remove();
                                 filesAll.splice(i, 1);
+                                index = i;
                                 incomingArray--;
                                 filesInput.value = "";
+                             
                             }
                             actionBtn.classList.remove("boxImg");
                             actionBtn.classList.add("EventBoxHidden");
@@ -113,6 +123,7 @@ function renderImages(filesAll, filesInput) {
 
                     });
                     picReader.readAsDataURL(filesAll[i]);
+
                 } else {
                     alert("Tai nera paveikslelio tipo formatas");
                 }
@@ -125,12 +136,16 @@ function renderImages(filesAll, filesInput) {
     }
 
     arraySend.push(filesAll);
+    if (index) {
+        arraySend.splice(index,1)
+    }
+
     const uploadeImg = document.getElementById("submitImg");
     if (isListener) {
-        uploadeImg.addEventListener("click", function() {
-            arraySend = arraySend.filter(item => item);
-            console.log(arraySend);
-            // sendImageData(arraySend);
+        uploadeImg.addEventListener("click", () => {
+    
+            arraySend = filter(arraySend);
+            sendImageData(arraySend);
         });
         isListener = false;
     }
@@ -158,7 +173,7 @@ function sendImageData(filesAll) {
         headers: {
             "Content-Type": "multipart/form-data"
         },
-    }).then(function(response) {}).catch(function(error) {
+    }).then(function (response) { }).catch(function (error) {
         if (error.response) {
             console.log(error.response.data);
             console.log(error.response.status);
@@ -170,7 +185,7 @@ function sendImageData(filesAll) {
         }
         console.log(error);
     });
-    // location.reload();
+    location.reload();
 }
 
 function getID() {
@@ -192,6 +207,65 @@ function filter(filesAll) {
     }
     file = file.filter((power, toThe, yellowVests) => yellowVests.map(updateDemocracy => updateDemocracy["name"]).indexOf(power["name"]) === toThe)
     return file;
+}
+
+function move(imageId, imadeDivId) {
+
+
+    const card = document.getElementById(imadeDivId);
+    const cell = document.getElementById(imageId);
+
+    const dragStart = function () {
+        setTimeout(() => {
+            console.log('start');
+            this.classList.add('EventBoxHidden');
+        }, 0);
+    };
+
+    const dragEnd = function () {
+        console.log('end');
+        this.classList.remove('EventBoxHidden');
+    };
+
+    const dragOver = function (evt) {
+        console.log('over');
+        evt.preventDefault();
+    };
+
+    const dragEnter = function (evt) {
+        evt.preventDefault();
+        // console.log(this);
+        // this.insertAdjacentHTML('beforebegin', '<div class="galleryDiv" draggable="true"></div>');
+        this.classList.add('hovered');
+    };
+
+    const dragLeave = function () {
+        console.log(this);
+        this.remove;
+        this.classList.remove('hovered');
+    };
+
+    const dragDrop = function () {
+        console.log('drop');
+        this.append(card);
+        this.classList.remove('hovered');
+    };
+
+    // const dragDrop = function () {
+    //     console.log(card[i]);
+    //     this.append(card);
+    //     this.classList.remove('hovered');
+    // };
+
+
+    cell.addEventListener('dragover', dragOver);
+    cell.addEventListener('drop', dragDrop);
+
+    card.addEventListener('dragleave', dragLeave);
+    card.addEventListener('dragenter', dragEnter);
+    card.addEventListener('dragstart', dragStart);
+    card.addEventListener('dragend', dragEnd);
+
 }
 
 export default startGallery();

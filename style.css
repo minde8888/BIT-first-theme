@@ -812,7 +812,6 @@ body * {
 }
 
 .al .dl {
-  background-color: #DC3232;
   height: 300px;
   width: 100%;
 }
@@ -1973,6 +1972,11 @@ nav {
 nav .logo {
   cursor: pointer;
   float: left;
+  margin: 0 0 0 50px;
+}
+
+nav .navMenu {
+  margin: 20px 0 0 0;
 }
 
 nav div {
@@ -2102,5 +2106,122 @@ nav div a {
 
 #lightbox.open {
   display: block;
+}
+
+.homeNewsContainer {
+  display: inline-block;
+  width: 100%;
+  height: 60%;
+}
+
+.homeNewsContainer .newsInternalContainer {
+  display: inline-block;
+  width: 280px;
+  height: 100%;
+}
+
+.homeNewsContainer .newsInternalContainer .homeNewsDate {
+  margin: 18px 0 5px 0;
+  white-space: nowrap;
+  overflow: hidden;
+  width: 75px;
+}
+
+.homeNewsContainer .newsInternalContainer a {
+  text-decoration: none;
+  color: black;
+  font-weight: 600;
+}
+
+.homeNewsContainer .newsInternalContainer img {
+  height: 200px;
+  width: 100%;
+}
+
+.homeNewsContainer .newsInternalContainer:nth-child(2) {
+  margin: 0 0 0 18px;
+}
+
+.homeNewsContainer .newsInternalContainer:nth-child(3) {
+  margin: 0 18px 0 18px;
+}
+
+.imgBlock {
+  position: relative;
+}
+
+.imgBlock .homeImgContainer {
+  position: absolute;
+  top: 30%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  width: 100%;
+  text-align: center;
+}
+
+.imgBlock .homeImgContainer .welcome {
+  color: #FFFFFF;
+  font: italic 1.4em "Fira Sans", serif;
+  margin: 0 0 20px 0;
+}
+
+.imgBlock .homeImgContainer .title {
+  font-family: Helvetica, sans-serif;
+  text-transform: uppercase;
+  color: #FFFFFF;
+  line-height: 40px;
+  font-size: 35px;
+  margin: 10px 0 0 0;
+  letter-spacing: 2px;
+  font-weight: bolder;
+}
+
+.imgBlock .homeImgContainer .filosofyBtn {
+  font-weight: bolder;
+  text-transform: uppercase;
+  margin: 40px 0 0 0;
+  border: 2px solid #FFFFFF;
+  padding: 28px;
+  font-size: 14px;
+  color: #FFFFFF;
+  letter-spacing: 1px;
+  width: 210px;
+  position: absolute;
+  top: 130%;
+  left: 50%;
+  transform: translate(-50%, -50%);
+  cursor: pointer;
+}
+
+.news {
+  font-weight: bolder;
+  margin: 0 0 50px 0;
+}
+
+.postConteiner {
+  display: inline-block;
+  width: 100%;
+  height: 330px;
+}
+
+.postConteiner .postTitle {
+  width: 70%;
+  float: right;
+}
+
+.postConteiner .postTitle a {
+  text-decoration: none;
+  color: black;
+  float: left;
+}
+
+.postConteiner .postImage img {
+  height: 270px;
+  width: 270px;
+}
+
+.postConteiner .postContent {
+  width: 70%;
+  float: right;
 }
 

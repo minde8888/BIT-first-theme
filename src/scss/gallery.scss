@@ -304,7 +304,6 @@ h1 {
         padding            : 0.5rem 2rem;
         border-radius      : 0.2rem;
         background-color   : rgb(255, 255, 255);
-        // border          : none;
         width              : 90%;
         border-top         : 0.3rem solid transparent;
         border-left        : 0.3rem solid transparent;
@@ -336,11 +335,6 @@ h1 {
         background-repeat  : no-repeat, repeat;
         background-position: right .7em top 50%, 0 0;
         background-size    : .65em auto, 100%;
-
-        // width: calc(100% - 1400px);
-        // margin-left: auto;
-        // margin-right: auto;
-
     }
 
     .select-css::-ms-expand {
@@ -400,32 +394,6 @@ h1 {
         background      : linear-gradient(to bottom, #d1352a 5%, #d1352a 100%);
         background-color: #d1352a;
     }
-
-    // .btn-green {
-    //     position        : absolute;
-    //     top             : 70%;
-    //     left            : 35%;
-    //     transform       : translate(-50%, -50%);
-    //     box-shadow      : 1px 27px 20px -3px #3e7327;
-    //     background      : linear-gradient(to bottom, #77b55a 5%, #72b352 100%);
-    //     background-color: #77b55a;
-    //     border-radius   : 7px;
-    //     border          : 1px solid #4b8f29;
-    //     display         : inline-block;
-    //     cursor          : pointer;
-    //     color           : #ffffff;
-    //     font-family     : Arial;
-    //     font-size       : 13px;
-    //     font-weight     : bold;
-    //     padding         : 10px 28px;
-    //     text-decoration : none;
-    //     text-shadow     : 0px 0px 0px #5b8a3c;
-    // }
-
-    // .btn-green:hover {
-    //     background      : linear-gradient(to bottom, #72b352 5%, #77b55a 100%);
-    //     background-color: #72b352;
-    // }
 }
 
 
@@ -436,21 +404,6 @@ h1 {
 .EventBoxHidden2 {
     visibility: hidden;
 }
-
-
-
-
-
-
-// .deleteImd:active {
-//     position: relative;
-//     top     : 1px;
-// }
-
-// .deleteImd {
-//     margin    : 10px 0 0 0;
-//     text-align: center;
-// }
 
 .tagImg {
 
