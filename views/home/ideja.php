@@ -1,7 +1,6 @@
 
-<div class="xl-3-5  al wd">
-
-    <div class="xl-3-5 cl">
+<div class="sm-5-8  al wd">
+    <div class="sm-5-8 cl">
         <div class="eventsHome">
             <div class="boxEvent-1">
                 <div class="todayEvent">
@@ -19,31 +18,33 @@
             </div>
         </div>
     </div>
-    <div class="xl-3-5 dl">
-        ----------PAULIAUS NAUJIENOS---------------
+    <div class="sm-5-8 dl">
+        <?php echo $html; ?>
     </div>
 </div>
 
 <div class="xl-4-5 wdl imgBlock">
     <img class="imgHome" src="http://localhost/wordpress/wp-content/uploads/2020/11/kava.jpg" alt="kava">
-        <div>
-            Welcome to the Rally Template
-        </div>
-        <div>
-            to get started, watch these short videos
-        </div>
-        <div>
-            on squarespace basics and read the
-        </div>
-        <div>
-            template guide.
-        </div>
-        <div>
-            reade more
+        <div class="homeImgContainer">
+            <div class="welcome">
+                Welcome to the Rally Template
+            </div>
+            <div class="title">
+                to get started, watch these short videos
+            </div>
+            <div class="title">
+                on squarespace basics and read the
+            </div>
+            <div class="title">
+                template guide.
+            </div>
+            <div class="filosofyBtn">
+                reade more
+            </div>
         </div>
     </img>
 </div>
-<div class="xl-3-5 wd">
+<div class="sm-5-8 wd">
     <div class="idea-container" id="startIdeaFront">
         <div class="idea">
             <label>
@@ -66,7 +67,7 @@
         </div>
     </div>
 </div>
-<div class="xl-3-5 wd">
+<div class="sm-5-8 wd">
     <div class="gallery-container" id="startIdeaFront">
         <div class="idea">
             <label>

@@ -1,10 +1,13 @@
 nav {
     width  : 100%;
     display: inline-block;
-
     .logo {
         cursor: pointer;
         float : left;
+        margin: 0 0 0 50px;
+    }
+    .navMenu{
+        margin: 20px 0 0 0;
     }
 
     div {
