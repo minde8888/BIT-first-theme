@@ -1,3 +1,1 @@
-<div>
-	<?php echo $html; ?>
-</div>
+<?php echo $html; ?>

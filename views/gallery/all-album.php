@@ -1,5 +1,5 @@
 <div class="album">
-	<div class="test">
+	<div class="wrapper" id="galleryContainer">
 
 	</div>
 </div>

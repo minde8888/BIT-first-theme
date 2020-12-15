@@ -1,20 +1,11 @@
-$xl: 1440px;
-$lg: 1100px;
+$xl: 1950px;
+$lg: 1200px;
 $md: 768px;
 $sm: 270px;
 
-.wd {
-    margin: 0 calc(50% - 550px);
-}
-.wdm{
-    margin: 0 calc(50% - 650px);
-}
-.wdl {
-    margin: 0 calc(50% - 750px);
-}
 
 .grid-container {
-    letter-spacing: -.31em;
+    // letter-spacing: -.31em;
     text-rendering: optimizespeed;
     display       : flex;
     flex-flow     : row wrap;

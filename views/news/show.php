@@ -1,7 +1,4 @@
 <div>
-	NAUJIENOS
-</div>
-<div>
 	<?php echo $title; ?>
 </div>
 <div class="postDate">
