@@ -19,7 +19,7 @@ function renderGallery() {
     //Check File API support
     if (window.File && window.FileList && window.FileReader) {
         let filesInput = document.getElementById("files");
-        filesInput.addEventListener("change", function (event) {
+        filesInput.addEventListener("change", function(event) {
             // let images = [];
             let array = Array.from(event.target.files);
             let indexedArray = [];
@@ -47,7 +47,7 @@ function renderImages(filesAll, filesInput) {
             if (filesAll[i].size < 1048576) {
                 if (filesAll[i].type.match("image")) {
                     const picReader = new FileReader();
-                    picReader.addEventListener("load", function (event) {
+                    picReader.addEventListener("load", function(event) {
 
                         const picFile = event.target;
                         let deleteId = getID();
@@ -58,18 +58,14 @@ function renderImages(filesAll, filesInput) {
                         const div = document.createElement("div");
                         div.className = "galleryDiv";
                         div.setAttribute("id", imadeDivId);
-                        div.setAttribute("draggable", true);
                         div.innerHTML = `<img class="uploadeImageGallery galleryCell" data="false" tag="" id="${imageId}" src="${picFile.result} "
                           alt=" "/>
                           <div class="dots" id="${dot}"><div/>`;
                         output.insertBefore(div, currentDiv);
 
-                        move(imageId, imadeDivId);
-
                         let deleteDiv = document.querySelectorAll(".galleryDiv");
                         let dots = document.getElementById(dot);
                         const actionBtn = document.getElementById("actionBox");
-                        const actionBtn2 = document.getElementById("actionBox2");
                         const deleteBtn = document.querySelector(".deleteImd");
                         const checkBox = document.getElementById("c1");
                         const image = document.querySelectorAll(".uploadeImageGallery");
@@ -79,7 +75,6 @@ function renderImages(filesAll, filesInput) {
                             tagInput.value = "";
                             deleteDiv[i].setAttribute("id", deleteId);
                             actionBtn.classList.remove("EventBoxHidden");
-                            actionBtn2.classList.remove("EventBoxHidden2");
                             actionBtn.classList.add("boxImg");
 
                             actionBtn.addEventListener("click", renderActionBtn);
@@ -88,6 +83,7 @@ function renderImages(filesAll, filesInput) {
 
                                 actionBtn.removeEventListener("click", renderActionBtn);
                                 const checked = document.querySelector(".albumImage");
+
                                 if (checkBox.checked && !checked) {
                                     deleteDiv[i].classList.add("albumImage");
                                     image[i].setAttribute("data", "true");
@@ -101,7 +97,6 @@ function renderImages(filesAll, filesInput) {
                                 }
                                 actionBtn.classList.remove("boxImg");
                                 actionBtn.classList.add("EventBoxHidden");
-                                actionBtn2.classList.add("EventBoxHidden2");
                                 checkBox.checked = false;
                                 image[i].setAttribute("tag", tagInput.value);
                             }
@@ -115,7 +110,7 @@ function renderImages(filesAll, filesInput) {
                                 index = i;
                                 incomingArray--;
                                 filesInput.value = "";
-                             
+
                             }
                             actionBtn.classList.remove("boxImg");
                             actionBtn.classList.add("EventBoxHidden");
@@ -137,13 +132,13 @@ function renderImages(filesAll, filesInput) {
 
     arraySend.push(filesAll);
     if (index) {
-        arraySend.splice(index,1)
+        arraySend.splice(index, 1)
     }
 
     const uploadeImg = document.getElementById("submitImg");
     if (isListener) {
         uploadeImg.addEventListener("click", () => {
-    
+
             arraySend = filter(arraySend);
             sendImageData(arraySend);
         });
@@ -173,7 +168,7 @@ function sendImageData(filesAll) {
         headers: {
             "Content-Type": "multipart/form-data"
         },
-    }).then(function (response) { }).catch(function (error) {
+    }).then(function(response) {}).catch(function(error) {
         if (error.response) {
             console.log(error.response.data);
             console.log(error.response.status);
@@ -209,63 +204,63 @@ function filter(filesAll) {
     return file;
 }
 
-function move(imageId, imadeDivId) {
+// function move(imageId, imadeDivId) {
 
 
-    const card = document.getElementById(imadeDivId);
-    const cell = document.getElementById(imageId);
+//     const card = document.getElementById(imadeDivId);
+//     const cell = document.getElementById(imageId);
 
-    const dragStart = function () {
-        setTimeout(() => {
-            console.log('start');
-            this.classList.add('EventBoxHidden');
-        }, 0);
-    };
+//     const dragStart = function() {
+//         setTimeout(() => {
+//             console.log('start');
+//             this.classList.add('EventBoxHidden');
+//         }, 0);
+//     };
 
-    const dragEnd = function () {
-        console.log('end');
-        this.classList.remove('EventBoxHidden');
-    };
+//     const dragEnd = function() {
+//         console.log('end');
+//         this.classList.remove('EventBoxHidden');
+//     };
 
-    const dragOver = function (evt) {
-        console.log('over');
-        evt.preventDefault();
-    };
+//     const dragOver = function(evt) {
+//         console.log('over');
+//         evt.preventDefault();
+//     };
 
-    const dragEnter = function (evt) {
-        evt.preventDefault();
-        // console.log(this);
-        // this.insertAdjacentHTML('beforebegin', '<div class="galleryDiv" draggable="true"></div>');
-        this.classList.add('hovered');
-    };
+//     const dragEnter = function(evt) {
+//         evt.preventDefault();
+//         // console.log(this);
+//         // this.insertAdjacentHTML('beforebegin', '<div class="galleryDiv" draggable="true"></div>');
+//         this.classList.add('hovered');
+//     };
 
-    const dragLeave = function () {
-        console.log(this);
-        this.remove;
-        this.classList.remove('hovered');
-    };
+//     const dragLeave = function() {
+//         console.log(this);
+//         this.remove;
+//         this.classList.remove('hovered');
+//     };
 
-    const dragDrop = function () {
-        console.log('drop');
-        this.append(card);
-        this.classList.remove('hovered');
-    };
+//     const dragDrop = function() {
+//         console.log('drop');
+//         this.append(card);
+//         this.classList.remove('hovered');
+//     };
 
-    // const dragDrop = function () {
-    //     console.log(card[i]);
-    //     this.append(card);
-    //     this.classList.remove('hovered');
-    // };
+//     // const dragDrop = function () {
+//     //     console.log(card[i]);
+//     //     this.append(card);
+//     //     this.classList.remove('hovered');
+//     // };
 
 
-    cell.addEventListener('dragover', dragOver);
-    cell.addEventListener('drop', dragDrop);
+//     cell.addEventListener('dragover', dragOver);
+//     cell.addEventListener('drop', dragDrop);
 
-    card.addEventListener('dragleave', dragLeave);
-    card.addEventListener('dragenter', dragEnter);
-    card.addEventListener('dragstart', dragStart);
-    card.addEventListener('dragend', dragEnd);
+//     card.addEventListener('dragleave', dragLeave);
+//     card.addEventListener('dragenter', dragEnter);
+//     card.addEventListener('dragstart', dragStart);
+//     card.addEventListener('dragend', dragEnd);
 
-}
+// }
 
 export default startGallery();

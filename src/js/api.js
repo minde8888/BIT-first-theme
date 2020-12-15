@@ -1,9 +1,24 @@
 "use strict";
 
+import axios from 'axios';
+
 class Api {
     constructor() {
         this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
         this.uri = document.location.origin;
+    }
+
+    async getDAta(api) {
+
+        try {
+            let response = await axios.post(this.uri + this.path + api,)
+            if (response.status == 200 && response.statusText == "OK") {
+                return response.data.html;
+            }
+        } catch (e) {
+            console.error(e);
+            console.log("Data from the server is not available !!!");
+        }
     }
 
     delete(id, api) {

@@ -1,6 +1,6 @@
 
-<div class="sm-5-8  al wd">
-    <div class="sm-5-8 cl">
+<div class="sm-3-4  al">
+    <div class="sm-3-4 cl">
         <div class="eventsHome">
             <div class="boxEvent-1">
                 <div class="todayEvent">
@@ -18,12 +18,12 @@
             </div>
         </div>
     </div>
-    <div class="sm-5-8 dl">
+    <div class="sm-3-4 dl">
         <?php echo $html; ?>
     </div>
 </div>
 
-<div class="xl-4-5 wdl imgBlock">
+<div class="sm-1 imgBlock">
     <img class="imgHome" src="http://localhost/wordpress/wp-content/uploads/2020/11/kava.jpg" alt="kava">
         <div class="homeImgContainer">
             <div class="welcome">
@@ -44,7 +44,7 @@
         </div>
     </img>
 </div>
-<div class="sm-5-8 wd">
+<div class="sm-3-4 wd">
     <div class="idea-container" id="startIdeaFront">
         <div class="idea">
             <label>
@@ -67,7 +67,7 @@
         </div>
     </div>
 </div>
-<div class="sm-5-8 wd">
+<div class="sm-3-4 wd">
     <div class="gallery-container" id="startIdeaFront">
         <div class="idea">
             <label>

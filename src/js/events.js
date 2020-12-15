@@ -20,7 +20,7 @@ class Events {
         const DOM = document.querySelector(this.target);
         if (DOM) {
             axios.post(this.uri + this.path + 'event-create-front', {})
-                .then(function(response) {
+                .then(function (response) {
 
                     let call = new Events;
 
@@ -53,13 +53,12 @@ class Events {
                             keys1.push(key1);
                         }
                         for (let i = 0; i < keys1.length; i++) {
-                        	let y = sorteToday[keys1[i]].event_date.toString().slice(11, -47);
-                        	let m = sorteToday[keys1[i]].event_date.toString().slice(4, -55);
-                        	m = call.calendar.translate(m);
-                        	let d = sorteToday[keys1[i]].event_date.toString().slice(8, -52);
-                 
+                            let y = sorteToday[keys1[i]].event_date.toString().slice(11, -47);
+                            let m = sorteToday[keys1[i]].event_date.toString().slice(4, -55);
+                            m = call.calendar.translate(m);
+                            let d = sorteToday[keys1[i]].event_date.toString().slice(8, -52);
                             HTML += `<div> ${y} ${m} ${d}</div>
-                            <div> ${sorteToday[keys1[i]].event_description} </div>`;
+                            <div> ${sorteToday[keys1[i]].event_description}  ${sorteToday[keys1[i]].event_time} </div>`;
                         }
                         todaysEvents.innerHTML = HTML;
 
@@ -69,10 +68,10 @@ class Events {
 
                         for (let i = 0; i < newData.length; i++) {
                             let value = newData[i];
-                        	let y = value.event_date.toString().slice(11, -47);
-                        	let m = value.event_date.toString().slice(4, -55);
-                        	m = call.calendar.translate(m);
-                        	let d = value.event_date.toString().slice(8, -52);
+                            let y = value.event_date.toString().slice(11, -47);
+                            let m = value.event_date.toString().slice(4, -55);
+                            m = call.calendar.translate(m);
+                            let d = value.event_date.toString().slice(8, -52);
 
                             HTML += `<div> ${y} ${m} ${d} </div>
                             <div> ${value.event_description} </div>`;
@@ -82,7 +81,7 @@ class Events {
 
 
 
-                }).catch(function(error) {
+                }).catch(function (error) {
                     if (error.response) {
                         console.log(error.response.data);
                         console.log(error.response.status);
