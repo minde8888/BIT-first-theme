@@ -2042,7 +2042,7 @@ ul {
   width: 360px;
   background-color: #e2e2e2;
   margin: auto;
-  position: absolute;
+  position: fixed;
   top: 0;
   left: 0;
   bottom: 0;
