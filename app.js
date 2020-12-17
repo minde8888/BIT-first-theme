@@ -2914,9 +2914,7 @@ try {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
-/* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
 
 
 
@@ -2930,7 +2928,6 @@ function _classCallCheck(instance, Constructor) { if (!(instance instanceof Cons
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
 
 
 
@@ -2949,8 +2946,7 @@ var Album = /*#__PURE__*/function () {
     key: "init",
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var DOM, container, api, _axios, HTML;
-
+        var DOM, container, api, axios, HTML;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2958,21 +2954,22 @@ var Album = /*#__PURE__*/function () {
                 DOM = document.querySelector(this.target);
 
                 if (!DOM) {
-                  _context.next = 9;
+                  _context.next = 10;
                   break;
                 }
 
                 container = document.getElementById("galleryContainer");
+                console.log(container);
                 api = 'album-create-admin';
-                _axios = new _api__WEBPACK_IMPORTED_MODULE_2__["default"]();
-                _context.next = 7;
-                return _axios.getDAta(api);
+                axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
+                _context.next = 8;
+                return axios.getDAta(api);
 
-              case 7:
+              case 8:
                 HTML = _context.sent;
                 container.innerHTML = HTML;
 
-              case 9:
+              case 10:
               case "end":
                 return _context.stop();
             }
@@ -3030,9 +3027,29 @@ var Api = /*#__PURE__*/function () {
 
     this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
     this.uri = document.location.origin;
+    this.html = null;
   }
 
   _createClass(Api, [{
+    key: "delete",
+    value: function _delete(api, id) {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + api + id, {
+        deleteId: id
+      })["catch"](function (error) {
+        if (error.response) {
+          console.log(error.response.data);
+          console.log(error.response.status);
+          console.log(error.response.headers);
+        } else if (error.request) {
+          console.log(error.request);
+        } else {
+          console.log('Error', error.message);
+        }
+
+        console.log(error);
+      });
+    }
+  }, {
     key: "getDAta",
     value: function () {
       var _getDAta = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee(api) {
@@ -3063,7 +3080,7 @@ var Api = /*#__PURE__*/function () {
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
                 console.error(_context.t0);
-                console.log("Data from the server is not available !!!");
+                console.log("Duomenys is serveverio nepasiekiami !!!");
 
               case 12:
               case "end":
@@ -3079,44 +3096,6 @@ var Api = /*#__PURE__*/function () {
 
       return getDAta;
     }()
-  }, {
-    key: "delete",
-    value: function _delete(id, api) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + api + id, {
-        deleteId: id
-      })["catch"](function (error) {
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log('Error', error.message);
-        }
-
-        console.log(error);
-      });
-    }
-  }, {
-    key: "save",
-    value: function save(id, api) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + api, {
-        id: id
-      })["catch"](function (error) {
-        if (error.response) {
-          console.log(error.response.data);
-          console.log(error.response.status);
-          console.log(error.response.headers);
-        } else if (error.request) {
-          console.log(error.request);
-        } else {
-          console.log('Error', error.message);
-        }
-
-        console.log(error);
-      });
-    }
   }, {
     key: "saveContent",
     value: function saveContent(api, id, content) {
@@ -3143,27 +3122,11 @@ var Api = /*#__PURE__*/function () {
       var formData = new FormData();
 
       if (obj.api) {
-        if (obj.postTitle) {
-          formData.append('postTitle', obj.postTitle);
+        for (var key in obj) {
+          formData.append(key, obj[key]);
         }
 
-        if (obj.content) {
-          formData.append('content', obj.content);
-        }
-
-        if (obj.alt) {
-          formData.append('altText', obj.alt);
-        }
-
-        if (obj.imageTitle) {
-          formData.append('imageTitle', obj.imageTitle);
-        }
-
-        if (obj.image) {
-          formData.append('image', obj.image);
-        } // console.log(Object.fromEntries(formData))
-
-
+        console.log(Object.fromEntries(formData));
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + obj.api, formData, {}).then(function (response) {})["catch"](function (error) {
           if (error.response) {
             console.log(error.response.data);
@@ -3181,6 +3144,69 @@ var Api = /*#__PURE__*/function () {
         throw 'can not find API';
       }
     }
+  }, {
+    key: "getPostData",
+    value: function () {
+      var _getPostData = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2(obj) {
+        var formData, key, response;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                if (!obj.api) {
+                  _context2.next = 17;
+                  break;
+                }
+
+                _context2.prev = 1;
+                formData = new FormData();
+
+                for (key in obj) {
+                  formData.append(key, obj[key]);
+                } // console.log(Object.fromEntries(formData))
+
+
+                _context2.next = 6;
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + obj.api, formData, {});
+
+              case 6:
+                response = _context2.sent;
+
+                if (!(response.status == 200 && response.statusText == "OK")) {
+                  _context2.next = 11;
+                  break;
+                }
+
+                _context2.next = 10;
+                return response.data.html;
+
+              case 10:
+                return _context2.abrupt("return", _context2.sent);
+
+              case 11:
+                _context2.next = 17;
+                break;
+
+              case 13:
+                _context2.prev = 13;
+                _context2.t0 = _context2["catch"](1);
+                console.error(_context2.t0);
+                console.log("Duomenys is serveverio nepasiekiami !!!");
+
+              case 17:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this, [[1, 13]]);
+      }));
+
+      function getPostData(_x2) {
+        return _getPostData.apply(this, arguments);
+      }
+
+      return getPostData;
+    }()
   }]);
 
   return Api;
@@ -3758,265 +3784,6 @@ var Events = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/js/gallery.js":
-/*!***************************!*\
-  !*** ./src/js/gallery.js ***!
-  \***************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-
-
-var path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-var uri = document.location.origin;
-var gallery = document.getElementById("loadeGallery");
-var arraySend = [];
-var isListener = true;
-var incomingArray = 0;
-var index;
-
-function startGallery() {
-  if (gallery) {
-    window.addEventListener("load", renderGallery, false);
-  }
-}
-
-function renderGallery() {
-  //Check File API support
-  if (window.File && window.FileList && window.FileReader) {
-    var filesInput = document.getElementById("files");
-    filesInput.addEventListener("change", function (event) {
-      // let images = [];
-      var array = Array.from(event.target.files);
-      var indexedArray = [];
-      var index = 0;
-
-      while (index < array.length) {
-        indexedArray[incomingArray] = array[index];
-        index++;
-        incomingArray++;
-      }
-
-      renderImages(indexedArray, filesInput);
-    });
-  } else {
-    console.log("Your browser does not support File API");
-  }
-}
-
-function renderImages(filesAll, filesInput) {
-  var tagInput = document.querySelector(".tagInput");
-  var currentDiv = document.getElementById("message");
-
-  var _loop = function _loop(i) {
-    if (filesAll[i]) {
-      if (filesAll[i].size < 1048576) {
-        if (filesAll[i].type.match("image")) {
-          var picReader = new FileReader();
-          picReader.addEventListener("load", function (event) {
-            var picFile = event.target;
-            var deleteId = getID();
-            var dot = getID();
-            var imageId = getID();
-            var imadeDivId = getID();
-            var output = document.getElementById("result");
-            var div = document.createElement("div");
-            div.className = "galleryDiv";
-            div.setAttribute("id", imadeDivId);
-            div.innerHTML = "<img class=\"uploadeImageGallery galleryCell\" data=\"false\" tag=\"\" id=\"".concat(imageId, "\" src=\"").concat(picFile.result, " \"\n                          alt=\" \"/>\n                          <div class=\"dots\" id=\"").concat(dot, "\"><div/>");
-            output.insertBefore(div, currentDiv);
-            var deleteDiv = document.querySelectorAll(".galleryDiv");
-            var dots = document.getElementById(dot);
-            var actionBtn = document.getElementById("actionBox");
-            var deleteBtn = document.querySelector(".deleteImd");
-            var checkBox = document.getElementById("c1");
-            var image = document.querySelectorAll(".uploadeImageGallery");
-            dots.addEventListener("click", function () {
-              tagInput.value = "";
-              deleteDiv[i].setAttribute("id", deleteId);
-              actionBtn.classList.remove("EventBoxHidden");
-              actionBtn.classList.add("boxImg");
-              actionBtn.addEventListener("click", renderActionBtn);
-
-              function renderActionBtn() {
-                actionBtn.removeEventListener("click", renderActionBtn);
-                var checked = document.querySelector(".albumImage");
-
-                if (checkBox.checked && !checked) {
-                  deleteDiv[i].classList.add("albumImage");
-                  image[i].setAttribute("data", "true");
-                  actionBtn.removeEventListener;
-                  deleteDiv[i].removeAttribute("id", deleteId);
-                } else {
-                  image[i].setAttribute("data", "false");
-                  deleteDiv[i].classList.remove("albumImage");
-                  deleteDiv[i].removeAttribute("id");
-                  actionBtn.removeEventListener;
-                }
-
-                actionBtn.classList.remove("boxImg");
-                actionBtn.classList.add("EventBoxHidden");
-                checkBox.checked = false;
-                image[i].setAttribute("tag", tagInput.value);
-              }
-            });
-            deleteBtn.addEventListener("click", function () {
-              var deleteImage = document.getElementById(deleteId);
-
-              if (deleteImage) {
-                deleteImage.remove();
-                filesAll.splice(i, 1);
-                index = i;
-                incomingArray--;
-                filesInput.value = "";
-              }
-
-              actionBtn.classList.remove("boxImg");
-              actionBtn.classList.add("EventBoxHidden");
-            });
-          });
-          picReader.readAsDataURL(filesAll[i]);
-        } else {
-          alert("Tai nera paveikslelio tipo formatas");
-        }
-      } else {
-        alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb"); //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
-        //   currentDiv.appendChild(newContent);
-      }
-    }
-  };
-
-  for (var i = 0; i < filesAll.length; i++) {
-    _loop(i);
-  }
-
-  arraySend.push(filesAll);
-
-  if (index) {
-    arraySend.splice(index, 1);
-  }
-
-  var uploadeImg = document.getElementById("submitImg");
-
-  if (isListener) {
-    uploadeImg.addEventListener("click", function () {
-      arraySend = filter(arraySend);
-      sendImageData(arraySend);
-    });
-    isListener = false;
-  }
-}
-
-function sendImageData(filesAll) {
-  console.log(filesAll);
-  var image = document.querySelectorAll(".uploadeImageGallery");
-  var formData = new FormData();
-  var album = document.getElementById("albumName");
-
-  for (var i = 0; i < image.length; i++) {
-    var albumImage = image[i].getAttribute("data");
-    var tag = image[i].getAttribute("tag");
-    console.log(tag);
-    formData.append("files" + i, filesAll[i]);
-    formData.append("tag" + i, tag + ' ');
-    formData.append("album" + i, albumImage);
-  }
-
-  formData.append("album", album.value);
-  axios.post(uri + path + "gallery-store-front", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data"
-    }
-  }).then(function (response) {})["catch"](function (error) {
-    if (error.response) {
-      console.log(error.response.data);
-      console.log(error.response.status);
-      console.log(error.response.headers);
-    } else if (error.request) {
-      console.log(error.request);
-    } else {
-      console.log("Error", error.message);
-    }
-
-    console.log(error);
-  });
-  location.reload();
-}
-
-function getID() {
-  return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
-}
-
-function filter(filesAll) {
-  var file = [];
-
-  for (var i = 0; i < filesAll.length; i++) {
-    for (var j = 0; j < filesAll[i].length; j++) {
-      if (filesAll[i][j] != undefined && filesAll[i][j] != null && filesAll[i][j] != "" && filesAll[i][j] != NaN && filesAll[i][j].size < 1048576) {
-        file.push(filesAll[i][j]);
-      }
-    }
-  }
-
-  file = file.filter(function (power, toThe, yellowVests) {
-    return yellowVests.map(function (updateDemocracy) {
-      return updateDemocracy["name"];
-    }).indexOf(power["name"]) === toThe;
-  });
-  return file;
-} // function move(imageId, imadeDivId) {
-//     const card = document.getElementById(imadeDivId);
-//     const cell = document.getElementById(imageId);
-//     const dragStart = function() {
-//         setTimeout(() => {
-//             console.log('start');
-//             this.classList.add('EventBoxHidden');
-//         }, 0);
-//     };
-//     const dragEnd = function() {
-//         console.log('end');
-//         this.classList.remove('EventBoxHidden');
-//     };
-//     const dragOver = function(evt) {
-//         console.log('over');
-//         evt.preventDefault();
-//     };
-//     const dragEnter = function(evt) {
-//         evt.preventDefault();
-//         // console.log(this);
-//         // this.insertAdjacentHTML('beforebegin', '<div class="galleryDiv" draggable="true"></div>');
-//         this.classList.add('hovered');
-//     };
-//     const dragLeave = function() {
-//         console.log(this);
-//         this.remove;
-//         this.classList.remove('hovered');
-//     };
-//     const dragDrop = function() {
-//         console.log('drop');
-//         this.append(card);
-//         this.classList.remove('hovered');
-//     };
-//     // const dragDrop = function () {
-//     //     console.log(card[i]);
-//     //     this.append(card);
-//     //     this.classList.remove('hovered');
-//     // };
-//     cell.addEventListener('dragover', dragOver);
-//     cell.addEventListener('drop', dragDrop);
-//     card.addEventListener('dragleave', dragLeave);
-//     card.addEventListener('dragenter', dragEnter);
-//     card.addEventListener('dragstart', dragStart);
-//     card.addEventListener('dragend', dragEnd);
-// }
-
-
-/* harmony default export */ __webpack_exports__["default"] = (startGallery());
-
-/***/ }),
-
 /***/ "./src/js/ideja.js":
 /*!*************************!*\
   !*** ./src/js/ideja.js ***!
@@ -4314,6 +4081,188 @@ function getText() {
 
 /***/ }),
 
+/***/ "./src/js/uploade_image.js":
+/*!*********************************!*\
+  !*** ./src/js/uploade_image.js ***!
+  \*********************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
+
+
+function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
+
+function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
+
+function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var ImageUploade = /*#__PURE__*/function () {
+  function ImageUploade(target) {
+    _classCallCheck(this, ImageUploade);
+
+    this.target = target;
+    this.DOM = null;
+    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+    this.uri = document.location.origin;
+    this.index = 0;
+    this.imageShow();
+  }
+
+  _createClass(ImageUploade, [{
+    key: "imageShow",
+    value: function imageShow() {
+      var _this = this;
+
+      var DOM = document.getElementById(this.target);
+
+      if (DOM) {
+        var filesAll = [];
+
+        if (window.File && window.FileList && window.FileReader) {
+          var filesInput = document.getElementById("files");
+          filesInput.addEventListener("change", function (event) {
+            var files = event.target.files;
+
+            for (var i = 0; i < files.length; i++) {
+              if (files[i].size <= 1048576) {
+                if (files[i].type.match("image")) {
+                  (function (file, i) {
+                    filesAll.push(file);
+                    var fileReader = new FileReader();
+
+                    fileReader.onloadend = function (e) {
+                      var imgFile = e.target;
+                      var j = _this.index++;
+
+                      var deleteId = _this.getID();
+
+                      var dot = _this.getID();
+
+                      var imageId = _this.getID();
+
+                      var imadeDivId = _this.getID();
+
+                      var tagInput = document.querySelector(".tagInput");
+                      var currentDiv = document.getElementById("message");
+                      var output = document.getElementById("result");
+                      var div = document.createElement("div");
+                      div.className = "galleryDiv";
+                      div.setAttribute("id", imadeDivId);
+                      div.innerHTML = "<img class=\"uploadeImageGallery galleryCell\" data=\"false\" tag=\"\" id=\"".concat(imageId, "\" src=\"").concat(imgFile.result, " \"\n                                      alt=\" \"/>\n                                      <div class=\"dots\" id=\"").concat(dot, "\"><div/>");
+                      output.insertBefore(div, currentDiv);
+                      var deleteDiv = document.querySelectorAll(".galleryDiv");
+                      var dots = document.getElementById(dot);
+                      var actionBtn = document.getElementById("actionBox");
+                      var deleteBtn = document.querySelector(".deleteImd");
+                      var checkBox = document.getElementById("c1");
+                      var image = document.querySelectorAll(".uploadeImageGallery");
+                      dots.addEventListener("click", function () {
+                        tagInput.value = "";
+                        deleteDiv[j].setAttribute("id", deleteId);
+                        actionBtn.classList.remove("EventBoxHidden");
+                        actionBtn.classList.add("boxImg");
+
+                        var renderActionBtn = function renderActionBtn() {
+                          actionBtn.removeEventListener("click", renderActionBtn);
+                          var checked = document.querySelector(".albumImage");
+
+                          if (checkBox.checked && !checked) {
+                            deleteDiv[j].classList.add("albumImage");
+                            image[j].setAttribute("data", "true"); // actionBtn.removeEventListener;
+                            // deleteDiv[j].removeAttribute("id", deleteId);
+                          } else if (checkBox.checked && checked) {
+                            image[j].setAttribute("data", "false");
+                            deleteDiv[j].classList.remove("albumImage");
+                          }
+
+                          actionBtn.classList.remove("boxImg");
+                          actionBtn.classList.add("EventBoxHidden");
+                          checkBox.checked = false;
+                          image[j].setAttribute("tag", tagInput.value);
+                        };
+
+                        actionBtn.addEventListener("click", renderActionBtn);
+                      });
+                      deleteBtn.addEventListener("click", function () {
+                        var deleteImage = document.getElementById(deleteId);
+
+                        if (deleteImage) {
+                          deleteImage.remove();
+                          filesAll.splice(j, 1);
+                          _this.index--;
+                          filesInput.value = "";
+                        }
+
+                        actionBtn.classList.remove("boxImg");
+                        actionBtn.classList.add("EventBoxHidden");
+                      });
+                    };
+
+                    fileReader.readAsDataURL(files[i]);
+                  })(files[i], i);
+                } else alert("Tai nera paveikslelio tipo formatas");
+              } else alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+            }
+          });
+        }
+
+        var uploadeImg = document.getElementById("submitImg");
+        uploadeImg.addEventListener("click", function () {
+          _this.sendImageData(filesAll);
+        });
+      }
+    }
+  }, {
+    key: "sendImageData",
+    value: function sendImageData(filesAll) {
+      var obj;
+      var image = document.querySelectorAll(".uploadeImageGallery");
+      var album = document.getElementById("albumName");
+
+      for (var i = 0; i < image.length; i++) {
+        var albumImage = image[i].getAttribute("data");
+        var tag = image[i].getAttribute("tag");
+        console.log(tag);
+        obj = {
+          files: i + filesAll[i],
+          tag: i + ' ' + tag,
+          album: i + albumImage
+        }; // formData.append("files" + i, filesAll[i]);
+        // formData.append("tag" + i, tag + ' ');
+        // formData.append("album" + i, albumImage)
+      }
+
+      var avatar = {
+        albumTitle: album.value
+      };
+      obj = _objectSpread(_objectSpread({}, obj), avatar);
+      console.log(obj);
+    }
+  }, {
+    key: "getID",
+    value: function getID() {
+      return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
+    }
+  }]);
+
+  return ImageUploade;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (ImageUploade);
+
+/***/ }),
+
 /***/ "./src/main.js":
 /*!*********************!*\
   !*** ./src/main.js ***!
@@ -4325,20 +4274,21 @@ function getText() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_idejos_js__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./js/idejos.js */ "./src/js/idejos.js");
 /* harmony import */ var _js_ideja_js__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./js/ideja.js */ "./src/js/ideja.js");
-/* harmony import */ var _js_gallery_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/gallery.js */ "./src/js/gallery.js");
-/* harmony import */ var _js_calendar_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/calendar.js */ "./src/js/calendar.js");
-/* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
-/* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
+/* harmony import */ var _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__ = __webpack_require__(/*! ./js/calendar.js */ "./src/js/calendar.js");
+/* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
+/* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
+/* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
+
+ // import startGallery from './js/gallery.js';
 
 
 
 
 
- // import uploade from './js/uploade-image.js';
-
-new _js_calendar_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.calendar');
-new _js_album_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.album');
-new _js_events_js__WEBPACK_IMPORTED_MODULE_5__["default"]('.eventsHome');
+new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
+new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
+new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
+new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
 
 /***/ }),
 

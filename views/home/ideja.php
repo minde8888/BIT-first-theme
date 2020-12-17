@@ -18,10 +18,7 @@
             </div>
         </div>
     </div>
-    <div class="sm-3-4 dl">
-        <?php echo $html; ?>
-    </div>
-</div>
+ </div>
 
 <div class="sm-1 imgBlock">
     <img class="imgHome" src="http://localhost/wordpress/wp-content/uploads/2020/11/kava.jpg" alt="kava">

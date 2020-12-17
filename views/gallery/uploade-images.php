@@ -30,13 +30,15 @@
     <div class="deleteImd">
         Trinti
     </div>
-    <div class="tagImg ">
-        <input type="text" class="tagInput" name="tagImage" placeholder="Iarsyti Tag" value="">
-    </div>
-    <div class="checkboxUploade">
+
+
+</div>
+<div class="checkboxUploade">
         <li>
             <label for="c1"> Naudoti kaip virselio nuotrauka</label>
             <input id="c1" type="checkbox">
         </li>
     </div>
-</div>
+<div class="tagImg ">
+        <input type="text" class="tagInput" name="tagImage" placeholder="Iarsyti Tag" value="">
+    </div>
