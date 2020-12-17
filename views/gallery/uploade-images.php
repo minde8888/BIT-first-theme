@@ -18,7 +18,7 @@
                     <svg height="60" width="150">
                         <rect id="shape" height="60" width="150" />
                         <div id="text">
-                            <input class="uplodeBtn" type="button" id="submitImg" value='Siusti'/><span class="spot"></span>
+                            <input class="uplodeBtn" type="button" id="submitImg" value='Siusti' /><span class="spot"></span>
                         </div>
                     </svg>
                 </div>
@@ -30,15 +30,13 @@
     <div class="deleteImd">
         Trinti
     </div>
-
-
-</div>
-<div class="checkboxUploade">
+    <div class="checkboxUploade">
         <li>
             <label for="c1"> Naudoti kaip virselio nuotrauka</label>
             <input id="c1" type="checkbox">
         </li>
     </div>
-<div class="tagImg ">
+    <div class="tagImg ">
         <input type="text" class="tagInput" name="tagImage" placeholder="Iarsyti Tag" value="">
     </div>
+</div>
