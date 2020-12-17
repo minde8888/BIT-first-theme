@@ -4093,12 +4093,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
 
 
-function ownKeys(object, enumerableOnly) { var keys = Object.keys(object); if (Object.getOwnPropertySymbols) { var symbols = Object.getOwnPropertySymbols(object); if (enumerableOnly) symbols = symbols.filter(function (sym) { return Object.getOwnPropertyDescriptor(object, sym).enumerable; }); keys.push.apply(keys, symbols); } return keys; }
-
-function _objectSpread(target) { for (var i = 1; i < arguments.length; i++) { var source = arguments[i] != null ? arguments[i] : {}; if (i % 2) { ownKeys(Object(source), true).forEach(function (key) { _defineProperty(target, key, source[key]); }); } else if (Object.getOwnPropertyDescriptors) { Object.defineProperties(target, Object.getOwnPropertyDescriptors(source)); } else { ownKeys(Object(source)).forEach(function (key) { Object.defineProperty(target, key, Object.getOwnPropertyDescriptor(source, key)); }); } } return target; }
-
-function _defineProperty(obj, key, value) { if (key in obj) { Object.defineProperty(obj, key, { value: value, enumerable: true, configurable: true, writable: true }); } else { obj[key] = value; } return obj; }
-
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
@@ -4179,8 +4173,9 @@ var ImageUploade = /*#__PURE__*/function () {
 
                           if (checkBox.checked && !checked) {
                             deleteDiv[j].classList.add("albumImage");
-                            image[j].setAttribute("data", "true"); // actionBtn.removeEventListener;
-                            // deleteDiv[j].removeAttribute("id", deleteId);
+                            image[j].setAttribute("data", "true");
+                            actionBtn.removeEventListener;
+                            deleteDiv[j].removeAttribute("id", deleteId);
                           } else if (checkBox.checked && checked) {
                             image[j].setAttribute("data", "false");
                             deleteDiv[j].classList.remove("albumImage");
@@ -4227,27 +4222,28 @@ var ImageUploade = /*#__PURE__*/function () {
     key: "sendImageData",
     value: function sendImageData(filesAll) {
       var obj;
+      var images = [];
+      var tags = [];
+      var albums = [];
+      var api = 'gallery-store-admin';
       var image = document.querySelectorAll(".uploadeImageGallery");
       var album = document.getElementById("albumName");
 
       for (var i = 0; i < image.length; i++) {
-        var albumImage = image[i].getAttribute("data");
-        var tag = image[i].getAttribute("tag");
-        console.log(tag);
-        obj = {
-          files: i + filesAll[i],
-          tag: i + ' ' + tag,
-          album: i + albumImage
-        }; // formData.append("files" + i, filesAll[i]);
-        // formData.append("tag" + i, tag + ' ');
-        // formData.append("album" + i, albumImage)
+        images.push(filesAll[i]);
+        tags.push(image[i].getAttribute("tag"));
+        albums.push(image[i].getAttribute("data"));
       }
 
-      var avatar = {
-        albumTitle: album.value
+      obj = {
+        files: images,
+        tag: tags,
+        album: albums,
+        albumTitle: album.value,
+        api: api
       };
-      obj = _objectSpread(_objectSpread({}, obj), avatar);
-      console.log(obj);
+      var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"]();
+      axios.formDataApi(obj);
     }
   }, {
     key: "getID",
