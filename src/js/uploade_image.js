@@ -40,7 +40,7 @@ class ImageUploade {
                                         const imgFile = e.target;
                                         let j = this.index++
 
-                                            let deleteId = this.getID();
+                                        let deleteId = this.getID();
                                         let dot = this.getID();
                                         let imageId = this.getID();
                                         let imadeDivId = this.getID();
@@ -69,7 +69,7 @@ class ImageUploade {
                                             tagInput.value = "";
                                             deleteDiv[j].setAttribute("id", deleteId);
                                             actionBtn.classList.remove("EventBoxHidden");
-                                            actionBtn.classList.add("boxImg");                 
+                                            actionBtn.classList.add("boxImg");
 
                                             let renderActionBtn = () => {
 
@@ -79,21 +79,19 @@ class ImageUploade {
                                                 if (checkBox.checked && !checked) {
                                                     deleteDiv[j].classList.add("albumImage");
                                                     image[j].setAttribute("data", "true");
-                                                    // actionBtn.removeEventListener;
-                                                    // deleteDiv[j].removeAttribute("id", deleteId);
-                                                } else if(checkBox.checked && checked){
+                                                    actionBtn.removeEventListener;
+                                                    deleteDiv[j].removeAttribute("id", deleteId);
+                                                } else if (checkBox.checked && checked) {
+
                                                     image[j].setAttribute("data", "false");
                                                     deleteDiv[j].classList.remove("albumImage");
                                                 }
-
                                                 actionBtn.classList.remove("boxImg");
                                                 actionBtn.classList.add("EventBoxHidden");
                                                 checkBox.checked = false;
                                                 image[j].setAttribute("tag", tagInput.value);
                                             }
-
                                             actionBtn.addEventListener("click", renderActionBtn);
-                                            
                                         });
                                         deleteBtn.addEventListener("click", () => {
 
@@ -103,20 +101,16 @@ class ImageUploade {
                                                 filesAll.splice(j, 1);
                                                 this.index--;
                                                 filesInput.value = "";
-
                                             }
                                             actionBtn.classList.remove("boxImg");
                                             actionBtn.classList.add("EventBoxHidden");
                                         });
-
                                     }
                                     fileReader.readAsDataURL(files[i]);
                                 })(files[i], i);
                             } else alert("Tai nera paveikslelio tipo formatas");
                         } else alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
-
                     }
-
                 });
             }
 
@@ -130,36 +124,34 @@ class ImageUploade {
         }
     }
 
-
     sendImageData(filesAll) {
 
-        let obj
+        let obj;
+        let images = [];
+        let tags = [];
+        let albums = [];
+        const api = 'gallery-store-admin';
+
         const image = document.querySelectorAll(".uploadeImageGallery");
         const album = document.getElementById("albumName");
-        
+
 
         for (let i = 0; i < image.length; i++) {
-
-            let albumImage = image[i].getAttribute("data");
-            let tag = image[i].getAttribute("tag");
-            console.log(tag)
-            obj = {
-                files: i + filesAll[i],
-                tag: i + ' ' + tag,
-                album: i + albumImage
-            }
-
-            // formData.append("files" + i, filesAll[i]);
-            // formData.append("tag" + i, tag + ' ');
-            // formData.append("album" + i, albumImage)
-        }
-        let avatar = {
-            albumTitle: album.value
+            images.push(filesAll[i]);
+            tags.push(image[i].getAttribute("tag"));
+            albums.push(image[i].getAttribute("data"));
         }
 
-        obj = {...obj,...avatar};
+        obj = {
+            files: images,
+            tag: tags,
+            album: albums,
+            albumTitle: album.value,
+            api:api
+        }
 
-        console.log(obj);
+        let axios = new Api;
+        axios.formDataApi(obj);
     }
 
 
