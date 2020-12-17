@@ -90,6 +90,7 @@ class ImageUploade {
                                                 actionBtn.classList.add("EventBoxHidden");
                                                 checkBox.checked = false;
                                                 image[j].setAttribute("tag", tagInput.value);
+                                                deleteDiv[j].removeAttribute("id", deleteId);
                                             }
                                             actionBtn.addEventListener("click", renderActionBtn);
                                         });
