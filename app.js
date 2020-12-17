@@ -3856,7 +3856,7 @@ function renderTreeColons() {
   axios.get(uri + path + 'idea-render-front', {}).then(function (response) {
     if (response.status == 200 && response.statusText == 'OK') {
       (function () {
-        var data = response.data.html;
+        var data = response.data.allData;
         var keys = [];
 
         for (var key in data) {
@@ -4185,6 +4185,7 @@ var ImageUploade = /*#__PURE__*/function () {
                           actionBtn.classList.add("EventBoxHidden");
                           checkBox.checked = false;
                           image[j].setAttribute("tag", tagInput.value);
+                          deleteDiv[j].removeAttribute("id", deleteId);
                         };
 
                         actionBtn.addEventListener("click", renderActionBtn);
@@ -4295,8 +4296,8 @@ new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/main.js */"./src/main.js");
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/app.scss */"./src/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\main.js */"./src/main.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\app.scss */"./src/app.scss");
 
 
 /***/ })
