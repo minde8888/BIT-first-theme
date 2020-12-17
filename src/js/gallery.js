@@ -1,20 +1,16 @@
 "use strict";
-
 const path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
 const uri = document.location.origin;
 const gallery = document.getElementById("loadeGallery");
-
 let arraySend = [];
 let isListener = true;
 let incomingArray = 0;
 let index;
-
 function startGallery() {
     if (gallery) {
         window.addEventListener("load", renderGallery, false);
     }
 }
-
 function renderGallery() {
     //Check File API support
     if (window.File && window.FileList && window.FileReader) {
@@ -29,26 +25,21 @@ function renderGallery() {
                 index++;
                 incomingArray++;
             }
-
             renderImages(indexedArray, filesInput);
         });
     } else {
         console.log("Your browser does not support File API");
     }
 }
-
 function renderImages(filesAll, filesInput) {
-
     const tagInput = document.querySelector(".tagInput");
     const currentDiv = document.getElementById("message");
-
     for (let i = 0; i < filesAll.length; i++) {
         if (filesAll[i]) {
-            if (filesAll[i].size < 1048576) {
+            if (filesAll[i].size <= 1048576) {
                 if (filesAll[i].type.match("image")) {
                     const picReader = new FileReader();
                     picReader.addEventListener("load", function(event) {
-
                         const picFile = event.target;
                         let deleteId = getID();
                         let dot = getID();
@@ -62,28 +53,21 @@ function renderImages(filesAll, filesInput) {
                           alt=" "/>
                           <div class="dots" id="${dot}"><div/>`;
                         output.insertBefore(div, currentDiv);
-
                         let deleteDiv = document.querySelectorAll(".galleryDiv");
                         let dots = document.getElementById(dot);
                         const actionBtn = document.getElementById("actionBox");
                         const deleteBtn = document.querySelector(".deleteImd");
                         const checkBox = document.getElementById("c1");
                         const image = document.querySelectorAll(".uploadeImageGallery");
-
                         dots.addEventListener("click", () => {
-
                             tagInput.value = "";
                             deleteDiv[i].setAttribute("id", deleteId);
                             actionBtn.classList.remove("EventBoxHidden");
                             actionBtn.classList.add("boxImg");
-
                             actionBtn.addEventListener("click", renderActionBtn);
-
                             function renderActionBtn() {
-
                                 actionBtn.removeEventListener("click", renderActionBtn);
                                 const checked = document.querySelector(".albumImage");
-
                                 if (checkBox.checked && !checked) {
                                     deleteDiv[i].classList.add("albumImage");
                                     image[i].setAttribute("data", "true");
@@ -102,7 +86,6 @@ function renderImages(filesAll, filesInput) {
                             }
                         });
                         deleteBtn.addEventListener("click", () => {
-
                             let deleteImage = document.getElementById(deleteId);
                             if (deleteImage) {
                                 deleteImage.remove();
@@ -110,64 +93,53 @@ function renderImages(filesAll, filesInput) {
                                 index = i;
                                 incomingArray--;
                                 filesInput.value = "";
-
                             }
                             actionBtn.classList.remove("boxImg");
                             actionBtn.classList.add("EventBoxHidden");
                         });
-
                     });
                     picReader.readAsDataURL(filesAll[i]);
-
                 } else {
+                     incomingArray--;
                     alert("Tai nera paveikslelio tipo formatas");
                 }
             } else {
+                 incomingArray--;
                 alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
                 //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
                 //   currentDiv.appendChild(newContent);
             }
+        }else{
         }
     }
-
     arraySend.push(filesAll);
     if (index) {
         arraySend.splice(index, 1)
     }
-
     const uploadeImg = document.getElementById("submitImg");
     if (isListener) {
         uploadeImg.addEventListener("click", () => {
-
             arraySend = filter(arraySend);
             sendImageData(arraySend);
         });
         isListener = false;
     }
 }
-
 function sendImageData(filesAll) {
     console.log(filesAll);
     const image = document.querySelectorAll(".uploadeImageGallery");
-
     let formData = new FormData();
     const album = document.getElementById("albumName");
-
     for (let i = 0; i < image.length; i++) {
-
         let albumImage = image[i].getAttribute("data");
-
         let tag = image[i].getAttribute("tag");
-        console.log(tag);
         formData.append("files" + i, filesAll[i]);
         formData.append("tag" + i, tag + ' ');
         formData.append("album" + i, albumImage)
     }
     formData.append("album", album.value);
+    console.log(Object.fromEntries(formData))
     axios.post(uri + path + "gallery-store-front", formData, {
-        headers: {
-            "Content-Type": "multipart/form-data"
-        },
     }).then(function(response) {}).catch(function(error) {
         if (error.response) {
             console.log(error.response.data);
@@ -180,13 +152,11 @@ function sendImageData(filesAll) {
         }
         console.log(error);
     });
-    location.reload();
+    //location.reload();
 }
-
 function getID() {
     return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();
 }
-
 function filter(filesAll) {
     let file = [];
     for (let i = 0; i < filesAll.length; i++) {
@@ -203,64 +173,49 @@ function filter(filesAll) {
     file = file.filter((power, toThe, yellowVests) => yellowVests.map(updateDemocracy => updateDemocracy["name"]).indexOf(power["name"]) === toThe)
     return file;
 }
-
 // function move(imageId, imadeDivId) {
-
-
 //     const card = document.getElementById(imadeDivId);
 //     const cell = document.getElementById(imageId);
-
 //     const dragStart = function() {
 //         setTimeout(() => {
 //             console.log('start');
 //             this.classList.add('EventBoxHidden');
 //         }, 0);
 //     };
-
 //     const dragEnd = function() {
 //         console.log('end');
 //         this.classList.remove('EventBoxHidden');
 //     };
-
 //     const dragOver = function(evt) {
 //         console.log('over');
 //         evt.preventDefault();
 //     };
-
 //     const dragEnter = function(evt) {
 //         evt.preventDefault();
 //         // console.log(this);
 //         // this.insertAdjacentHTML('beforebegin', '<div class="galleryDiv" draggable="true"></div>');
 //         this.classList.add('hovered');
 //     };
-
 //     const dragLeave = function() {
 //         console.log(this);
 //         this.remove;
 //         this.classList.remove('hovered');
 //     };
-
 //     const dragDrop = function() {
 //         console.log('drop');
 //         this.append(card);
 //         this.classList.remove('hovered');
 //     };
-
 //     // const dragDrop = function () {
 //     //     console.log(card[i]);
 //     //     this.append(card);
 //     //     this.classList.remove('hovered');
 //     // };
-
-
 //     cell.addEventListener('dragover', dragOver);
 //     cell.addEventListener('drop', dragDrop);
-
 //     card.addEventListener('dragleave', dragLeave);
 //     card.addEventListener('dragenter', dragEnter);
 //     card.addEventListener('dragstart', dragStart);
 //     card.addEventListener('dragend', dragEnd);
-
 // }
-
 export default startGallery();

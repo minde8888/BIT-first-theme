@@ -3812,7 +3812,7 @@ function renderImages(filesAll, filesInput) {
 
   var _loop = function _loop(i) {
     if (filesAll[i]) {
-      if (filesAll[i].size < 1048576) {
+      if (filesAll[i].size <= 1048576) {
         if (filesAll[i].type.match("image")) {
           var picReader = new FileReader();
           picReader.addEventListener("load", function (event) {
@@ -3879,13 +3879,15 @@ function renderImages(filesAll, filesInput) {
           });
           picReader.readAsDataURL(filesAll[i]);
         } else {
+          incomingArray--;
           alert("Tai nera paveikslelio tipo formatas");
         }
       } else {
+        incomingArray--;
         alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb"); //  const newContent = document.createTextNode("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
         //   currentDiv.appendChild(newContent);
       }
-    }
+    } else {}
   };
 
   for (var i = 0; i < filesAll.length; i++) {
@@ -3918,18 +3920,14 @@ function sendImageData(filesAll) {
   for (var i = 0; i < image.length; i++) {
     var albumImage = image[i].getAttribute("data");
     var tag = image[i].getAttribute("tag");
-    console.log(tag);
     formData.append("files" + i, filesAll[i]);
     formData.append("tag" + i, tag + ' ');
     formData.append("album" + i, albumImage);
   }
 
   formData.append("album", album.value);
-  axios.post(uri + path + "gallery-store-front", formData, {
-    headers: {
-      "Content-Type": "multipart/form-data"
-    }
-  }).then(function (response) {})["catch"](function (error) {
+  console.log(Object.fromEntries(formData));
+  axios.post(uri + path + "gallery-store-front", formData, {}).then(function (response) {})["catch"](function (error) {
     if (error.response) {
       console.log(error.response.data);
       console.log(error.response.status);
@@ -3941,8 +3939,7 @@ function sendImageData(filesAll) {
     }
 
     console.log(error);
-  });
-  location.reload();
+  }); //location.reload();
 }
 
 function getID() {
@@ -4089,7 +4086,7 @@ function renderTreeColons() {
   axios.get(uri + path + 'idea-render-front', {}).then(function (response) {
     if (response.status == 200 && response.statusText == 'OK') {
       (function () {
-        var data = response.data.html;
+        var data = response.data.allData;
         var keys = [];
 
         for (var key in data) {
