@@ -3118,12 +3118,18 @@ var Api = /*#__PURE__*/function () {
     }
   }, {
     key: "formDataApi",
-    value: function formDataApi(obj) {
+    value: function formDataApi(obj, images) {
       var formData = new FormData();
 
       if (obj.api) {
+        console.log(images);
+
         for (var key in obj) {
           formData.append(key, obj[key]);
+        }
+
+        for (var i = 0; i < images.length; i++) {
+          formData.append('image[' + i + ']', images[i]);
         }
 
         console.log(Object.fromEntries(formData));
@@ -4226,7 +4232,7 @@ var ImageUploade = /*#__PURE__*/function () {
       var images = [];
       var tags = [];
       var albums = [];
-      var api = 'gallery-store-admin';
+      var api = 'gallery-store-front';
       var image = document.querySelectorAll(".uploadeImageGallery");
       var album = document.getElementById("albumName");
 
@@ -4237,14 +4243,13 @@ var ImageUploade = /*#__PURE__*/function () {
       }
 
       obj = {
-        files: images,
         tag: tags,
         album: albums,
         albumTitle: album.value,
         api: api
       };
       var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"]();
-      axios.formDataApi(obj);
+      axios.formDataApi(obj, images);
     }
   }, {
     key: "getID",
@@ -4296,8 +4301,8 @@ new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\main.js */"./src/main.js");
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\app.scss */"./src/app.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/main.js */"./src/main.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/app.scss */"./src/app.scss");
 
 
 /***/ })

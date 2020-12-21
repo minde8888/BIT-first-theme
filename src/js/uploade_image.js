@@ -126,35 +126,27 @@ class ImageUploade {
     }
 
     sendImageData(filesAll) {
-
         let obj;
-        let images = [];
+        let images = []
         let tags = [];
         let albums = [];
-        const api = 'gallery-store-admin';
-
+        const api = 'gallery-store-front';
         const image = document.querySelectorAll(".uploadeImageGallery");
         const album = document.getElementById("albumName");
-
-
         for (let i = 0; i < image.length; i++) {
             images.push(filesAll[i]);
             tags.push(image[i].getAttribute("tag"));
             albums.push(image[i].getAttribute("data"));
         }
-
         obj = {
-            files: images,
             tag: tags,
             album: albums,
             albumTitle: album.value,
-            api:api
+            api: api
         }
-
         let axios = new Api;
-        axios.formDataApi(obj);
+        axios.formDataApi(obj, images);
     }
-
 
     getID() {
         return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();

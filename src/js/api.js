@@ -68,11 +68,15 @@ class Api {
             });
     }
 
-    formDataApi(obj) {
+    formDataApi(obj, images) {
         let formData = new FormData();
         if (obj.api) {
+            console.log(images)
             for (var key in obj) {
                 formData.append(key, obj[key])
+            }
+            for (let i = 0; i < images.length; i++) {
+                formData.append('image[' + i + ']', images[i])
             }
             console.log(Object.fromEntries(formData))
             axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {

@@ -38,10 +38,10 @@
 		            <a href="#">KONTAKTAI</a>
 		            <a href="#">FILOSOFIJA</a>
 		            <a href="#">TAISYKLĖS</a>
-		            <a href="http://localhost/wordpress/idejos/">IDĖJOS</a>
-		            <a href="http://localhost/wordpress/kalendorius/">KALENDORIUS</a>
-		            <a href="http://localhost/wordpress/galerija/">GALERIJA</a>
-		            <a href="http://localhost/wordpress/naujienos/">NAUJIENOS</a>
+		            <a href="http://localhost:8080/wordpress/idejos/">IDĖJOS</a>
+		            <a href="http://localhost:8080/wordpress/kalendorius/">KALENDORIUS</a>
+		            <a href="http://localhost:8080/wordpress/galerija/">GALERIJA</a>
+		            <a href="http://localhost:8080/wordpress/naujienos/">NAUJIENOS</a>
 		        </div>
 		    </nav>
 		</div>
