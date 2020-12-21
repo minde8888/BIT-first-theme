@@ -1299,7 +1299,7 @@ button:focus {
   display: inline-block;
   width: 50%;
   float: right;
-  line-height: 20px;
+  line-height: 25px;
   color: #32373C;
   -webkit-animation: move-in-steps 8s steps(4, start) infinite;
           animation: move-in-steps 8s steps(4, start) infinite;
@@ -1454,44 +1454,13 @@ nav div a {
   color: black;
 }
 
-#lightbox {
-  position: fixed;
-  width: 100%;
-  height: 100%;
-  top: 0px;
-  left: 0px;
-  background: rgba(0, 0, 0, 0.3);
-  display: none;
+.grid-container .pic .imageBox .lightbox {
+  border-radius: 2%;
+  transition: transform 0.2s;
 }
 
-#lightbox #lightbox_content {
-  position: absolute;
-  width: 500px;
-  height: 400px;
-  background: #ffffff;
-  border-radius: 3px;
-  left: 50%;
-  top: 50%;
-  margin-left: -250px;
-  margin-top: -200px;
-  text-align: center;
-}
-
-#lightbox #lightbox_content #close {
-  position: absolute;
-  right: 20px;
-  top: 20px;
-  background: rgba(0, 0, 0, 0.2);
-  height: 20px;
-  width: 20px;
-  border-radius: 15px;
-  text-align: center;
-  color: #ffffff;
-  cursor: pointer;
-}
-
-#lightbox.open {
-  display: block;
+.grid-container .pic .imageBox .lightbox:hover {
+  transform: scale(1.5);
 }
 
 .homeNewsContainer {
@@ -1579,6 +1548,31 @@ nav div a {
   left: 50%;
   transform: translate(-50%, -50%);
   cursor: pointer;
+}
+
+.albums .galleryImage {
+  padding: 0;
+  border: none;
+}
+
+.albums .galleryImage img {
+  width: 100%;
+  height: 335px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.albums .galleryImage div {
+  margin: 25px 0 25px 0;
+  color: #C8C3BF;
+  font-style: italic;
+}
+
+.albums .galleryImage a {
+  text-decoration: none;
+  color: #191E23;
+  font-size: 26px;
+  line-height: 30px;
 }
 
 .imgHome {
@@ -2294,5 +2288,57 @@ html {
 
 .checkBox {
   float: left;
+}
+
+.galleryTitle {
+  display: inline-block;
+  margin: 0 0 50px 0;
+}
+
+.album .albumImages .albums {
+  flex-wrap: wrap;
+}
+
+.album .albumImages .albums .galleryImage {
+  height: 450px;
+  position: relative;
+  margin: 0 2% 0 0;
+}
+
+.album .albumImages .albums .galleryImage img {
+  height: 310px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
+}
+
+.album .albumImages .albums .galleryImage div {
+  margin: 25px 0 25px 0;
+  color: #C8C3BF;
+  font-style: italic;
+}
+
+.album .albumImages .albums .galleryImage a {
+  text-decoration: none;
+  color: #191E23;
+  font-size: 26px;
+  line-height: 30px;
+}
+
+.pic {
+  display: flex;
+  flex-wrap: wrap;
+}
+
+.pic .imageBox {
+  width: 33%;
+  border: 1px solid black;
+}
+
+.pic .imageBox img {
+  height: 335px;
+  -o-object-fit: cover;
+     object-fit: cover;
+  width: 100%;
 }
 

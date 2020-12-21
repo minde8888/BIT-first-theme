@@ -27,7 +27,7 @@
 		    </div>
 		    <nav>
 		        <div class="logo">
-		            <a href="http://localhost/wordpress/ideja"><img src="http://localhost/wordpress/wp-content/uploads/2020/11/logo.jpg" alt="log"></a>
+		            <a href="http://localhost/wordpress/"><img src="http://localhost/wordpress/wp-content/uploads/2020/11/logo.jpg" alt="log"></a>
 				</div>
 				<div class="hamburger">
                     <div class="line"></div>
