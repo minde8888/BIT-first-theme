@@ -67,26 +67,31 @@ class Api {
                 console.log(error);
             });
     }
+    
+    formDataApi(obj, images) {
 
-    formDataApi(obj) {
-        let formData = new FormData();
-        if (obj.api) {
-            for (var key in obj) {
-                formData.append(key, obj[key])
-            }
-            console.log(Object.fromEntries(formData))
-            axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
-                if (error.response) {
-                    console.log(error.response.data);
-                    console.log(error.response.status);
-                    console.log(error.response.headers);
-                } else if (error.request) {
-                    console.log(error.request);
-                } else {
-                    console.log('Error', error.message);
+            let formData = new FormData();
+            if (obj.api) {
+                console.log(images)
+                for (var key in obj) {
+                    formData.append(key, obj[key])
                 }
-                console.log(error);
-            });
+                for (let i = 0; i < images.length; i++) {
+                    formData.append('image[' + i + ']', images[i])
+                }
+                console.log(Object.fromEntries(formData))
+                axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
+                    if (error.response) {
+                        console.log(error.response.data);
+                        console.log(error.response.status);
+                        console.log(error.response.headers);
+                    } else if (error.request) {
+                        console.log(error.request);
+                    } else {
+                        console.log('Error', error.message);
+                    }
+                    console.log(error);
+                });
         } else {
             throw 'can not find API';
         }
@@ -111,5 +116,41 @@ class Api {
             }
         }
     }
+
+    // formDataApi(obj) {
+
+    //     let val = Object.values(obj);
+
+    //     let formData = new FormData();
+    //     if (obj.api) {
+    //         for (var key in obj) {
+    //             // console.log(key)
+    //             // console.log(obj[key])
+    //             formData.append(key, obj[key])
+    //         }
+    //         for (let i = 0; i < val.length; i++) {
+    //             for (let j = 0; j < val[i].length; j++) {
+    //                 if (typeof val[i][j] == "object") {
+    //                     formData.append(val[i][j].name, val[i][j])
+    //                 }
+    //             }
+    //         }
+    //         console.log(Object.fromEntries(formData))
+    //         axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
+    //             if (error.response) {
+    //                 console.log(error.response.data);
+    //                 console.log(error.response.status);
+    //                 console.log(error.response.headers);
+    //             } else if (error.request) {
+    //                 console.log(error.request);
+    //             } else {
+    //                 console.log('Error', error.message);
+    //             }
+    //             console.log(error);
+    //         });
+    //     } else {
+    //         throw 'can not find API';
+    //     }
+    // }
 }
 export default Api;

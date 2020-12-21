@@ -18,7 +18,7 @@ class Album {
 
         if (DOM) {
         		
-            const container = document.getElementById("galleryContainer");
+            const container = document.getElementById("albumContainer");
             console.log(container)
             const api = 'album-create-admin';
 
