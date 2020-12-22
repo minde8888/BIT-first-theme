@@ -19,7 +19,7 @@ function getText() {
   }
 };
 
-/*-----------------------like button and cookie------------------------------------------*/
+/*-----------------------like button ------------------------------------------*/
 
 
 function likeAdd(like) {
@@ -63,7 +63,7 @@ function renderTreeColons() {
   axios.get(uri + path + 'idea-render-front', {})
     .then(function(response) {
       if (response.status == 200 && response.statusText == 'OK') {
-        const data = response.data.html;
+        const data = response.data.allData;
 
         let keys = [];
 

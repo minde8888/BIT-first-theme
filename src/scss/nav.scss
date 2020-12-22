@@ -5,6 +5,11 @@ nav {
     .logo {
         cursor: pointer;
         float : left;
+        margin: 0 0 0 5%;
+    }
+
+    .navMenu {
+        margin: 20px 0 0 0;
     }
 
     div {
@@ -31,5 +36,55 @@ nav {
         cursor: pointer;
         float : right;
         margin: 40px 0 0 8px;
+    }
+}
+
+.hamburger {
+    display: none;
+    float  : right;
+    width  : 60px;
+    height : 30px;
+    cursor : pointer;
+}
+
+@media (max-width: 768px) {
+    nav {
+        .hamburger {
+            display: inline-block;
+
+            .line {
+                display         : inline-block;
+                width           : 60%;
+                height          : 4px;
+                background-color: rgb(0, 0, 0);
+                line-height     : 1px;
+                margin          : 5px 0 0 0;
+            }
+        }
+
+        .show {
+            display         : inline-block;
+            width           : 160px;
+            height          : 230px;
+            background-color: $silver-gray;
+            position        : fixed;
+            top             : 30%;
+            left            : 50%;
+            transform       : translate(-50%, -50%);
+            border-radius   : 2%;
+            z-index         : 2;
+
+            a {
+                line-height  : 30px;
+                float        : none;
+                font-weight  : 500;
+                margin       : 0 0 0 30px;
+                border-bottom: 1px solid rgb(0, 0, 0);
+            }
+
+            a:hover {
+                background-color: rgb(131, 131, 131);
+            }
+        }
     }
 }

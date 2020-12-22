@@ -30,29 +30,26 @@
     }
 
     .todaysEvents {
-        padding                          : 10px;
-        display                          : inline-block;
-        width                            : 50%;
-        float                            : right;
-        line-height                      : 20px;
-        color                            : $base-gray;
-        -webkit-animation-name           : move;
-        -webkit-animation-duration       : 20s;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-timing-function: linear;
+        padding    : 10px;
+        display    : inline-block;
+        width      : 50%;
+        float      : right;
+        line-height: 25px;
+        color      : $base-gray;
+        animation  : move-in-steps 8s steps(4, start) infinite;
     }
 
     .todaysEvents:hover {
         -webkit-animation-play-state: paused;
     }
 
-    @-webkit-keyframes move {
+    @-webkit-keyframes move-in-steps {
         0% {
-            margin-top: -60px;
+            margin-top: -213px;
         }
 
         100% {
-            margin-top: 10px;
+            margin-top: -11px;
         }
     }
 
@@ -64,30 +61,16 @@
     }
 
     .nearestEvents {
-        padding                          : 10px;
-        display                          : inline-block;
-        width                            : 50%;
-        float                            : right;
-        line-height                      : 20px;
-        color                            : $base-gray;
-        -webkit-animation-name           : move;
-        -webkit-animation-duration       : 20s;
-        -webkit-animation-iteration-count: infinite;
-        -webkit-animation-timing-function: linear;
+        padding    : 10px;
+        display    : inline-block;
+        width      : 50%;
+        float      : right;
+        line-height: 25px;
+        color      : $base-gray;
+        animation  : move-in-steps 8s steps(4, start) infinite;
     }
 
     .nearestEvents:hover {
         -webkit-animation-play-state: paused;
     }
-
-    @-webkit-keyframes move {
-        0% {
-            margin-top: -60px;
-        }
-
-        100% {
-            margin-top: 10px;
-        }
-    }
-
 }

@@ -6,8 +6,8 @@
     <?php wp_head();?>
 </head>
 <body>
-    <header id="masthead">
-    	<div class="md-17-24 bl wdm">
+    <header class="grid-container center" id="masthead">
+    	<div class="sm-7-8 bl wdm">
 		    <div class="topContainer">
 		        <div class="soc3">
 		            <svg height="18" viewBox="-21 -35 682.66669 682" width="18">
@@ -27,15 +27,20 @@
 		    </div>
 		    <nav>
 		        <div class="logo">
-		            <a href="http://localhost/wordpress/ideja"><img src="http://localhost/wordpress/wp-content/uploads/2020/11/logo.jpg" alt="log"></a>
-		        </div>
-		        <div>
+		            <a href="http://localhost/wordpress/"><img src="http://localhost/wordpress/wp-content/uploads/2020/11/logo.jpg" alt="log"></a>
+				</div>
+				<div class="hamburger">
+                    <div class="line"></div>
+                    <div class="line"></div>
+                    <div class="line"></div>
+                </div>
+		        <div class="navMenu show" >
 		            <a href="#">KONTAKTAI</a>
 		            <a href="#">FILOSOFIJA</a>
 		            <a href="#">TAISYKLĖS</a>
 		            <a href="http://localhost/wordpress/idejos/">IDĖJOS</a>
 		            <a href="http://localhost/wordpress/kalendorius/">KALENDORIUS</a>
-		            <a href="#">GALERIJA</a>
+		            <a href="http://localhost/wordpress/galerija/">GALERIJA</a>
 		            <a href="http://localhost/wordpress/naujienos/">NAUJIENOS</a>
 		        </div>
 		    </nav>
