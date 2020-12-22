@@ -2958,7 +2958,7 @@ var Album = /*#__PURE__*/function () {
                   break;
                 }
 
-                container = document.getElementById("galleryContainer");
+                container = document.getElementById("albumContainer");
                 console.log(container);
                 api = 'album-create-admin';
                 axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
@@ -3212,7 +3212,40 @@ var Api = /*#__PURE__*/function () {
       }
 
       return getPostData;
-    }()
+    }() // formDataApi(obj) {
+    //     let val = Object.values(obj);
+    //     let formData = new FormData();
+    //     if (obj.api) {
+    //         for (var key in obj) {
+    //             // console.log(key)
+    //             // console.log(obj[key])
+    //             formData.append(key, obj[key])
+    //         }
+    //         for (let i = 0; i < val.length; i++) {
+    //             for (let j = 0; j < val[i].length; j++) {
+    //                 if (typeof val[i][j] == "object") {
+    //                     formData.append(val[i][j].name, val[i][j])
+    //                 }
+    //             }
+    //         }
+    //         console.log(Object.fromEntries(formData))
+    //         axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
+    //             if (error.response) {
+    //                 console.log(error.response.data);
+    //                 console.log(error.response.status);
+    //                 console.log(error.response.headers);
+    //             } else if (error.request) {
+    //                 console.log(error.request);
+    //             } else {
+    //                 console.log('Error', error.message);
+    //             }
+    //             console.log(error);
+    //         });
+    //     } else {
+    //         throw 'can not find API';
+    //     }
+    // }
+
   }]);
 
   return Api;
@@ -4174,7 +4207,10 @@ var ImageUploade = /*#__PURE__*/function () {
                         actionBtn.classList.add("boxImg");
 
                         var renderActionBtn = function renderActionBtn() {
-                          actionBtn.removeEventListener("click", renderActionBtn);
+                          // actionBtn.addEventListener('click', e => {//ziureti
+                          //     e.stopPropagation();
+                          // }, true);
+                          actionBtn.removeEventListener("click", renderActionBtn, true);
                           var checked = document.querySelector(".albumImage");
 
                           if (checkBox.checked && !checked) {

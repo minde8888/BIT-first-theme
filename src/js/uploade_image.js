@@ -40,7 +40,7 @@ class ImageUploade {
                                         const imgFile = e.target;
                                         let j = this.index++
 
-                                        let deleteId = this.getID();
+                                            let deleteId = this.getID();
                                         let dot = this.getID();
                                         let imageId = this.getID();
                                         let imadeDivId = this.getID();
@@ -72,8 +72,10 @@ class ImageUploade {
                                             actionBtn.classList.add("boxImg");
 
                                             let renderActionBtn = () => {
-
-                                                actionBtn.removeEventListener("click", renderActionBtn);
+                                                // actionBtn.addEventListener('click', e => {//ziureti
+                                                //     e.stopPropagation();
+                                                // }, true);
+                                                actionBtn.removeEventListener("click", renderActionBtn, true);
                                                 const checked = document.querySelector(".albumImage");
 
                                                 if (checkBox.checked && !checked) {
@@ -94,8 +96,8 @@ class ImageUploade {
                                             }
                                             actionBtn.addEventListener("click", renderActionBtn);
                                         });
-                                        deleteBtn.addEventListener("click", () => {
 
+                                        deleteBtn.addEventListener("click", () => {
                                             let deleteImage = document.getElementById(deleteId);
                                             if (deleteImage) {
                                                 deleteImage.remove();
@@ -131,8 +133,10 @@ class ImageUploade {
         let tags = [];
         let albums = [];
         const api = 'gallery-store-front';
+
         const image = document.querySelectorAll(".uploadeImageGallery");
         const album = document.getElementById("albumName");
+
         for (let i = 0; i < image.length; i++) {
             images.push(filesAll[i]);
             tags.push(image[i].getAttribute("tag"));
