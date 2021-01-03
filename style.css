@@ -1940,13 +1940,6 @@ nav div a {
   }
 }
 
-ul {
-  display: inline-block;
-  position: fixed;
-  top: 60%;
-  left: 88%;
-}
-
 .form__group {
   display: flex;
   justify-content: center;

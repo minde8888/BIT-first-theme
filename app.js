@@ -3118,18 +3118,19 @@ var Api = /*#__PURE__*/function () {
     }
   }, {
     key: "formDataApi",
-    value: function formDataApi(obj, images) {
+    value: function formDataApi(obj) {
+      var images = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
       var formData = new FormData();
 
       if (obj.api) {
-        console.log(images);
-
         for (var key in obj) {
           formData.append(key, obj[key]);
         }
 
-        for (var i = 0; i < images.length; i++) {
-          formData.append('image[' + i + ']', images[i]);
+        if (images != null) {
+          for (var i = 0; i < images.length; i++) {
+            formData.append('image[' + i + ']', images[i]);
+          }
         }
 
         console.log(Object.fromEntries(formData));
@@ -4206,10 +4207,9 @@ var ImageUploade = /*#__PURE__*/function () {
                         actionBtn.classList.remove("EventBoxHidden");
                         actionBtn.classList.add("boxImg");
 
-                        var renderActionBtn = function renderActionBtn() {
-                          // actionBtn.addEventListener('click', e => {//ziureti
-                          //     e.stopPropagation();
-                          // }, true);
+                        var renderActionBtn = function renderActionBtn(e) {
+                          // console.log(a);
+                          e.stopPropagation();
                           actionBtn.removeEventListener("click", renderActionBtn, true);
                           var checked = document.querySelector(".albumImage");
 
@@ -4232,7 +4232,8 @@ var ImageUploade = /*#__PURE__*/function () {
 
                         actionBtn.addEventListener("click", renderActionBtn);
                       });
-                      deleteBtn.addEventListener("click", function () {
+                      deleteBtn.addEventListener("click", function (e) {
+                        e.stopPropagation();
                         var deleteImage = document.getElementById(deleteId);
 
                         if (deleteImage) {
@@ -4245,6 +4246,19 @@ var ImageUploade = /*#__PURE__*/function () {
                         actionBtn.classList.remove("boxImg");
                         actionBtn.classList.add("EventBoxHidden");
                       });
+                      var checkBoxUploade = document.querySelector(".checkboxUploade");
+                      var tagImg = document.querySelector(".tagImg");
+                      checkBoxUploade.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                      });
+                      tagImg.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                      }); // actionBtn.addEventListener('click', e => {    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      //     e.stopPropagation();
+                      // }, true);
+                      // actionBtn.addEventListener('click', e => {    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
+                      //     e.stopPropagation();
+                      // }, true);
                     };
 
                     fileReader.readAsDataURL(files[i]);
