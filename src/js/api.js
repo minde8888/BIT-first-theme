@@ -13,10 +13,10 @@ class Api {
             .post(
                 this.uri + this.path +
                 api + id, {
-                    deleteId: id,
-                }
+                deleteId: id,
+            }
             )
-            .catch(function(error) {
+            .catch(function (error) {
                 if (error.response) {
                     console.log(error.response.data);
                     console.log(error.response.status);
@@ -34,7 +34,7 @@ class Api {
 
         try {
 
-            let response = await axios.post(this.uri + this.path + api, )
+            let response = await axios.post(this.uri + this.path + api,)
 
             if (response.status == 200 && response.statusText == "OK") {
 
@@ -50,11 +50,11 @@ class Api {
         axios
             .post(
                 this.uri + this.path + api, {
-                    id: id,
-                    content: content,
-                }
+                id: id,
+                content: content,
+            }
             )
-            .catch(function(error) {
+            .catch(function (error) {
                 if (error.response) {
                     console.log(error.response.data);
                     console.log(error.response.status);
@@ -67,31 +67,34 @@ class Api {
                 console.log(error);
             });
     }
-    
-    formDataApi(obj, images) {
 
-            let formData = new FormData();
-            if (obj.api) {
-                console.log(images)
-                for (var key in obj) {
-                    formData.append(key, obj[key])
-                }
+    formDataApi(obj, images = null) {
+
+        let formData = new FormData();
+        if (obj.api) {
+
+            for (var key in obj) {
+                formData.append(key, obj[key])
+            }
+            if (images != null) {
                 for (let i = 0; i < images.length; i++) {
                     formData.append('image[' + i + ']', images[i])
                 }
-                console.log(Object.fromEntries(formData))
-                axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
-                    if (error.response) {
-                        console.log(error.response.data);
-                        console.log(error.response.status);
-                        console.log(error.response.headers);
-                    } else if (error.request) {
-                        console.log(error.request);
-                    } else {
-                        console.log('Error', error.message);
-                    }
-                    console.log(error);
-                });
+            }
+
+            console.log(Object.fromEntries(formData))
+            axios.post(this.uri + this.path + obj.api, formData, {}).then(function (response) { }).catch(function (error) {
+                if (error.response) {
+                    console.log(error.response.data);
+                    console.log(error.response.status);
+                    console.log(error.response.headers);
+                } else if (error.request) {
+                    console.log(error.request);
+                } else {
+                    console.log('Error', error.message);
+                }
+                console.log(error);
+            });
         } else {
             throw 'can not find API';
         }
