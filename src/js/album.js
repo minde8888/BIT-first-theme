@@ -19,14 +19,12 @@ class Album {
         if (DOM) {
         		
             const container = document.getElementById("albumContainer");
-            console.log(container)
             const api = 'album-create-admin';
 
             let axios = new Api;
             let HTML = await axios.getDAta(api);
             container.innerHTML = HTML;
         }
-
     }
 }
 

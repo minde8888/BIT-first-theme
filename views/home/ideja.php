@@ -74,7 +74,7 @@
             <a href="http://localhost/wordpress/galerija/">Pamatyti visą galeriją</a>
         </div>
         <div class="idea-container">
-            <?= $album;?>
+            <?= $album; ?>
         </div>
     </div>
 </div>
