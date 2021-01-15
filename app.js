@@ -2954,22 +2954,21 @@ var Album = /*#__PURE__*/function () {
                 DOM = document.querySelector(this.target);
 
                 if (!DOM) {
-                  _context.next = 10;
+                  _context.next = 9;
                   break;
                 }
 
                 container = document.getElementById("albumContainer");
-                console.log(container);
                 api = 'album-create-admin';
                 axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
-                _context.next = 8;
+                _context.next = 7;
                 return axios.getDAta(api);
 
-              case 8:
+              case 7:
                 HTML = _context.sent;
                 container.innerHTML = HTML;
 
-              case 10:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -4253,12 +4252,7 @@ var ImageUploade = /*#__PURE__*/function () {
                       });
                       tagImg.addEventListener("click", function (e) {
                         e.stopPropagation();
-                      }); // actionBtn.addEventListener('click', e => {    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      //     e.stopPropagation();
-                      // }, true);
-                      // actionBtn.addEventListener('click', e => {    //!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!!
-                      //     e.stopPropagation();
-                      // }, true);
+                      });
                     };
 
                     fileReader.readAsDataURL(files[i]);
@@ -4300,6 +4294,7 @@ var ImageUploade = /*#__PURE__*/function () {
       };
       var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"]();
       axios.formDataApi(obj, images);
+      location.reload();
     }
   }, {
     key: "getID",
