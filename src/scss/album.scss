@@ -1,0 +1,64 @@
+.galleryTitle {
+    display: inline-block;
+    margin : 0 0 50px 0;
+
+    a {
+        float          : right;
+        text-transform : uppercase;
+        text-decoration: none;
+        color          : black;
+    }
+    a:hover{
+        color: brown;
+    }
+}
+
+.album {
+    .albumImages {
+        .albums {
+
+            flex-wrap: wrap;
+
+            .galleryImage {
+                height  : 450px;
+                position: relative;
+                margin  : 0 2% 0 0;
+
+                img {
+                    height    : 310px;
+                    object-fit: cover;
+                    width     : 100%;
+                }
+
+                div {
+                    margin    : 25px 0 25px 0;
+                    color     : #C8C3BF;
+                    font-style: italic;
+                }
+
+                a {
+                    text-decoration: none;
+                    color          : $ultra-dark-gray;
+                    font-size      : 26px;
+                    line-height    : 30px;
+                }
+            }
+        }
+    }
+}
+
+.pic {
+    display  : flex;
+    flex-wrap: wrap;
+
+    .imageBox {
+        width : 33%;
+        border: 1px solid black;
+
+        img {
+            height    : 335px;
+            object-fit: cover;
+            width     : 100%;
+        }
+    }
+}

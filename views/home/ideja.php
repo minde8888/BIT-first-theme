@@ -1,4 +1,3 @@
-
 <div class="sm-3-4  al">
     <div class="sm-3-4 cl">
         <div class="eventsHome">
@@ -18,27 +17,29 @@
             </div>
         </div>
     </div>
- </div>
-
+    <div class="sm-5-8 dl">
+        <?= $news; ?>
+    </div>
+</div>
 <div class="sm-1 imgBlock">
     <img class="imgHome" src="http://localhost/wordpress/wp-content/uploads/2020/11/kava.jpg" alt="kava">
-        <div class="homeImgContainer">
-            <div class="welcome">
-                Welcome to the Rally Template
-            </div>
-            <div class="title">
-                to get started, watch these short videos
-            </div>
-            <div class="title">
-                on squarespace basics and read the
-            </div>
-            <div class="title">
-                template guide.
-            </div>
-            <div class="filosofyBtn">
-                reade more
-            </div>
+    <div class="homeImgContainer">
+        <div class="welcome">
+            Welcome to the Rally Template
         </div>
+        <div class="title">
+            to get started, watch these short videos
+        </div>
+        <div class="title">
+            on squarespace basics and read the
+        </div>
+        <div class="title">
+            template guide.
+        </div>
+        <div class="filosofyBtn">
+            reade more
+        </div>
+    </div>
     </img>
 </div>
 <div class="sm-3-4 wd">
@@ -70,8 +71,10 @@
             <label>
                 GALERIJA
             </label>
-            <a href="#">Pamatyti visą galeriją</a>
+            <a href="http://localhost/wordpress/galerija/">Pamatyti visą galeriją</a>
         </div>
-
+        <div class="idea-container">
+            <?= $album; ?>
+        </div>
     </div>
 </div>

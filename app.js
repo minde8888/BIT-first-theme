@@ -2954,22 +2954,21 @@ var Album = /*#__PURE__*/function () {
                 DOM = document.querySelector(this.target);
 
                 if (!DOM) {
-                  _context.next = 10;
+                  _context.next = 9;
                   break;
                 }
 
-                container = document.getElementById("galleryContainer");
-                console.log(container);
+                container = document.getElementById("albumContainer");
                 api = 'album-create-admin';
                 axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
-                _context.next = 8;
+                _context.next = 7;
                 return axios.getDAta(api);
 
-              case 8:
+              case 7:
                 HTML = _context.sent;
                 container.innerHTML = HTML;
 
-              case 10:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -3119,11 +3118,18 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "formDataApi",
     value: function formDataApi(obj) {
+      var images = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
       var formData = new FormData();
 
       if (obj.api) {
         for (var key in obj) {
           formData.append(key, obj[key]);
+        }
+
+        if (images != null) {
+          for (var i = 0; i < images.length; i++) {
+            formData.append('image[' + i + ']', images[i]);
+          }
         }
 
         console.log(Object.fromEntries(formData));
@@ -3206,7 +3212,40 @@ var Api = /*#__PURE__*/function () {
       }
 
       return getPostData;
-    }()
+    }() // formDataApi(obj) {
+    //     let val = Object.values(obj);
+    //     let formData = new FormData();
+    //     if (obj.api) {
+    //         for (var key in obj) {
+    //             // console.log(key)
+    //             // console.log(obj[key])
+    //             formData.append(key, obj[key])
+    //         }
+    //         for (let i = 0; i < val.length; i++) {
+    //             for (let j = 0; j < val[i].length; j++) {
+    //                 if (typeof val[i][j] == "object") {
+    //                     formData.append(val[i][j].name, val[i][j])
+    //                 }
+    //             }
+    //         }
+    //         console.log(Object.fromEntries(formData))
+    //         axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
+    //             if (error.response) {
+    //                 console.log(error.response.data);
+    //                 console.log(error.response.status);
+    //                 console.log(error.response.headers);
+    //             } else if (error.request) {
+    //                 console.log(error.request);
+    //             } else {
+    //                 console.log('Error', error.message);
+    //             }
+    //             console.log(error);
+    //         });
+    //     } else {
+    //         throw 'can not find API';
+    //     }
+    // }
+
   }]);
 
   return Api;
@@ -4167,8 +4206,10 @@ var ImageUploade = /*#__PURE__*/function () {
                         actionBtn.classList.remove("EventBoxHidden");
                         actionBtn.classList.add("boxImg");
 
-                        var renderActionBtn = function renderActionBtn() {
-                          actionBtn.removeEventListener("click", renderActionBtn);
+                        var renderActionBtn = function renderActionBtn(e) {
+                          // console.log(a);
+                          e.stopPropagation();
+                          actionBtn.removeEventListener("click", renderActionBtn, true);
                           var checked = document.querySelector(".albumImage");
 
                           if (checkBox.checked && !checked) {
@@ -4185,11 +4226,13 @@ var ImageUploade = /*#__PURE__*/function () {
                           actionBtn.classList.add("EventBoxHidden");
                           checkBox.checked = false;
                           image[j].setAttribute("tag", tagInput.value);
+                          deleteDiv[j].removeAttribute("id", deleteId);
                         };
 
                         actionBtn.addEventListener("click", renderActionBtn);
                       });
-                      deleteBtn.addEventListener("click", function () {
+                      deleteBtn.addEventListener("click", function (e) {
+                        e.stopPropagation();
                         var deleteImage = document.getElementById(deleteId);
 
                         if (deleteImage) {
@@ -4201,6 +4244,14 @@ var ImageUploade = /*#__PURE__*/function () {
 
                         actionBtn.classList.remove("boxImg");
                         actionBtn.classList.add("EventBoxHidden");
+                      });
+                      var checkBoxUploade = document.querySelector(".checkboxUploade");
+                      var tagImg = document.querySelector(".tagImg");
+                      checkBoxUploade.addEventListener("click", function (e) {
+                        e.stopPropagation();
+                      });
+                      tagImg.addEventListener("click", function (e) {
+                        e.stopPropagation();
                       });
                     };
 
@@ -4225,7 +4276,7 @@ var ImageUploade = /*#__PURE__*/function () {
       var images = [];
       var tags = [];
       var albums = [];
-      var api = 'gallery-store-admin';
+      var api = 'gallery-store-front';
       var image = document.querySelectorAll(".uploadeImageGallery");
       var album = document.getElementById("albumName");
 
@@ -4236,14 +4287,14 @@ var ImageUploade = /*#__PURE__*/function () {
       }
 
       obj = {
-        files: images,
         tag: tags,
         album: albums,
         albumTitle: album.value,
         api: api
       };
       var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"]();
-      axios.formDataApi(obj);
+      axios.formDataApi(obj, images);
+      location.reload();
     }
   }, {
     key: "getID",

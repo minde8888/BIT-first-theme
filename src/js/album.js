@@ -18,15 +18,13 @@ class Album {
 
         if (DOM) {
         		
-            const container = document.getElementById("galleryContainer");
-            console.log(container)
+            const container = document.getElementById("albumContainer");
             const api = 'album-create-admin';
 
             let axios = new Api;
             let HTML = await axios.getDAta(api);
             container.innerHTML = HTML;
         }
-
     }
 }
 

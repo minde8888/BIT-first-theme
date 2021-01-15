@@ -37,6 +37,7 @@ class ImageUploade {
                                     const fileReader = new FileReader();
 
                                     fileReader.onloadend = (e) => {
+
                                         const imgFile = e.target;
                                         let j = this.index++
 
@@ -71,9 +72,11 @@ class ImageUploade {
                                             actionBtn.classList.remove("EventBoxHidden");
                                             actionBtn.classList.add("boxImg");
 
-                                            let renderActionBtn = () => {
+                                            let renderActionBtn = (e) => {
+                                                // console.log(a);
+                                                e.stopPropagation();
 
-                                                actionBtn.removeEventListener("click", renderActionBtn);
+                                                actionBtn.removeEventListener("click", renderActionBtn, true);
                                                 const checked = document.querySelector(".albumImage");
 
                                                 if (checkBox.checked && !checked) {
@@ -90,11 +93,13 @@ class ImageUploade {
                                                 actionBtn.classList.add("EventBoxHidden");
                                                 checkBox.checked = false;
                                                 image[j].setAttribute("tag", tagInput.value);
+                                                deleteDiv[j].removeAttribute("id", deleteId);
                                             }
                                             actionBtn.addEventListener("click", renderActionBtn);
                                         });
-                                        deleteBtn.addEventListener("click", () => {
 
+                                        deleteBtn.addEventListener("click", (e) => {
+                                            e.stopPropagation();
                                             let deleteImage = document.getElementById(deleteId);
                                             if (deleteImage) {
                                                 deleteImage.remove();
@@ -105,6 +110,17 @@ class ImageUploade {
                                             actionBtn.classList.remove("boxImg");
                                             actionBtn.classList.add("EventBoxHidden");
                                         });
+
+                                        const checkBoxUploade = document.querySelector(".checkboxUploade");
+                                        const tagImg = document.querySelector(".tagImg");
+
+                                        checkBoxUploade.addEventListener("click", (e) => {
+                                            e.stopPropagation();
+                                        })
+                                        
+                                        tagImg.addEventListener("click", (e) => {
+                                            e.stopPropagation();
+                                        })
                                     }
                                     fileReader.readAsDataURL(files[i]);
                                 })(files[i], i);
@@ -127,14 +143,13 @@ class ImageUploade {
     sendImageData(filesAll) {
 
         let obj;
-        let images = [];
+        let images = []
         let tags = [];
         let albums = [];
-        const api = 'gallery-store-admin';
+        const api = 'gallery-store-front';
 
         const image = document.querySelectorAll(".uploadeImageGallery");
         const album = document.getElementById("albumName");
-
 
         for (let i = 0; i < image.length; i++) {
             images.push(filesAll[i]);
@@ -143,15 +158,15 @@ class ImageUploade {
         }
 
         obj = {
-            files: images,
             tag: tags,
             album: albums,
             albumTitle: album.value,
-            api:api
+            api: api
         }
 
         let axios = new Api;
-        axios.formDataApi(obj);
+        axios.formDataApi(obj, images);
+        location.reload();
     }
 
 
