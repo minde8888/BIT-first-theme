@@ -4120,6 +4120,62 @@ function getText() {
 
 /***/ }),
 
+/***/ "./src/js/lightBox.js":
+/*!****************************!*\
+  !*** ./src/js/lightBox.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var LightBox = /*#__PURE__*/function () {
+  function LightBox(target) {
+    _classCallCheck(this, LightBox);
+
+    this.target = target;
+    this.DOM = null;
+    this.ontach();
+  }
+
+  _createClass(LightBox, [{
+    key: "ontach",
+    value: function ontach() {
+      var DOM = document.getElementById(this.target);
+
+      if (DOM) {
+        var image = document.querySelectorAll(".imageBox");
+        image.forEach(function (el) {
+          el.addEventListener('touchstart', function (e) {
+            if (!e.target.className) {
+              e.target.className = "lightbox";
+            }
+          });
+          el.addEventListener('touchend', function (e) {
+            if (e.target.className == "lightbox") {
+              e.target.classList.remove("lightbox");
+            }
+          });
+        });
+      }
+    }
+  }]);
+
+  return LightBox;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (LightBox);
+
+/***/ }),
+
 /***/ "./src/js/uploade_image.js":
 /*!*********************************!*\
   !*** ./src/js/uploade_image.js ***!
@@ -4325,8 +4381,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
 /* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
 /* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
+/* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
 
  // import startGallery from './js/gallery.js';
+
 
 
 
@@ -4336,6 +4394,7 @@ new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
 new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
+new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
 
 /***/ }),
 
