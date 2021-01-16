@@ -34,7 +34,7 @@
                     <div class="line"></div>
                     <div class="line"></div>
                 </div>
-		        <div class="navMenu show" >
+		        <div class="navMenu show hiden" >
 		            <a href="#">KONTAKTAI</a>
 		            <a href="#">FILOSOFIJA</a>
 		            <a href="#">TAISYKLĖS</a>

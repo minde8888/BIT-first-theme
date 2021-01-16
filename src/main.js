@@ -6,8 +6,10 @@ import Calendar from './js/calendar.js';
 import Album from './js/album.js';
 import Events from './js/events.js';
 import ImageUploade from './js/uploade_image';
+import LightBox from './js/lightBox';
 
 new Calendar('.calendar');
 new Album('.album');
 new Events('.eventsHome');
 new ImageUploade("loadeGallery");
+new LightBox("showGallery")

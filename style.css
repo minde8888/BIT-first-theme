@@ -1358,6 +1358,10 @@ nav div a {
 }
 
 @media (max-width: 768px) {
+  nav {
+    display: none;
+  }
+
   nav .hamburger {
     display: inline-block;
   }
@@ -2332,10 +2336,10 @@ html {
 .pic {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .pic .imageBox {
-  width: 33%;
   border: 1px solid black;
 }
 
