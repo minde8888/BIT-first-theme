@@ -1,90 +1,121 @@
+/** @format */
+
 nav {
-    width  : 100%;
-    display: inline-block;
+  width: 100%;
+  display: inline-block;
 
-    .logo {
-        cursor: pointer;
-        float : left;
-        margin: 0 0 0 5%;
-    }
+  .logo {
+    cursor: pointer;
+    float: left;
+    margin: 0 0 0 5%;
+  }
 
-    .navMenu {
-        margin: 20px 0 0 0;
-    }
-
-    div {
-
-        float: right;
-
+  .navMenu {
+    margin: 20px 0 0 0;
+    .dropdown {
+      position: relative;
+      display: inline-block;
+      .dropbtn {
+        text-transform: uppercase;
+        text-decoration: none;
+        font-weight: bold;
+        color: black;
+        padding: 16px;
+        font-size: 16px;
+        border: none;
+      }
+      .dropdown-content {
+        display: none;
+        // display: block;
+        margin-top: 20px;
+        margin-left: 10px;
+        position: absolute;
+        background-color: $white;
+        // background-color: #f1f1f1;
+        min-width: 100px;
+        box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+        z-index: 1;
         a {
-            text-decoration: none;
-            font-weight    : 700;
-            color          : black;
-            float          : right;
-            margin         : 0 0 30px 10px;
-            cursor         : pointer;
+          color: black;
+          padding: 12px 16px;
+          text-decoration: none;
+          display: block;
         }
+      }
     }
+
+    .dropdown-content a:hover {
+      background-color: $white;
+    }
+
+    .dropdown:hover .dropdown-content {
+      display: block;
+    }
+  }
+
+  div {
+    float: right;
+  }
 }
 
 .topContainer {
-    display: inline-block;
-    width  : 100%;
-    height : 80px;
+  display: inline-block;
+  width: 100%;
+  height: 80px;
 
-    div {
-        cursor: pointer;
-        float : right;
-        margin: 40px 0 0 8px;
-    }
+  div {
+    cursor: pointer;
+    float: right;
+    margin: 40px 0 0 8px;
+  }
 }
 
 .hamburger {
-    display: none;
-    float  : right;
-    width  : 60px;
-    height : 30px;
-    cursor : pointer;
+  display: none;
+  float: right;
+  width: 60px;
+  height: 30px;
+  cursor: pointer;
 }
 
 @media (max-width: 768px) {
-    nav {
-        .hamburger {
-            display: inline-block;
+  nav {
+    .hamburger {
+      display: inline-block;
 
-            .line {
-                display         : inline-block;
-                width           : 60%;
-                height          : 4px;
-                background-color: rgb(0, 0, 0);
-                line-height     : 1px;
-                margin          : 5px 0 0 0;
-            }
-        }
-
-        .show {
-            display         : inline-block;
-            width           : 160px;
-            height          : 230px;
-            background-color: $silver-gray;
-            position        : fixed;
-            top             : 30%;
-            left            : 50%;
-            transform       : translate(-50%, -50%);
-            border-radius   : 2%;
-            z-index         : 2;
-
-            a {
-                line-height  : 30px;
-                float        : none;
-                font-weight  : 500;
-                margin       : 0 0 0 30px;
-                border-bottom: 1px solid rgb(0, 0, 0);
-            }
-
-            a:hover {
-                background-color: rgb(131, 131, 131);
-            }
-        }
+      .line {
+        display: inline-block;
+        width: 60%;
+        height: 4px;
+        background-color: rgb(0, 0, 0);
+        line-height: 1px;
+        margin: 5px 0 0 0;
+      }
     }
+
+    .show {
+      display: inline-block;
+      width: 160px;
+      height: 230px;
+      background-color: $silver-gray;
+      position: fixed;
+      top: 30%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      border-radius: 2%;
+      z-index: 2;
+
+      a {
+        line-height: 30px;
+        float: none;
+        font-weight: 500;
+        margin: 0 0 0 30px;
+        border-bottom: 1px solid rgb(0, 0, 0);
+      }
+
+      a:hover {
+        background-color: rgb(131, 131, 131);
+      }
+    }
+  }
 }
