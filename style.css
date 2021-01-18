@@ -1395,6 +1395,10 @@ nav div {
 }
 
 @media (max-width: 768px) {
+  nav {
+    display: none;
+  }
+
   nav .hamburger {
     display: inline-block;
   }
@@ -2325,6 +2329,17 @@ html {
   margin: 0 0 50px 0;
 }
 
+.galleryTitle a {
+  float: right;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: black;
+}
+
+.galleryTitle a:hover {
+  color: brown;
+}
+
 .album .albumImages .albums {
   flex-wrap: wrap;
 }
@@ -2358,10 +2373,10 @@ html {
 .pic {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .pic .imageBox {
-  width: 33%;
   border: 1px solid black;
 }
 
@@ -2370,5 +2385,40 @@ html {
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;
+}
+
+.postContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.postContainer .postTitle {
+  width: 100%;
+  text-align: center;
+  margin: 0 0 14px 0;
+}
+
+.postContainer .postImage {
+  width: 100%;
+  align-self: center;
+}
+
+.postContainer .postImage img {
+  width: 100%;
+  height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.postContainer .postDate {
+  width: 100%;
+  margin: 14px 0 14px 0;
+  font-size: 14px;
+}
+
+.postContainer .postContent {
+  width: 100%;
+  font-size: 20px;
 }
 

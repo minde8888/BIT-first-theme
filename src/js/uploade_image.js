@@ -73,7 +73,7 @@ class ImageUploade {
                                             actionBtn.classList.add("boxImg");
 
                                             let renderActionBtn = (e) => {
-                                                // console.log(a);
+
                                                 e.stopPropagation();
 
                                                 actionBtn.removeEventListener("click", renderActionBtn, true);
@@ -117,7 +117,7 @@ class ImageUploade {
                                         checkBoxUploade.addEventListener("click", (e) => {
                                             e.stopPropagation();
                                         })
-                                        
+
                                         tagImg.addEventListener("click", (e) => {
                                             e.stopPropagation();
                                         })
@@ -146,28 +146,39 @@ class ImageUploade {
         let images = []
         let tags = [];
         let albums = [];
+
         const api = 'gallery-store-front';
 
-        const image = document.querySelectorAll(".uploadeImageGallery");
+        const image = [...document.querySelectorAll(".uploadeImageGallery")];
         const album = document.getElementById("albumName");
 
-        for (let i = 0; i < image.length; i++) {
-            images.push(filesAll[i]);
-            tags.push(image[i].getAttribute("tag"));
-            albums.push(image[i].getAttribute("data"));
-        }
+        let avatarImage = image.filter(el => el.getAttribute("data") == 'true');
 
-        obj = {
-            tag: tags,
-            album: albums,
-            albumTitle: album.value,
-            api: api
+        if (album.value) {
+            if (Array.isArray(avatarImage) && avatarImage.length) {
+                for (let i = 0; i < image.length; i++) {
+                    images.push(filesAll[i]);
+                    tags.push(image[i].getAttribute("tag"));
+                    albums.push(image[i].getAttribute("data"));
+                }
+        
+                obj = {
+                    tag: tags,
+                    album: albums,
+                    albumTitle: album.value,
+                    api: api
+                }
+        
+                let axios = new Api;
+                axios.formDataApi(obj, images);
+                location.reload();
+            }else{
+                alert("Nepasirinkatas albumo paveikslelis !!!")
+            }
+        }else{
+            alert("Nera albumo pavadinimo !!!")
         }
-
-        let axios = new Api;
-        axios.formDataApi(obj, images);
     }
-
 
     getID() {
         return (Date.now().toString(36) + Math.random().toString(36).substr(2, 5)).toUpperCase();

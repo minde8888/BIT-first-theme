@@ -1,6 +1,17 @@
 .galleryTitle {
     display: inline-block;
     margin : 0 0 50px 0;
+
+    a {
+        float          : right;
+        text-transform : uppercase;
+        text-decoration: none;
+        color          : black;
+    }
+
+    a:hover {
+        color: brown;
+    }
 }
 
 .album {
@@ -38,11 +49,11 @@
 }
 
 .pic {
-    display  : flex;
-    flex-wrap: wrap;
+    display        : flex;
+    flex-wrap      : wrap;
+    justify-content: center;
 
     .imageBox {
-        width: 33%;
         border: 1px solid black;
 
         img {
@@ -52,3 +63,4 @@
         }
     }
 }
+

@@ -2957,8 +2957,6 @@ var Album = /*#__PURE__*/function () {
 
     this.target = target;
     this.DOM = null;
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    this.uri = document.location.origin;
     this.init();
   }
 
@@ -2974,22 +2972,21 @@ var Album = /*#__PURE__*/function () {
                 DOM = document.querySelector(this.target);
 
                 if (!DOM) {
-                  _context.next = 10;
+                  _context.next = 9;
                   break;
                 }
 
                 container = document.getElementById("albumContainer");
-                console.log(container);
                 api = 'album-create-admin';
                 axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
-                _context.next = 8;
+                _context.next = 7;
                 return axios.getDAta(api);
 
-              case 8:
+              case 7:
                 HTML = _context.sent;
                 container.innerHTML = HTML;
 
-              case 10:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -4232,6 +4229,62 @@ function getText() {
 
 /***/ }),
 
+/***/ "./src/js/lightBox.js":
+/*!****************************!*\
+  !*** ./src/js/lightBox.js ***!
+  \****************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+var LightBox = /*#__PURE__*/function () {
+  function LightBox(target) {
+    _classCallCheck(this, LightBox);
+
+    this.target = target;
+    this.DOM = null;
+    this.ontach();
+  }
+
+  _createClass(LightBox, [{
+    key: "ontach",
+    value: function ontach() {
+      var DOM = document.getElementById(this.target);
+
+      if (DOM) {
+        var image = document.querySelectorAll(".imageBox");
+        image.forEach(function (el) {
+          el.addEventListener('touchstart', function (e) {
+            if (!e.target.className) {
+              e.target.className = "lightbox";
+            }
+          });
+          el.addEventListener('touchend', function (e) {
+            if (e.target.className == "lightbox") {
+              e.target.classList.remove("lightbox");
+            }
+          });
+        });
+      }
+    }
+  }]);
+
+  return LightBox;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (LightBox);
+
+/***/ }),
+
 /***/ "./src/js/uploade_image.js":
 /*!*********************************!*\
   !*** ./src/js/uploade_image.js ***!
@@ -4243,6 +4296,18 @@ function getText() {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
 
+
+function _toConsumableArray(arr) { return _arrayWithoutHoles(arr) || _iterableToArray(arr) || _unsupportedIterableToArray(arr) || _nonIterableSpread(); }
+
+function _nonIterableSpread() { throw new TypeError("Invalid attempt to spread non-iterable instance.\nIn order to be iterable, non-array objects must have a [Symbol.iterator]() method."); }
+
+function _unsupportedIterableToArray(o, minLen) { if (!o) return; if (typeof o === "string") return _arrayLikeToArray(o, minLen); var n = Object.prototype.toString.call(o).slice(8, -1); if (n === "Object" && o.constructor) n = o.constructor.name; if (n === "Map" || n === "Set") return Array.from(o); if (n === "Arguments" || /^(?:Ui|I)nt(?:8|16|32)(?:Clamped)?Array$/.test(n)) return _arrayLikeToArray(o, minLen); }
+
+function _iterableToArray(iter) { if (typeof Symbol !== "undefined" && Symbol.iterator in Object(iter)) return Array.from(iter); }
+
+function _arrayWithoutHoles(arr) { if (Array.isArray(arr)) return _arrayLikeToArray(arr); }
+
+function _arrayLikeToArray(arr, len) { if (len == null || len > arr.length) len = arr.length; for (var i = 0, arr2 = new Array(len); i < len; i++) { arr2[i] = arr[i]; } return arr2; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -4319,7 +4384,6 @@ var ImageUploade = /*#__PURE__*/function () {
                         actionBtn.classList.add("boxImg");
 
                         var renderActionBtn = function renderActionBtn(e) {
-                          // console.log(a);
                           e.stopPropagation();
                           actionBtn.removeEventListener("click", renderActionBtn, true);
                           var checked = document.querySelector(".albumImage");
@@ -4389,23 +4453,37 @@ var ImageUploade = /*#__PURE__*/function () {
       var tags = [];
       var albums = [];
       var api = 'gallery-store-front';
-      var image = document.querySelectorAll(".uploadeImageGallery");
+
+      var image = _toConsumableArray(document.querySelectorAll(".uploadeImageGallery"));
+
       var album = document.getElementById("albumName");
+      var avatarImage = image.filter(function (el) {
+        return el.getAttribute("data") == 'true';
+      });
 
-      for (var i = 0; i < image.length; i++) {
-        images.push(filesAll[i]);
-        tags.push(image[i].getAttribute("tag"));
-        albums.push(image[i].getAttribute("data"));
+      if (album.value) {
+        if (Array.isArray(avatarImage) && avatarImage.length) {
+          for (var i = 0; i < image.length; i++) {
+            images.push(filesAll[i]);
+            tags.push(image[i].getAttribute("tag"));
+            albums.push(image[i].getAttribute("data"));
+          }
+
+          obj = {
+            tag: tags,
+            album: albums,
+            albumTitle: album.value,
+            api: api
+          };
+          var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"]();
+          axios.formDataApi(obj, images);
+          location.reload();
+        } else {
+          alert("Nepasirinkatas albumo paveikslelis !!!");
+        }
+      } else {
+        alert("Nera albumo pavadinimo !!!");
       }
-
-      obj = {
-        tag: tags,
-        album: albums,
-        albumTitle: album.value,
-        api: api
-      };
-      var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"]();
-      axios.formDataApi(obj, images);
     }
   }, {
     key: "getID",
@@ -4436,7 +4514,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
 /* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
 /* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
-/* harmony import */ var _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/frontmenu.js */ "./src/js/frontmenu.js");
+
+/* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
+
 
  // import startGallery from './js/gallery.js';
 
@@ -4450,6 +4530,7 @@ new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
 new _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.navMenu');
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
+new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
 
 /***/ }),
 
