@@ -12,4 +12,3 @@
 		<?php echo $content; ?>
 	</div>
 </div>
-
