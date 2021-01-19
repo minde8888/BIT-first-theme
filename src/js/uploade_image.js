@@ -37,10 +37,11 @@ class ImageUploade {
                                     const fileReader = new FileReader();
 
                                     fileReader.onloadend = (e) => {
+
                                         const imgFile = e.target;
                                         let j = this.index++
 
-                                            let deleteId = this.getID();
+                                        let deleteId = this.getID();
                                         let dot = this.getID();
                                         let imageId = this.getID();
                                         let imadeDivId = this.getID();
@@ -71,10 +72,10 @@ class ImageUploade {
                                             actionBtn.classList.remove("EventBoxHidden");
                                             actionBtn.classList.add("boxImg");
 
-                                            let renderActionBtn = () => {
-                                                // actionBtn.addEventListener('click', e => {//ziureti
-                                                //     e.stopPropagation();
-                                                // }, true);
+                                            let renderActionBtn = (e) => {
+
+                                                e.stopPropagation();
+
                                                 actionBtn.removeEventListener("click", renderActionBtn, true);
                                                 const checked = document.querySelector(".albumImage");
 
@@ -97,7 +98,8 @@ class ImageUploade {
                                             actionBtn.addEventListener("click", renderActionBtn);
                                         });
 
-                                        deleteBtn.addEventListener("click", () => {
+                                        deleteBtn.addEventListener("click", (e) => {
+                                            e.stopPropagation();
                                             let deleteImage = document.getElementById(deleteId);
                                             if (deleteImage) {
                                                 deleteImage.remove();
@@ -108,6 +110,17 @@ class ImageUploade {
                                             actionBtn.classList.remove("boxImg");
                                             actionBtn.classList.add("EventBoxHidden");
                                         });
+
+                                        const checkBoxUploade = document.querySelector(".checkboxUploade");
+                                        const tagImg = document.querySelector(".tagImg");
+
+                                        checkBoxUploade.addEventListener("click", (e) => {
+                                            e.stopPropagation();
+                                        })
+
+                                        tagImg.addEventListener("click", (e) => {
+                                            e.stopPropagation();
+                                        })
                                     }
                                     fileReader.readAsDataURL(files[i]);
                                 })(files[i], i);
@@ -132,24 +145,38 @@ class ImageUploade {
         let images = []
         let tags = [];
         let albums = [];
+
         const api = 'gallery-store-front';
 
-        const image = document.querySelectorAll(".uploadeImageGallery");
+        const image = [...document.querySelectorAll(".uploadeImageGallery")];
         const album = document.getElementById("albumName");
 
-        for (let i = 0; i < image.length; i++) {
-            images.push(filesAll[i]);
-            tags.push(image[i].getAttribute("tag"));
-            albums.push(image[i].getAttribute("data"));
+        let avatarImage = image.filter(el => el.getAttribute("data") == 'true');
+
+        if (album.value) {
+            if (Array.isArray(avatarImage) && avatarImage.length) {
+                for (let i = 0; i < image.length; i++) {
+                    images.push(filesAll[i]);
+                    tags.push(image[i].getAttribute("tag"));
+                    albums.push(image[i].getAttribute("data"));
+                }
+        
+                obj = {
+                    tag: tags,
+                    album: albums,
+                    albumTitle: album.value,
+                    api: api
+                }
+        
+                let axios = new Api;
+                axios.formDataApi(obj, images);
+                location.reload();
+            }else{
+                alert("Nepasirinkatas albumo paveikslelis !!!")
+            }
+        }else{
+            alert("Nera albumo pavadinimo !!!")
         }
-        obj = {
-            tag: tags,
-            album: albums,
-            albumTitle: album.value,
-            api: api
-        }
-        let axios = new Api;
-        axios.formDataApi(obj, images);
     }
 
     getID() {

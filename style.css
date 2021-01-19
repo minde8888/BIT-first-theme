@@ -1,13 +1,16 @@
 @charset "UTF-8";
 
-/*   
-Theme Name: BIT-FIRST-THEME
-Theme URI: <THEME_URI>
-Description: A Theme for styling.
-Author: BIT
-Author URI: <AUTHOR_URI>
-Version: 1.0
-*/
+/**
+ * /*   
+ * Theme Name: BIT-FIRST-THEME
+ * Theme URI: <THEME_URI>
+ * Description: A Theme for styling.
+ * Author: BIT
+ * Author URI: <AUTHOR_URI>
+ * Version: 1.0
+ *
+ * @format
+ */
 
 html {
   scroll-behavior: smooth;
@@ -1309,6 +1312,8 @@ button:focus {
   -webkit-animation-play-state: paused;
 }
 
+/** @format */
+
 nav {
   width: 100%;
   display: inline-block;
@@ -1324,17 +1329,49 @@ nav .navMenu {
   margin: 20px 0 0 0;
 }
 
-nav div {
-  float: right;
+nav .navMenu .dropdown {
+  position: relative;
+  display: inline-block;
 }
 
-nav div a {
+nav .navMenu .dropdown .dropbtn {
+  text-transform: uppercase;
   text-decoration: none;
-  font-weight: 700;
+  font-weight: bold;
   color: black;
+  padding: 16px;
+  font-size: 16px;
+  border: none;
+}
+
+nav .navMenu .dropdown .dropdown-content {
+  display: none;
+  margin-top: 20px;
+  margin-left: 10px;
+  position: absolute;
+  background-color: #FFFFFF;
+  min-width: 100px;
+  box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+  z-index: 1;
+}
+
+nav .navMenu .dropdown .dropdown-content a {
+  color: black;
+  padding: 12px 16px;
+  text-decoration: none;
+  display: block;
+}
+
+nav .navMenu .dropdown-content a:hover {
+  background-color: #FFFFFF;
+}
+
+nav .navMenu .dropdown:hover .dropdown-content {
+  display: block;
+}
+
+nav div {
   float: right;
-  margin: 0 0 30px 10px;
-  cursor: pointer;
 }
 
 .topContainer {
@@ -1358,6 +1395,10 @@ nav div a {
 }
 
 @media (max-width: 768px) {
+  nav {
+    display: none;
+  }
+
   nav .hamburger {
     display: inline-block;
   }
@@ -1940,13 +1981,6 @@ nav div a {
   }
 }
 
-ul {
-  display: inline-block;
-  position: fixed;
-  top: 60%;
-  left: 88%;
-}
-
 .form__group {
   display: flex;
   justify-content: center;
@@ -2295,6 +2329,17 @@ html {
   margin: 0 0 50px 0;
 }
 
+.galleryTitle a {
+  float: right;
+  text-transform: uppercase;
+  text-decoration: none;
+  color: black;
+}
+
+.galleryTitle a:hover {
+  color: brown;
+}
+
 .album .albumImages .albums {
   flex-wrap: wrap;
 }
@@ -2328,10 +2373,10 @@ html {
 .pic {
   display: flex;
   flex-wrap: wrap;
+  justify-content: center;
 }
 
 .pic .imageBox {
-  width: 33%;
   border: 1px solid black;
 }
 
@@ -2340,5 +2385,40 @@ html {
   -o-object-fit: cover;
      object-fit: cover;
   width: 100%;
+}
+
+.postContainer {
+  display: flex;
+  flex-wrap: wrap;
+  justify-content: center;
+}
+
+.postContainer .postTitle {
+  width: 100%;
+  text-align: center;
+  margin: 0 0 14px 0;
+}
+
+.postContainer .postImage {
+  width: 100%;
+  align-self: center;
+}
+
+.postContainer .postImage img {
+  width: 100%;
+  height: 300px;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.postContainer .postDate {
+  width: 100%;
+  margin: 14px 0 14px 0;
+  font-size: 14px;
+}
+
+.postContainer .postContent {
+  width: 100%;
+  font-size: 20px;
 }
 
