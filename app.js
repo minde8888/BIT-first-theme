@@ -3878,6 +3878,7 @@ var FrontMenu = /*#__PURE__*/function () {
     this.DOM = null; // this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
     // this.uri = document.location.origin;
 
+    this.renderSideMenu();
     this.init();
   }
 
@@ -3923,6 +3924,12 @@ var FrontMenu = /*#__PURE__*/function () {
 
       return init;
     }()
+  }, {
+    key: "renderSideMenu",
+    value: function renderSideMenu() {
+      var hamburger = document.querySelector('.hamburger');
+      console.log(hamburger);
+    }
   }]);
 
   return FrontMenu;
@@ -4514,9 +4521,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_album_js__WEBPACK_IMPORTED_MODULE_3__ = __webpack_require__(/*! ./js/album.js */ "./src/js/album.js");
 /* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
 /* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
-
 /* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
-
+/* harmony import */ var _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontmenu.js */ "./src/js/frontmenu.js");
 
  // import startGallery from './js/gallery.js';
 
@@ -4525,12 +4531,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
+ // import SideMenu from './js/sidemenu.js';
+
 new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
 new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
-new _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_6__["default"]('.navMenu');
+new _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
-new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
+new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery"); // new SideMenu(".topContainer");
 
 /***/ }),
 

@@ -35,7 +35,7 @@
 			</div>
 			<nav>
 				<div class="logo">
-					<a href="http://localhost:8080/wordpress/"><img src="http://localhost:8080/wordpress/wp-content/uploads/2020/11/logo.jpg" alt="log"></a>
+					<a href="http://localhost/wordpress/"><img src="http://localhost/wordpress/wp-content/uploads/2020/11/logo.jpg" alt="log"></a>
 				</div>
 				<div class="hamburger">
 
@@ -43,7 +43,7 @@
 					<div class="line"></div>
 					<div class="line"></div>
 				</div>
-				<div class="navMenu">
+				<div class="navMenu show">
 					<!-- <a href="#">KONTAKTAI</a>
 					<a href="#">FILOSOFIJA</a>
 					<a href="#">TAISYKLĖS</a>
