@@ -4389,18 +4389,20 @@ var ImageUploade = /*#__PURE__*/function () {
                         deleteDiv[j].setAttribute("id", deleteId);
                         actionBtn.classList.remove("EventBoxHidden");
                         actionBtn.classList.add("boxImg");
+                        console.log(j);
 
                         var renderActionBtn = function renderActionBtn(e) {
+                          console.log(j);
                           e.stopPropagation();
-                          actionBtn.removeEventListener("click", renderActionBtn, true);
-                          var checked = document.querySelector(".albumImage");
+                          actionBtn.removeEventListener("click", renderActionBtn);
+                          var check = document.querySelector(".albumImage");
 
-                          if (checkBox.checked && !checked) {
+                          if (checkBox.checked && !check) {
+                            console.log(checkBox.checked);
                             deleteDiv[j].classList.add("albumImage");
                             image[j].setAttribute("data", "true");
-                            actionBtn.removeEventListener;
                             deleteDiv[j].removeAttribute("id", deleteId);
-                          } else if (checkBox.checked && checked) {
+                          } else if (checkBox.checked && check) {
                             image[j].setAttribute("data", "false");
                             deleteDiv[j].classList.remove("albumImage");
                           }
@@ -4482,9 +4484,8 @@ var ImageUploade = /*#__PURE__*/function () {
             albumTitle: album.value,
             api: api
           };
-          var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"]();
-          axios.formDataApi(obj, images);
-          location.reload();
+          var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"](); // axios.formDataApi(obj, images);
+          // location.reload();
         } else {
           alert("Nepasirinkatas albumo paveikslelis !!!");
         }
