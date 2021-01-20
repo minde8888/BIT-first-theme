@@ -1,16 +1,13 @@
 @charset "UTF-8";
 
-/**
- * /*   
- * Theme Name: BIT-FIRST-THEME
- * Theme URI: <THEME_URI>
- * Description: A Theme for styling.
- * Author: BIT
- * Author URI: <AUTHOR_URI>
- * Version: 1.0
- *
- * @format
- */
+/*   
+Theme Name: BIT-FIRST-THEME
+Theme URI: <THEME_URI>
+Description: A Theme for styling.
+Author: BIT
+Author URI: <AUTHOR_URI>
+Version: 1.0
+*/
 
 html {
   scroll-behavior: smooth;
