@@ -14,7 +14,7 @@ class Calendar {
         this.curentDay = new Date(this.y, this.curentM, 1).getDay();
         let startDay = this.curentDay;
         this.dayToday = new Date(this.y, this.m, this.day);
-
+        this.months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
         this.init(days, startDay);
     }
 
@@ -51,10 +51,9 @@ class Calendar {
         const exisitClassMonth = document.querySelector(".cview__month-current").textContent;
 
         if (exisitClassMonth == 1) {
-            let nowM = new Date(this.y, this.date.getMonth());
-            let nowY = nowM.toString().slice(11, -47);
-            nowM = nowM.toString().slice(4, -55);
-            nowM = this.translate(nowM);
+            let nowM = this.m;
+            let nowY = this.y;
+            nowM = this.months[nowM];
             document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
         }
 
@@ -122,10 +121,8 @@ class Calendar {
         let dataDate = new Date(this.y, this.m + a - 1);
         let y = this.date.getFullYear(),
             m = this.date.getMonth();
-        let curentM = new Date(y, this.date.getMonth() + a, 0);
-        let curentY = curentM.toString().slice(11, -47);
-        curentM = curentM.toString().slice(4, -55);
-        let curM = this.translate(curentM);
+        let curentY = new Date(y, this.date.getMonth() + a, 0).getFullYear();
+        let curM = this.months[new Date(y, this.date.getMonth() + a, 0).getMonth()];
         curentMth.innerHTML = curentY + ' ' + curM;
 
         let lastDayM = new Date(y, m + a, 0).getDate();
@@ -134,47 +131,6 @@ class Calendar {
         let startDay = new Date(curentY, newM, 1).getDay();
 
         this.render(lastDayM, startDay, dataDate);
-    }
-
-    translate(curentM) {
-        switch (curentM) {
-            case 'Jan':
-                return curentM = 'Sausis';
-                break;
-            case 'Feb':
-                return curentM = 'Vasaris';
-                break;
-            case 'Mar':
-                return curentM = 'Kovas';
-                break;
-            case 'Apr':
-                return curentM = 'Balandis';
-                break;
-            case 'May':
-                return curentM = 'Gegužė';
-                break;
-            case 'Jun':
-                return curentM = 'Birželis';
-                break;
-            case 'Jul':
-                return curentM = 'Liepa';
-                break;
-            case 'Aug':
-                return curentM = 'Rugpjūtis';
-                break;
-            case 'Sep':
-                return curentM = 'Rugsėjis';
-                break;
-            case 'Oct':
-                return curentM = 'Spalis';
-                break;
-            case 'Nov':
-                return curentM = 'Lapkritis';
-                break;
-            case 'Dec':
-                return curentM = 'Gruodis';
-                break;
-        }
     }
 
     renderEvents() {
@@ -191,7 +147,6 @@ class Calendar {
                     let dayEvents = document.querySelectorAll(".cview--date");
 
                     let keys = [];
-
 
                     for (let key in data) {
                         keys.push(key);
@@ -212,8 +167,6 @@ class Calendar {
                     const event = document.querySelector(".todayEvents");
                     const today = document.querySelector(".today");
                     const eTime = document.querySelector(".eTime");
-                    const clickShow = document.querySelector(".todayContainer");
-                    const timeClick = document.getElementById("eTimeClick");
 
                     if (today) {
                         today.classList.add("clickEvent");
@@ -235,7 +188,6 @@ class Calendar {
                             HTML1 = `<span class="eTime">(${value.event_time}):</span>`;
                         }
                     }
-
                     eventTime.insertAdjacentHTML('afterbegin', HTML1);
                     event.innerHTML = HTML;
 
@@ -268,21 +220,16 @@ class Calendar {
                                         HTML1 = `<span id="eTimeClick">(${ newValues[j].event_time}):</span>`;
                                     }
                                     clickE.innerHTML = HTML;
-
-
                                 }
                             });
-
                     }
 //isrusioti pagal valandas----------------------------------------------------------//
                     let a = [];
                     let HTML = '';
                     y = call.sortObject(keys, data);
-
                     for (let key in y) {
                         a.push(y);
                     }
-
                     for (let i = 0; i < a.length; i++) {
                         if (i == 3) break;
                         HTML += `<span>${y[i].event_time}</span><div>${y[i].event_description}</div>`;
@@ -293,14 +240,12 @@ class Calendar {
                         today.addEventListener(
                             "click",
                             e => {
-
                                 let action = [];
                                 for (let k = 0; k < keys.length; k++) {
                                     if (today.dataset.date == data[keys[k]].event_date) {
                                         action[k] = data[keys[k]];
                                     }
                                 }
-
                                 let k = [];
                                 let HTML = '';
                                 let newValue = call.sort(action);
@@ -342,7 +287,6 @@ class Calendar {
         let daysCheck = 0;
         let newDate = [];
 
-
         while (start) {
 
             let addDay = new Date(this.y, this.m, this.day + a++);
@@ -362,11 +306,8 @@ class Calendar {
             }
 
         }
-
         return newDate;
     }
-
-
 }
 
 export default Calendar;

@@ -3286,6 +3286,7 @@ var Calendar = /*#__PURE__*/function () {
     this.curentDay = new Date(this.y, this.curentM, 1).getDay();
     var startDay = this.curentDay;
     this.dayToday = new Date(this.y, this.m, this.day);
+    this.months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
     this.init(days, startDay);
   }
 
@@ -3326,10 +3327,9 @@ var Calendar = /*#__PURE__*/function () {
       var exisitClassMonth = document.querySelector(".cview__month-current").textContent;
 
       if (exisitClassMonth == 1) {
-        var nowM = new Date(this.y, this.date.getMonth());
-        var nowY = nowM.toString().slice(11, -47);
-        nowM = nowM.toString().slice(4, -55);
-        nowM = this.translate(nowM);
+        var nowM = this.m;
+        var nowY = this.y;
+        nowM = this.months[nowM];
         document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
       }
 
@@ -3404,68 +3404,13 @@ var Calendar = /*#__PURE__*/function () {
       var dataDate = new Date(this.y, this.m + a - 1);
       var y = this.date.getFullYear(),
           m = this.date.getMonth();
-      var curentM = new Date(y, this.date.getMonth() + a, 0);
-      var curentY = curentM.toString().slice(11, -47);
-      curentM = curentM.toString().slice(4, -55);
-      var curM = this.translate(curentM);
+      var curentY = new Date(y, this.date.getMonth() + a, 0).getFullYear();
+      var curM = this.months[new Date(y, this.date.getMonth() + a, 0).getMonth()];
       curentMth.innerHTML = curentY + ' ' + curM;
       var lastDayM = new Date(y, m + a, 0).getDate();
       var newM = new Date(y, m + a, 0).getMonth();
       var startDay = new Date(curentY, newM, 1).getDay();
       this.render(lastDayM, startDay, dataDate);
-    }
-  }, {
-    key: "translate",
-    value: function translate(curentM) {
-      switch (curentM) {
-        case 'Jan':
-          return curentM = 'Sausis';
-          break;
-
-        case 'Feb':
-          return curentM = 'Vasaris';
-          break;
-
-        case 'Mar':
-          return curentM = 'Kovas';
-          break;
-
-        case 'Apr':
-          return curentM = 'Balandis';
-          break;
-
-        case 'May':
-          return curentM = 'Gegužė';
-          break;
-
-        case 'Jun':
-          return curentM = 'Birželis';
-          break;
-
-        case 'Jul':
-          return curentM = 'Liepa';
-          break;
-
-        case 'Aug':
-          return curentM = 'Rugpjūtis';
-          break;
-
-        case 'Sep':
-          return curentM = 'Rugsėjis';
-          break;
-
-        case 'Oct':
-          return curentM = 'Spalis';
-          break;
-
-        case 'Nov':
-          return curentM = 'Lapkritis';
-          break;
-
-        case 'Dec':
-          return curentM = 'Gruodis';
-          break;
-      }
     }
   }, {
     key: "renderEvents",
@@ -3500,8 +3445,6 @@ var Calendar = /*#__PURE__*/function () {
             var event = document.querySelector(".todayEvents");
             var today = document.querySelector(".today");
             var eTime = document.querySelector(".eTime");
-            var clickShow = document.querySelector(".todayContainer");
-            var timeClick = document.getElementById("eTimeClick");
 
             if (today) {
               today.classList.add("clickEvent");
@@ -3701,19 +3644,19 @@ var Events = /*#__PURE__*/function () {
     this.m = this.calendar.date.getMonth();
     this.y = this.calendar.date.getFullYear();
     this.dayToday = new Date(this.y, this.m, this.d);
+    this.months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
     this.init();
   }
 
   _createClass(Events, [{
     key: "init",
     value: function init() {
+      var _this = this;
+
       var DOM = document.querySelector(this.target);
 
       if (DOM) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.uri + this.path + 'event-create-front', {}).then(function (response) {
-          var call = new Events();
-          call.calendar = new _calendar_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
-
           if (response.status == 200 && response.statusText == 'OK') {
             var action = response.data.html;
             var keys = [];
@@ -3728,28 +3671,25 @@ var Events = /*#__PURE__*/function () {
             var todaysEvents = document.querySelector('.todaysEvents');
 
             for (var i = 0; i < keys.length; i++) {
-              if (call.dayToday == action[keys[i]].event_date) {
+              if (_this.dayToday == action[keys[i]].event_date) {
                 data[i] = action[keys[i]];
               }
             }
 
-            var sorteToday = call.calendar.sort(data);
-            var newData = call.sortObject(keys, action);
+            var sorteToday = _this.calendar.sort(data);
+
+            var newData = _this.sortObject(keys, action);
 
             for (var key1 in sorteToday) {
               keys1.push(key1);
             }
 
             for (var _i = 0; _i < keys1.length; _i++) {
-              var y = sorteToday[keys1[_i]].event_date.toString().slice(11, -47);
-
-              var m = sorteToday[keys1[_i]].event_date.toString().slice(4, -55);
-
-              m = call.calendar.translate(m);
-
-              var d = sorteToday[keys1[_i]].event_date.toString().slice(8, -52);
-
-              HTML += "<div> ".concat(y, " ").concat(m, " ").concat(d, "</div>\n                            <div> ").concat(sorteToday[keys1[_i]].event_description, "  ").concat(sorteToday[keys1[_i]].event_time, " </div>");
+              var y = new Date(sorteToday[keys1[_i]].event_date).getFullYear();
+              var m = new Date(sorteToday[keys1[_i]].event_date).getMonth();
+              var month = _this.months[m];
+              var d = new Date(sorteToday[keys1[_i]].event_date).getDate();
+              HTML += "<div> ".concat(y, " ").concat(month, " ").concat(d, "</div>\n                            <div> ").concat(sorteToday[keys1[_i]].event_description, "  ").concat(sorteToday[keys1[_i]].event_time, " </div>");
             }
 
             todaysEvents.innerHTML = HTML;
@@ -3757,17 +3697,14 @@ var Events = /*#__PURE__*/function () {
             HTML = '';
 
             for (var _i2 = 0; _i2 < newData.length; _i2++) {
-              var value = newData[_i2];
+              var _y = new Date(newData[_i2].event_date).getFullYear();
 
-              var _y = value.event_date.toString().slice(11, -47);
+              var _m = new Date(newData[_i2].event_date).getMonth();
 
-              var _m = value.event_date.toString().slice(4, -55);
+              var _d = new Date(newData[_i2].event_date).getDate();
 
-              _m = call.calendar.translate(_m);
-
-              var _d = value.event_date.toString().slice(8, -52);
-
-              HTML += "<div> ".concat(_y, " ").concat(_m, " ").concat(_d, " </div>\n                            <div> ").concat(value.event_description, " </div>");
+              var _month = _this.months[_m];
+              HTML += "<div> ".concat(_y, " ").concat(_month, " ").concat(_d, " </div>\n                            <div> ").concat(newData[_i2].event_description, " </div>");
             }
 
             nearestEvents.innerHTML = HTML;
@@ -4272,100 +4209,6 @@ var LightBox = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/js/sidemenu.js":
-/*!****************************!*\
-  !*** ./src/js/sidemenu.js ***!
-  \****************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
-
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-var SideMenu = /*#__PURE__*/function () {
-  function SideMenu(target) {
-    _classCallCheck(this, SideMenu);
-
-    this.target = target;
-    console.log(target);
-    this.DOM = null; // this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    // this.uri = document.location.origin;
-
-    this.renderSideMenu(); // this.init();
-  }
-
-  _createClass(SideMenu, [{
-    key: "init",
-    value: function () {
-      var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var DOM, api, axios, HTML;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                DOM = document.querySelector(this.target);
-
-                if (!DOM) {
-                  _context.next = 8;
-                  break;
-                }
-
-                api = 'frontmenu_create';
-                axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
-                _context.next = 6;
-                return axios.getDAta(api);
-
-              case 6:
-                HTML = _context.sent;
-                DOM.innerHTML = HTML;
-
-              case 8:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function init() {
-        return _init.apply(this, arguments);
-      }
-
-      return init;
-    }()
-  }, {
-    key: "renderSideMenu",
-    value: function renderSideMenu() {
-      var hamburger = document.querySelector('.hamburger');
-      console.log(hamburger);
-    }
-  }]);
-
-  return SideMenu;
-}();
-
-/* harmony default export */ __webpack_exports__["default"] = (SideMenu);
-
-/***/ }),
-
 /***/ "./src/js/uploade_image.js":
 /*!*********************************!*\
   !*** ./src/js/uploade_image.js ***!
@@ -4463,18 +4306,20 @@ var ImageUploade = /*#__PURE__*/function () {
                         deleteDiv[j].setAttribute("id", deleteId);
                         actionBtn.classList.remove("EventBoxHidden");
                         actionBtn.classList.add("boxImg");
+                        console.log(j);
 
                         var renderActionBtn = function renderActionBtn(e) {
+                          console.log(j);
                           e.stopPropagation();
-                          actionBtn.removeEventListener("click", renderActionBtn, true);
-                          var checked = document.querySelector(".albumImage");
+                          actionBtn.removeEventListener("click", renderActionBtn);
+                          var check = document.querySelector(".albumImage");
 
-                          if (checkBox.checked && !checked) {
+                          if (checkBox.checked && !check) {
+                            console.log(checkBox.checked);
                             deleteDiv[j].classList.add("albumImage");
                             image[j].setAttribute("data", "true");
-                            actionBtn.removeEventListener;
                             deleteDiv[j].removeAttribute("id", deleteId);
-                          } else if (checkBox.checked && checked) {
+                          } else if (checkBox.checked && check) {
                             image[j].setAttribute("data", "false");
                             deleteDiv[j].classList.remove("albumImage");
                           }
@@ -4597,7 +4442,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
 /* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
 /* harmony import */ var _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontmenu.js */ "./src/js/frontmenu.js");
-/* harmony import */ var _js_sidemenu_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/sidemenu.js */ "./src/js/sidemenu.js");
 
  // import startGallery from './js/gallery.js';
 
@@ -4606,15 +4450,14 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+ // import SideMenu from './js/sidemenu.js';
 
 new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
 new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
 new _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
-new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
-new _js_sidemenu_js__WEBPACK_IMPORTED_MODULE_8__["default"](".topContainer");
+new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery"); // new SideMenu(".topContainer");
 
 /***/ }),
 

@@ -14,17 +14,14 @@ class Events {
         this.m = this.calendar.date.getMonth();
         this.y = this.calendar.date.getFullYear();
         this.dayToday = new Date(this.y, this.m, this.d);
+        this.months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
         this.init();
     }
     init() {
         const DOM = document.querySelector(this.target);
         if (DOM) {
             axios.post(this.uri + this.path + 'event-create-front', {})
-                .then(function (response) {
-
-                    let call = new Events;
-
-                    call.calendar = new Calendar;
+                .then((response) => {
 
                     if (response.status == 200 && response.statusText == 'OK') {
                         let action = response.data.html;
@@ -41,23 +38,24 @@ class Events {
                         const todaysEvents = document.querySelector('.todaysEvents');
 
                         for (let i = 0; i < keys.length; i++) {
-                            if (call.dayToday == action[keys[i]].event_date) {
+                            if (this.dayToday == action[keys[i]].event_date) {
                                 data[i] = action[keys[i]];
                             }
                         }
 
-                        let sorteToday = call.calendar.sort(data);
-                        let newData = call.sortObject(keys, action);
+                        let sorteToday = this.calendar.sort(data);
+                        let newData = this.sortObject(keys, action);
 
                         for (let key1 in sorteToday) {
                             keys1.push(key1);
                         }
                         for (let i = 0; i < keys1.length; i++) {
-                            let y = sorteToday[keys1[i]].event_date.toString().slice(11, -47);
-                            let m = sorteToday[keys1[i]].event_date.toString().slice(4, -55);
-                            m = call.calendar.translate(m);
-                            let d = sorteToday[keys1[i]].event_date.toString().slice(8, -52);
-                            HTML += `<div> ${y} ${m} ${d}</div>
+                        
+                            let y = new Date(sorteToday[keys1[i]].event_date).getFullYear();
+                            let m = new Date(sorteToday[keys1[i]].event_date).getMonth();
+                            let month = this.months[m];
+                            let d = new Date(sorteToday[keys1[i]].event_date).getDate();
+                            HTML += `<div> ${y} ${month} ${d}</div>
                             <div> ${sorteToday[keys1[i]].event_description}  ${sorteToday[keys1[i]].event_time} </div>`;
                         }
                         todaysEvents.innerHTML = HTML;
@@ -67,14 +65,14 @@ class Events {
                         HTML = '';
 
                         for (let i = 0; i < newData.length; i++) {
-                            let value = newData[i];
-                            let y = value.event_date.toString().slice(11, -47);
-                            let m = value.event_date.toString().slice(4, -55);
-                            m = call.calendar.translate(m);
-                            let d = value.event_date.toString().slice(8, -52);
+                 
+                            let y = new Date(newData[i].event_date).getFullYear()
+                            let m = new Date(newData[i].event_date).getMonth()
+                            let d = new Date(newData[i].event_date).getDate()
+                            let month = this.months[m];
 
-                            HTML += `<div> ${y} ${m} ${d} </div>
-                            <div> ${value.event_description} </div>`;
+                            HTML += `<div> ${y} ${month} ${d} </div>
+                            <div> ${newData[i].event_description} </div>`;
                         }
                         nearestEvents.innerHTML = HTML;
                     }
