@@ -170,8 +170,8 @@ class ImageUploade {
                 }
 
                 let axios = new Api;
-                // axios.formDataApi(obj, images);
-                // location.reload();
+                axios.formDataApi(obj, images);
+                location.reload();
             } else {
                 alert("Nepasirinkatas albumo paveikslelis !!!")
             }
