@@ -3286,6 +3286,7 @@ var Calendar = /*#__PURE__*/function () {
     this.curentDay = new Date(this.y, this.curentM, 1).getDay();
     var startDay = this.curentDay;
     this.dayToday = new Date(this.y, this.m, this.day);
+    this.months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
     this.init(days, startDay);
   }
 
@@ -3326,10 +3327,9 @@ var Calendar = /*#__PURE__*/function () {
       var exisitClassMonth = document.querySelector(".cview__month-current").textContent;
 
       if (exisitClassMonth == 1) {
-        var nowM = new Date(this.y, this.date.getMonth());
-        var nowY = nowM.toString().slice(11, -47);
-        nowM = nowM.toString().slice(4, -55);
-        nowM = this.translate(nowM);
+        var nowM = this.m;
+        var nowY = this.y;
+        nowM = this.months[nowM];
         document.getElementById("calendar-month").innerHTML = nowY + ' ' + nowM;
       }
 
@@ -3404,68 +3404,13 @@ var Calendar = /*#__PURE__*/function () {
       var dataDate = new Date(this.y, this.m + a - 1);
       var y = this.date.getFullYear(),
           m = this.date.getMonth();
-      var curentM = new Date(y, this.date.getMonth() + a, 0);
-      var curentY = curentM.toString().slice(11, -47);
-      curentM = curentM.toString().slice(4, -55);
-      var curM = this.translate(curentM);
+      var curentY = new Date(y, this.date.getMonth() + a, 0).getFullYear();
+      var curM = this.months[new Date(y, this.date.getMonth() + a, 0).getMonth()];
       curentMth.innerHTML = curentY + ' ' + curM;
       var lastDayM = new Date(y, m + a, 0).getDate();
       var newM = new Date(y, m + a, 0).getMonth();
       var startDay = new Date(curentY, newM, 1).getDay();
       this.render(lastDayM, startDay, dataDate);
-    }
-  }, {
-    key: "translate",
-    value: function translate(curentM) {
-      switch (curentM) {
-        case 'Jan':
-          return curentM = 'Sausis';
-          break;
-
-        case 'Feb':
-          return curentM = 'Vasaris';
-          break;
-
-        case 'Mar':
-          return curentM = 'Kovas';
-          break;
-
-        case 'Apr':
-          return curentM = 'Balandis';
-          break;
-
-        case 'May':
-          return curentM = 'Gegužė';
-          break;
-
-        case 'Jun':
-          return curentM = 'Birželis';
-          break;
-
-        case 'Jul':
-          return curentM = 'Liepa';
-          break;
-
-        case 'Aug':
-          return curentM = 'Rugpjūtis';
-          break;
-
-        case 'Sep':
-          return curentM = 'Rugsėjis';
-          break;
-
-        case 'Oct':
-          return curentM = 'Spalis';
-          break;
-
-        case 'Nov':
-          return curentM = 'Lapkritis';
-          break;
-
-        case 'Dec':
-          return curentM = 'Gruodis';
-          break;
-      }
     }
   }, {
     key: "renderEvents",
@@ -3500,8 +3445,6 @@ var Calendar = /*#__PURE__*/function () {
             var event = document.querySelector(".todayEvents");
             var today = document.querySelector(".today");
             var eTime = document.querySelector(".eTime");
-            var clickShow = document.querySelector(".todayContainer");
-            var timeClick = document.getElementById("eTimeClick");
 
             if (today) {
               today.classList.add("clickEvent");
@@ -3701,19 +3644,19 @@ var Events = /*#__PURE__*/function () {
     this.m = this.calendar.date.getMonth();
     this.y = this.calendar.date.getFullYear();
     this.dayToday = new Date(this.y, this.m, this.d);
+    this.months = ['Sausis', 'Vasaris', 'Kovas', 'Balandis', 'Gegužė', 'Birželis', 'Liepa', 'Rugpjūtis', 'Rugsėjis', 'Spalis', 'Lapkritis', 'Gruodis'];
     this.init();
   }
 
   _createClass(Events, [{
     key: "init",
     value: function init() {
+      var _this = this;
+
       var DOM = document.querySelector(this.target);
 
       if (DOM) {
         axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.uri + this.path + 'event-create-front', {}).then(function (response) {
-          var call = new Events();
-          call.calendar = new _calendar_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
-
           if (response.status == 200 && response.statusText == 'OK') {
             var action = response.data.html;
             var keys = [];
@@ -3728,28 +3671,25 @@ var Events = /*#__PURE__*/function () {
             var todaysEvents = document.querySelector('.todaysEvents');
 
             for (var i = 0; i < keys.length; i++) {
-              if (call.dayToday == action[keys[i]].event_date) {
+              if (_this.dayToday == action[keys[i]].event_date) {
                 data[i] = action[keys[i]];
               }
             }
 
-            var sorteToday = call.calendar.sort(data);
-            var newData = call.sortObject(keys, action);
+            var sorteToday = _this.calendar.sort(data);
+
+            var newData = _this.sortObject(keys, action);
 
             for (var key1 in sorteToday) {
               keys1.push(key1);
             }
 
             for (var _i = 0; _i < keys1.length; _i++) {
-              var y = sorteToday[keys1[_i]].event_date.toString().slice(11, -47);
-
-              var m = sorteToday[keys1[_i]].event_date.toString().slice(4, -55);
-
-              m = call.calendar.translate(m);
-
-              var d = sorteToday[keys1[_i]].event_date.toString().slice(8, -52);
-
-              HTML += "<div> ".concat(y, " ").concat(m, " ").concat(d, "</div>\n                            <div> ").concat(sorteToday[keys1[_i]].event_description, "  ").concat(sorteToday[keys1[_i]].event_time, " </div>");
+              var y = new Date(sorteToday[keys1[_i]].event_date).getFullYear();
+              var m = new Date(sorteToday[keys1[_i]].event_date).getMonth();
+              var month = _this.months[m];
+              var d = new Date(sorteToday[keys1[_i]].event_date).getDate();
+              HTML += "<div> ".concat(y, " ").concat(month, " ").concat(d, "</div>\n                            <div> ").concat(sorteToday[keys1[_i]].event_description, "  ").concat(sorteToday[keys1[_i]].event_time, " </div>");
             }
 
             todaysEvents.innerHTML = HTML;
@@ -3757,17 +3697,14 @@ var Events = /*#__PURE__*/function () {
             HTML = '';
 
             for (var _i2 = 0; _i2 < newData.length; _i2++) {
-              var value = newData[_i2];
+              var _y = new Date(newData[_i2].event_date).getFullYear();
 
-              var _y = value.event_date.toString().slice(11, -47);
+              var _m = new Date(newData[_i2].event_date).getMonth();
 
-              var _m = value.event_date.toString().slice(4, -55);
+              var _d = new Date(newData[_i2].event_date).getDate();
 
-              _m = call.calendar.translate(_m);
-
-              var _d = value.event_date.toString().slice(8, -52);
-
-              HTML += "<div> ".concat(_y, " ").concat(_m, " ").concat(_d, " </div>\n                            <div> ").concat(value.event_description, " </div>");
+              var _month = _this.months[_m];
+              HTML += "<div> ".concat(_y, " ").concat(_month, " ").concat(_d, " </div>\n                            <div> ").concat(newData[_i2].event_description, " </div>");
             }
 
             nearestEvents.innerHTML = HTML;
@@ -4366,8 +4303,9 @@ var ImageUploade = /*#__PURE__*/function () {
             albumTitle: album.value,
             api: api
           };
-          var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"](); // axios.formDataApi(obj, images);
-          // location.reload();
+          var axios = new _api__WEBPACK_IMPORTED_MODULE_0__["default"]();
+          axios.formDataApi(obj, images);
+          location.reload();
         } else {
           alert("Nepasirinkatas albumo paveikslelis !!!");
         }
