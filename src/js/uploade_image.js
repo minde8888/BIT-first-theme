@@ -141,7 +141,6 @@ class ImageUploade {
     }
 
     sendImageData(filesAll) {
-
         let obj;
         let images = []
         let tags = [];

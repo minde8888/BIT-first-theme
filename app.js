@@ -4428,8 +4428,11 @@ new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery"); // new 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
+
 __webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\main.js */"./src/main.js");
 module.exports = __webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\app.scss */"./src/app.scss");
+
+
 
 
 /***/ })
