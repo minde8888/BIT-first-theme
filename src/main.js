@@ -7,7 +7,7 @@ import Events from './js/events.js';
 import ImageUploade from './js/uploade_image';
 
 import LightBox from './js/lightBox';
-import FrontMenu from './js/frontmenu.js';
+import FrontMenu from './js/frontMenu.js';
 import FooterMenu from './js/footerMenu.js';
 import Pagination from './js/pagination.js';
 

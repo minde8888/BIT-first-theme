@@ -137,12 +137,19 @@ module.exports = function xhrAdapter(config) {
       delete requestHeaders['Content-Type']; // Let the browser set it
     }
 
+    if (
+      (utils.isBlob(requestData) || utils.isFile(requestData)) &&
+      requestData.type
+    ) {
+      delete requestHeaders['Content-Type']; // Let the browser set it
+    }
+
     var request = new XMLHttpRequest();
 
     // HTTP basic authentication
     if (config.auth) {
       var username = config.auth.username || '';
-      var password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
+      var password = unescape(encodeURIComponent(config.auth.password)) || '';
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
@@ -357,9 +364,6 @@ axios.all = function all(promises) {
 };
 axios.spread = __webpack_require__(/*! ./helpers/spread */ "./node_modules/axios/lib/helpers/spread.js");
 
-// Expose isAxiosError
-axios.isAxiosError = __webpack_require__(/*! ./helpers/isAxiosError */ "./node_modules/axios/lib/helpers/isAxiosError.js");
-
 module.exports = axios;
 
 // Allow use of default import syntax in TypeScript
@@ -570,8 +574,7 @@ utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData
   Axios.prototype[method] = function(url, config) {
     return this.request(mergeConfig(config || {}, {
       method: method,
-      url: url,
-      data: (config || {}).data
+      url: url
     }));
   };
 });
@@ -1359,29 +1362,6 @@ module.exports = function isAbsoluteURL(url) {
   // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
   // by any combination of letters, digits, plus, period, or hyphen.
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
-};
-
-
-/***/ }),
-
-/***/ "./node_modules/axios/lib/helpers/isAxiosError.js":
-/*!********************************************************!*\
-  !*** ./node_modules/axios/lib/helpers/isAxiosError.js ***!
-  \********************************************************/
-/*! no static exports found */
-/***/ (function(module, exports, __webpack_require__) {
-
-"use strict";
-
-
-/**
- * Determines whether the payload is an error thrown by Axios
- *
- * @param {*} payload The value to test
- * @returns {boolean} True if the payload is an error thrown by Axios, otherwise false
- */
-module.exports = function isAxiosError(payload) {
-  return (typeof payload === 'object') && (payload.isAxiosError === true);
 };
 
 
@@ -2937,9 +2917,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pagination */ "./src/js/pagination.js");
 
 
+
+
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
-
-
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -2999,14 +2979,13 @@ var Album = /*#__PURE__*/function (_Pagination) {
             switch (_context.prev = _context.next) {
               case 0:
                 DOM = document.querySelector(this.target);
-                console.log(DOM);
 
                 if (DOM) {
                   this.hashChange();
                   this.paging();
                 }
 
-              case 3:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -3158,11 +3137,18 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "formDataApi",
     value: function formDataApi(obj) {
+      var images = arguments.length > 1 && arguments[1] !== undefined ? arguments[1] : null;
       var formData = new FormData();
 
       if (obj.api) {
         for (var key in obj) {
           formData.append(key, obj[key]);
+        }
+
+        if (images != null) {
+          for (var i = 0; i < images.length; i++) {
+            formData.append('image[' + i + ']', images[i]);
+          }
         }
 
         console.log(Object.fromEntries(formData));
@@ -3175,7 +3161,6 @@ var Api = /*#__PURE__*/function () {
             console.log(error.request);
           } else {
             console.log('Error', error.message);
-            console.log("Data from the server is not available !!!");
           }
 
           console.log(error);
@@ -3319,34 +3304,6 @@ var Api = /*#__PURE__*/function () {
 //                 }
 //                 console.log(error);
 //             });
-//     }
-//     formDataApi(obj, images = null) {
-//         let formData = new FormData();
-//         if (obj.api) {
-//             for (var key in obj) {
-//                 formData.append(key, obj[key])
-//             }
-//             if (images != null) {
-//                 for (let i = 0; i < images.length; i++) {
-//                     formData.append('image[' + i + ']', images[i])
-//                 }
-//             }
-//             console.log(Object.fromEntries(formData))
-//             axios.post(this.uri + this.path + obj.api, formData, {}).then(function (response) { }).catch(function (error) {
-//                 if (error.response) {
-//                     console.log(error.response.data);
-//                     console.log(error.response.status);
-//                     console.log(error.response.headers);
-//                 } else if (error.request) {
-//                     console.log(error.request);
-//                 } else {
-//                     console.log('Error', error.message);
-//                 }
-//                 console.log(error);
-//             });
-//         } else {
-//             throw 'can not find API';
-//         }
 //     }
 //     async getPostData(obj) {
 //         if (obj.api) {
@@ -3909,6 +3866,91 @@ var Events = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./src/js/footerMenu.js":
+/*!******************************!*\
+  !*** ./src/js/footerMenu.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
+
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var FooterMenu = /*#__PURE__*/function () {
+  function FooterMenu(target) {
+    _classCallCheck(this, FooterMenu);
+
+    this.target = target;
+    this.DOM = null;
+    this.init();
+  }
+
+  _createClass(FooterMenu, [{
+    key: "init",
+    value: function () {
+      var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var DOM, api, axios, HTML;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                DOM = document.querySelector(this.target);
+
+                if (!DOM) {
+                  _context.next = 8;
+                  break;
+                }
+
+                api = 'frontmenu_create';
+                axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
+                _context.next = 6;
+                return axios.getDAta(api);
+
+              case 6:
+                HTML = _context.sent;
+                DOM.innerHTML = HTML;
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function init() {
+        return _init.apply(this, arguments);
+      }
+
+      return init;
+    }()
+  }]);
+
+  return FooterMenu;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (FooterMenu);
+
+/***/ }),
+
 /***/ "./src/js/frontMenu.js":
 /*!*****************************!*\
   !*** ./src/js/frontMenu.js ***!
@@ -3958,7 +4000,7 @@ var FrontMenu = /*#__PURE__*/function () {
                 DOM = document.querySelector(this.target);
 
                 if (!DOM) {
-                  _context.next = 8;
+                  _context.next = 9;
                   break;
                 }
 
@@ -3970,8 +4012,9 @@ var FrontMenu = /*#__PURE__*/function () {
               case 6:
                 HTML = _context.sent;
                 DOM.innerHTML = HTML;
+                this.renderSideMenu();
 
-              case 8:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -3989,8 +4032,7 @@ var FrontMenu = /*#__PURE__*/function () {
     key: "renderSideMenu",
     value: function renderSideMenu() {
       var hamburger = document.querySelector(".hamburger");
-      var navMenu = document.querySelector('.navMenu'); // console.log(hiden);
-
+      var navMenu = document.querySelector('.navMenu');
       hamburger.addEventListener("click", function () {
         navMenu.classList.toggle("hiden");
       });
@@ -4442,10 +4484,11 @@ var Pagination = /*#__PURE__*/function () {
                 HTML = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : null;
 
                 if (!(HTML && hash)) {
-                  _context2.next = 9;
+                  _context2.next = 10;
                   break;
                 }
 
+                console.log(11111111);
                 this.watch.innerHTML = HTML;
                 page = document.querySelectorAll(".paging");
                 _hash = location.hash.split('#')[1];
@@ -4455,30 +4498,32 @@ var Pagination = /*#__PURE__*/function () {
                   location.hash = _hash;
                 }
 
-                _context2.next = 26;
+                _context2.next = 29;
                 break;
 
-              case 9:
+              case 10:
                 if (!(hash && HTML == null)) {
-                  _context2.next = 17;
+                  _context2.next = 19;
                   break;
                 }
 
+                console.log(22222222);
                 pages = this.pages;
                 obj = {
                   api: this.api,
                   pageSelected: pages,
                   hash: hash
                 };
-                _context2.next = 14;
+                _context2.next = 16;
                 return this.axios.getPostData(obj);
 
-              case 14:
+              case 16:
                 this.watch.innerHTML = _context2.sent;
-                _context2.next = 26;
+                _context2.next = 29;
                 break;
 
-              case 17:
+              case 19:
+                console.log(333333333);
                 _hash2 = location.hash.split('#')[1];
                 location.hash = _hash2;
                 _obj = {
@@ -4486,10 +4531,10 @@ var Pagination = /*#__PURE__*/function () {
                   pageSelected: this.pages,
                   hash: _hash2
                 };
-                _context2.next = 22;
+                _context2.next = 25;
                 return this.axios.getPostData(_obj);
 
-              case 22:
+              case 25:
                 this.watch.innerHTML = _context2.sent;
                 _page = document.querySelectorAll(".paging");
 
@@ -4500,7 +4545,7 @@ var Pagination = /*#__PURE__*/function () {
 
                 console.log(_obj);
 
-              case 26:
+              case 29:
                 this.paging();
                 HTML = "";
                 addColor = document.querySelector('.nr-' + location.hash.split('#')[1]);
@@ -4568,7 +4613,7 @@ var Pagination = /*#__PURE__*/function () {
                 option.addEventListener('change', selected); // child class implements button listeners or etc html functions 
                 // this.addAction();
 
-              case 37:
+              case 40:
               case "end":
                 return _context2.stop();
             }
@@ -4824,6 +4869,10 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
 /* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
 /* harmony import */ var _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontMenu.js */ "./src/js/frontMenu.js");
+/* harmony import */ var _js_footerMenu_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/footerMenu.js */ "./src/js/footerMenu.js");
+/* harmony import */ var _js_pagination_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/pagination.js */ "./src/js/pagination.js");
+
+
 
 
 
@@ -4833,8 +4882,9 @@ __webpack_require__.r(__webpack_exports__);
 
 
 new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
-new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
+new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.inner');
 new _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
+new _js_footerMenu_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.site-footer');
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
 new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
