@@ -1807,8 +1807,48 @@ nav div {
   cursor: pointer;
 }
 
-@media (max-width: 768px) {
-  nav {
+@media (max-width: 1210px) {
+  nav .logo {
+    margin-bottom: 10px;
+  }
+
+  nav .navMenu {
+    display: flex;
+    flex-direction: row;
+    float: none;
+    width: 100%;
+    justify-content: center;
+    align-items: center;
+  }
+
+  nav .navMenu .dropdown {
+    order: 3;
+  }
+
+  .cl {
+    margin: 30px 0 0 0;
+  }
+}
+
+@media (max-width: 880px) {
+  nav .navMenu {
+    display: none;
+    display: flex;
+    flex-direction: column-reverse;
+  }
+
+  nav .navMenu .dropbtn {
+    line-height: 30px;
+    text-align: left;
+    font-weight: 500;
+    margin: 0 0 0 0;
+  }
+
+  nav .navMenu .dropbtn:hover {
+    color: crimson;
+  }
+
+  nav .hiden {
     display: none;
   }
 
@@ -1823,31 +1863,6 @@ nav div {
     background-color: black;
     line-height: 1px;
     margin: 5px 0 0 0;
-  }
-
-  nav .show {
-    display: inline-block;
-    width: 160px;
-    height: 230px;
-    background-color: #A0A5AA;
-    position: fixed;
-    top: 30%;
-    left: 50%;
-    transform: translate(-50%, -50%);
-    border-radius: 2%;
-    z-index: 2;
-  }
-
-  nav .show a {
-    line-height: 30px;
-    float: none;
-    font-weight: 500;
-    margin: 0 0 0 30px;
-    border-bottom: 1px solid black;
-  }
-
-  nav .show a:hover {
-    background-color: #838383;
   }
 }
 
@@ -2058,7 +2073,6 @@ nav div {
 }
 
 .news {
-  font-weight: bolder;
   margin: 0 0 50px 0;
 }
 

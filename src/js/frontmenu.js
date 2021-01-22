@@ -14,7 +14,6 @@ class FrontMenu {
     async init() {
         const DOM = document.querySelector(this.target);
         if (DOM) {
-            // console.log(DOM);
             const api = 'frontmenu_create';
             let axios = new Api;
             let HTML = await axios.getDAta(api);
@@ -22,6 +21,15 @@ class FrontMenu {
         }
     }
 
+    renderSideMenu() {
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector('.navMenu');
+        // console.log(hiden);
+        hamburger.addEventListener("click", () => {
+            navMenu.classList.toggle("hiden");
+        })
+
+    }
 }
 
 export default FrontMenu;

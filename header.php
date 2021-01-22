@@ -8,8 +8,7 @@
 </head>
 
 <body>
-	<?php
-	?>
+
 	<header class="grid-container center" id="masthead">
 		<div class="sm-7-8 bl wdm">
 			<div class="topContainer">
@@ -41,7 +40,7 @@
 					<div class="line"></div>
 					<div class="line"></div>
 				</div>
-				<div class="navMenu show">
+				<div class="navMenu hiden">
 					
 				</div>
 
