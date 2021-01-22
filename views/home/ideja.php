@@ -1,5 +1,5 @@
-<div class="sm-3-4  al">
-    <div class="sm-3-4 cl">
+<div class="sm-3-4 ">
+    <div class="cl">
         <div class="eventsHome">
             <div class="boxEvent-1">
                 <div class="todayEvent">
@@ -17,7 +17,7 @@
             </div>
         </div>
     </div>
-    <div class="sm-5-8 dl">
+    <div class="xl-1">
         <?= $news; ?>
     </div>
 </div>

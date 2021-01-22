@@ -111,15 +111,38 @@
   }
 
   .todayContainer {
-    text-align: right;
-    margin    : 40px 0 0 40px;
+    text-align : right;
+    font-weight: 400;
+    margin     : 40px 0 0 40px;
 
     .clickToday {
       text-align: left;
 
+      div:nth-child(2) {
+        float     : left;
+        width     : 100%;
+        text-align: center;
+
+      }
+
       span:first-of-type {
         font-weight: 700;
         margin     : 0 0 0 150px;
+        width      : 100%;
+      }
+
+      div {
+        width      : 80%;
+        float      : right;
+        text-align : left;
+        line-height: 30px;
+        margin     : 0 0 0 10px;
+      }
+
+      span {
+        font-weight: 600;
+        line-height: 30px;
+        float      : left;
       }
 
       span:first-of-type::before {
@@ -134,13 +157,62 @@
 
   .events {
     text-align : right;
-    font-weight: 600;
+    font-weight: 400;
     margin     : 40px 0 0 40px;
+
+    .eTime {
+      font-weight: 600;
+    }
+
+    .todayEvents {
+      div:nth-child(2) {
+        float     : left;
+        width     : 100%;
+        text-align: center;
+        margin-top: 10px;
+      }
+
+      span:nth-child(1) {
+        display: none;
+      }
+
+      div {
+        width      : 80%;
+        float      : right;
+        text-align : left;
+        line-height: 30px;
+        margin     : 0 0 0 10px;
+      }
+
+      span {
+        font-weight: 600;
+        line-height: 30px;
+      }
+    }
 
     .nearestEvent {
       width      : 100%;
       font-weight: 400;
 
+      div {
+        width      : 80%;
+        float      : right;
+        text-align : left;
+        line-height: 30px;
+        margin     : 0 0 0 10px;
+      }
+
+      span {
+        font-weight: 600;
+        line-height: 30px;
+      }
+
+    }
+
+    .eventTitle {
+      font-weight: 600;
+      text-align : center;
+      line-height: 30px;
     }
   }
 }
@@ -160,4 +232,83 @@
   font-weight  : 600;
   color        : black;
   line-height  : 20px;
+}
+
+@media (max-width: 1170px) {
+
+  .calendarContainer {
+    grid-template-columns: 1.5fr repeat(2, 1fr);
+    grid-template-rows   : 1fr 5fr;
+
+    .calendar {
+      margin: 40px 0 0 40px;
+    }
+
+    .events {
+      margin: 40px 0 0 40px;
+      width : 100%;
+    }
+  }
+
+  .calendarContainer .todayContainer {
+    margin: 10px 0 0 40px;
+  }
+
+  .calendarContainer .todayContainer .clickToday span:first-of-type {
+    margin: 25px 0 0 150px;
+  }
+
+  .calendarContainer .todayContainer .clickToday div {
+    width: 70%;
+  }
+}
+
+@media (max-width: 890px) {
+  .calendarContainer {
+    display              : grid;
+    grid-template-columns: repeat(auto-fit, minmax(350px, 1fr));
+    height               : 100vh;
+
+    .calendar {
+      margin: 40px 0 0 10px;
+    }
+
+    .events {
+      margin       : 20px 0 0 0;
+      border-bottom: solid rgb(90, 90, 90) 1px;
+
+      .eTime {
+        width     : 100%;
+        text-align: center;
+      }
+    }
+
+    .todayContainer {
+      margin: 10px 0 20px 0;
+
+      .clickToday {
+        div {
+          width     : 80%;
+          text-align: left;
+          float     : none;
+          margin    : 0 0 0 10px;
+        }
+
+        span {
+          margin: 0 10px 0 20px;
+        }
+
+        div:nth-child(2) {
+          margin    : 0;
+          text-align: center;
+        }
+        span:first-of-type {
+          font-weight: 700; 
+           margin: 0 0 0 0; 
+           width: 0; 
+      }
+      }
+    }
+
+  }
 }
