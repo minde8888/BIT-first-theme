@@ -16,7 +16,6 @@ class Album extends Pagination{
 
     async init() {
         const DOM = document.querySelector(this.target);
-        console.log(DOM);
         if (DOM) {
             this.hashChange();
             this.paging();

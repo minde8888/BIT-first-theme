@@ -7,6 +7,7 @@ class Api {
         this.uri = document.location.origin;
         this.html = null;
     }
+    
     delete(api, id) {
         axios
             .post(
@@ -65,12 +66,21 @@ class Api {
                 console.log("Data from the server is not available !!!");
             });
     }
-    formDataApi(obj) {
+
+    formDataApi(obj, images = null) {
+
         let formData = new FormData();
         if (obj.api) {
+
             for (var key in obj) {
                 formData.append(key, obj[key])
             }
+            if (images != null) {
+                for (let i = 0; i < images.length; i++) {
+                    formData.append('image[' + i + ']', images[i])
+                }
+            }
+
             console.log(Object.fromEntries(formData))
             axios.post(this.uri + this.path + obj.api, formData, {}).then(function (response) { }).catch(function (error) {
                 if (error.response) {
@@ -81,7 +91,6 @@ class Api {
                     console.log(error.request);
                 } else {
                     console.log('Error', error.message);
-                    console.log("Data from the server is not available !!!");
                 }
                 console.log(error);
             });
@@ -89,6 +98,7 @@ class Api {
             throw 'can not find API';
         }
     }
+
     async getPostData(obj) {
         if (obj.api) {
             try {
@@ -105,7 +115,7 @@ class Api {
                 console.error(e);
                 console.log("Data from the server is not available !!!");
             }
-        }else{
+        } else {
             throw 'can not find API';
         }
     }
@@ -184,37 +194,7 @@ export default Api;
 //             });
 //     }
 
-//     formDataApi(obj, images = null) {
 
-//         let formData = new FormData();
-//         if (obj.api) {
-
-//             for (var key in obj) {
-//                 formData.append(key, obj[key])
-//             }
-//             if (images != null) {
-//                 for (let i = 0; i < images.length; i++) {
-//                     formData.append('image[' + i + ']', images[i])
-//                 }
-//             }
-
-//             console.log(Object.fromEntries(formData))
-//             axios.post(this.uri + this.path + obj.api, formData, {}).then(function (response) { }).catch(function (error) {
-//                 if (error.response) {
-//                     console.log(error.response.data);
-//                     console.log(error.response.status);
-//                     console.log(error.response.headers);
-//                 } else if (error.request) {
-//                     console.log(error.request);
-//                 } else {
-//                     console.log('Error', error.message);
-//                 }
-//                 console.log(error);
-//             });
-//         } else {
-//             throw 'can not find API';
-//         }
-//     }
 
 //     async getPostData(obj) {
 //         if (obj.api) {
