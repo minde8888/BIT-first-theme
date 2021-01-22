@@ -37,7 +37,6 @@
 					<a href="<?= site_url() ?>"><img src="<?= site_url() ?>/wp-content/themes/BIT-first-theme/img/logo.jpg" alt="logo"></a>
 				</div>
 				<div class="hamburger">
-
 					<div class="line"></div>
 					<div class="line"></div>
 					<div class="line"></div>
@@ -45,6 +44,8 @@
 				<div class="navMenu show">
 					
 				</div>
+
+
 			</nav>
 		</div>
 	</header>

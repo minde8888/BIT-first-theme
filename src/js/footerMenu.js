@@ -2,11 +2,11 @@
 
 import Api from './api'
 
-class FrontMenu {
+class FooterMenu {
 
     constructor(target) {
-
         this.target = target;
+        console.log(target)
         this.DOM = null;
         this.init();
     }
@@ -14,7 +14,6 @@ class FrontMenu {
     async init() {
         const DOM = document.querySelector(this.target);
         if (DOM) {
-            // console.log(DOM);
             const api = 'frontmenu_create';
             let axios = new Api;
             let HTML = await axios.getDAta(api);
@@ -24,4 +23,4 @@ class FrontMenu {
 
 }
 
-export default FrontMenu;
+export default FooterMenu;
