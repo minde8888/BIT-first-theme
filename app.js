@@ -3210,40 +3210,7 @@ var Api = /*#__PURE__*/function () {
       }
 
       return getPostData;
-    }() // formDataApi(obj) {
-    //     let val = Object.values(obj);
-    //     let formData = new FormData();
-    //     if (obj.api) {
-    //         for (var key in obj) {
-    //             // console.log(key)
-    //             // console.log(obj[key])
-    //             formData.append(key, obj[key])
-    //         }
-    //         for (let i = 0; i < val.length; i++) {
-    //             for (let j = 0; j < val[i].length; j++) {
-    //                 if (typeof val[i][j] == "object") {
-    //                     formData.append(val[i][j].name, val[i][j])
-    //                 }
-    //             }
-    //         }
-    //         console.log(Object.fromEntries(formData))
-    //         axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
-    //             if (error.response) {
-    //                 console.log(error.response.data);
-    //                 console.log(error.response.status);
-    //                 console.log(error.response.headers);
-    //             } else if (error.request) {
-    //                 console.log(error.request);
-    //             } else {
-    //                 console.log('Error', error.message);
-    //             }
-    //             console.log(error);
-    //         });
-    //     } else {
-    //         throw 'can not find API';
-    //     }
-    // }
-
+    }()
   }]);
 
   return Api;
@@ -3464,7 +3431,7 @@ var Calendar = /*#__PURE__*/function () {
               }
 
               if (count < 2 && value.event_date == date && !eTime) {
-                HTML1 = "<span class=\"eTime\">(".concat(value.event_time, "):</span>");
+                HTML1 = "<div class=\"eTime\">\u0160IANDIENOS \u012EVYKIAI (".concat(value.event_time, "):</div>");
               }
             }
 
@@ -3791,10 +3758,7 @@ var FrontMenu = /*#__PURE__*/function () {
     _classCallCheck(this, FrontMenu);
 
     this.target = target;
-    console.log(target);
-    this.DOM = null; // this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    // this.uri = document.location.origin;
-
+    this.DOM = null;
     this.renderSideMenu();
     this.init();
   }
@@ -3815,9 +3779,7 @@ var FrontMenu = /*#__PURE__*/function () {
                   break;
                 }
 
-                // console.log(111111);
-                // const container = document.querySelector(".navMenu.show");
-                // console.log(container)
+                // console.log(DOM);
                 api = 'frontmenu_create';
                 axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
                 _context.next = 6;
@@ -3844,8 +3806,7 @@ var FrontMenu = /*#__PURE__*/function () {
   }, {
     key: "renderSideMenu",
     value: function renderSideMenu() {
-      var hamburger = document.querySelector('.hamburger');
-      console.log(hamburger);
+      var hamburger = document.querySelector('.hamburger'); // console.log(hamburger);
     }
   }]);
 
@@ -4443,7 +4404,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
 /* harmony import */ var _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontmenu.js */ "./src/js/frontmenu.js");
 
- // import startGallery from './js/gallery.js';
 
 
 
@@ -4468,8 +4428,11 @@ new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery"); // new 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/main.js */"./src/main.js");
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/app.scss */"./src/app.scss");
+
+__webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\main.js */"./src/main.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\app.scss */"./src/app.scss");
+
+
 
 
 /***/ })

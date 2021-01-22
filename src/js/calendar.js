@@ -185,7 +185,7 @@ class Calendar {
                             HTML += `<span>${value.event_time}</span><div>${value.event_description}</div>`;
                         }
                         if (count < 2 && value.event_date == date && !eTime) {
-                            HTML1 = `<span class="eTime">(${value.event_time}):</span>`;
+                            HTML1 = `<div class="eTime">ŠIANDIENOS ĮVYKIAI (${value.event_time}):</div>`;
                         }
                     }
                     eventTime.insertAdjacentHTML('afterbegin', HTML1);
