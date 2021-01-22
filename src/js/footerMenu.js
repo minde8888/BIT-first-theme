@@ -2,11 +2,11 @@
 
 import Api from './api'
 
-class FrontMenu {
+class FooterMenu {
 
     constructor(target) {
-
         this.target = target;
+        console.log(target)
         this.DOM = null;
         this.init();
     }
@@ -21,15 +21,6 @@ class FrontMenu {
         }
     }
 
-    renderSideMenu() {
-        const hamburger = document.querySelector(".hamburger");
-        const navMenu = document.querySelector('.navMenu');
-        // console.log(hiden);
-        hamburger.addEventListener("click", () => {
-            navMenu.classList.toggle("hiden");
-        })
-
-    }
 }
 
-export default FrontMenu;
+export default FooterMenu;
