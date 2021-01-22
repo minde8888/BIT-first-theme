@@ -20,10 +20,9 @@
     </div>
   </div>
   <div class="events">
-    ŠIANDIENOS ĮVYKIAI:
     <div class="todayEvents">
     </div>
-    <div>
+    <div class="eventTitle">
       ARTIMIAUSI ĮVYKIAI:
     </div>
     <div class="nearestEvent">

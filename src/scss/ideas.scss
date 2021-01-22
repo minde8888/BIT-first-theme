@@ -55,3 +55,15 @@
     }
 }
 
+@media (max-width: 600px) {
+
+    .container {
+        width: 80%;
+    }
+
+    .idea {
+        textarea {
+            width: 80%;
+        }
+    }
+}

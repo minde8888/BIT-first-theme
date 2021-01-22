@@ -2,26 +2,32 @@
 
 import Api from './api'
 
-class Album {
+class FrontMenu {
 
     constructor(target) {
 
         this.target = target;
         this.DOM = null;
+        this.renderSideMenu();
         this.init();
-    
     }
 
     async init() {
         const DOM = document.querySelector(this.target);
         if (DOM) {
-            const container = document.getElementById("albumContainer");
-            const api = 'album-create-admin';
+            // console.log(DOM);
+            const api = 'frontmenu_create';
             let axios = new Api;
             let HTML = await axios.getDAta(api);
-            container.innerHTML = HTML;
+            DOM.innerHTML = HTML;
         }
+    }
+
+    renderSideMenu() {
+        let hamburger = document.querySelector('.hamburger');
+        // console.log(hamburger);
+
     }
 }
 
-export default Album;
+export default FrontMenu;
