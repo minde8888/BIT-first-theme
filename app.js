@@ -3725,9 +3725,9 @@ var Events = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/js/frontmenu.js":
+/***/ "./src/js/frontMenu.js":
 /*!*****************************!*\
-  !*** ./src/js/frontmenu.js ***!
+  !*** ./src/js/frontMenu.js ***!
   \*****************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -3779,7 +3779,6 @@ var FrontMenu = /*#__PURE__*/function () {
                   break;
                 }
 
-                // console.log(DOM);
                 api = 'frontmenu_create';
                 axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
                 _context.next = 6;
@@ -3806,7 +3805,12 @@ var FrontMenu = /*#__PURE__*/function () {
   }, {
     key: "renderSideMenu",
     value: function renderSideMenu() {
-      var hamburger = document.querySelector('.hamburger'); // console.log(hamburger);
+      var hamburger = document.querySelector(".hamburger");
+      var navMenu = document.querySelector('.navMenu'); // console.log(hiden);
+
+      hamburger.addEventListener("click", function () {
+        navMenu.classList.toggle("hiden");
+      });
     }
   }]);
 
@@ -4402,7 +4406,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
 /* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
 /* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
-/* harmony import */ var _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontmenu.js */ "./src/js/frontmenu.js");
+/* harmony import */ var _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontMenu.js */ "./src/js/frontMenu.js");
 
 
 
@@ -4414,7 +4418,7 @@ __webpack_require__.r(__webpack_exports__);
 
 new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
 new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
-new _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
+new _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
 new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery"); // new SideMenu(".topContainer");

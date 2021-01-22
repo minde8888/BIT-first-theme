@@ -8,9 +8,7 @@
 </head>
 
 <body>
-	<?php
-	// var_dump($html);
-	?>
+
 	<header class="grid-container center" id="masthead">
 		<div class="sm-7-8 bl wdm">
 			<div class="topContainer">
@@ -35,7 +33,7 @@
 			</div>
 			<nav>
 				<div class="logo">
-					<a href="http://localhost/wordpress/"><img src="http://localhost/wordpress/wp-content/uploads/2020/11/logo.jpg" alt="log"></a>
+					<a href="<?= site_url() ?>"><img src="<?= site_url() ?>/wp-content/themes/BIT-first-theme/img/logo.jpg" alt="logo"></a>
 				</div>
 				<div class="hamburger">
 
@@ -43,14 +41,8 @@
 					<div class="line"></div>
 					<div class="line"></div>
 				</div>
-				<div class="navMenu show">
-					<!-- <a href="#">KONTAKTAI</a>
-					<a href="#">FILOSOFIJA</a>
-					<a href="#">TAISYKLĖS</a>
-					<a href="http://localhost:8080/wordpress/idejos/">IDĖJOS</a>
-					<a href="http://localhost:8080/wordpress/kalendorius/">KALENDORIUS</a>
-					<a href="http://localhost:8080/wordpress/galerija/">GALERIJA</a>
-					<a href="http://localhost:8080/wordpress/naujienos/">NAUJIENOS</a> -->
+				<div class="navMenu hiden">
+					
 				</div>
 			</nav>
 		</div>

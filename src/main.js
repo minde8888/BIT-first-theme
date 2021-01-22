@@ -8,7 +8,7 @@ import ImageUploade from './js/uploade_image';
 
 import LightBox from './js/lightBox';
 
-import FrontMenu from './js/frontmenu.js';
+import FrontMenu from './js/frontMenu.js';
 // import SideMenu from './js/sidemenu.js';
 
 
