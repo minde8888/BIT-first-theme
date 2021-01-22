@@ -2,10 +2,9 @@
 
 import Api from './api'
 
-class FrontMenu {
+class FooterMenu {
 
     constructor(target) {
-
         this.target = target;
         console.log(target)
         this.DOM = null;
@@ -24,4 +23,4 @@ class FrontMenu {
 
 }
 
-export default FrontMenu;
+export default FooterMenu;

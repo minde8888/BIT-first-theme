@@ -38,7 +38,6 @@
 					<a href="http://localhost/wordpress/"><img src="http://localhost/wordpress/wp-content/uploads/2020/11/logo.jpg" alt="log"></a>
 				</div>
 				<div class="hamburger">
-
 					<div class="line"></div>
 					<div class="line"></div>
 					<div class="line"></div>
@@ -52,6 +51,8 @@
 					<a href="http://localhost:8080/wordpress/galerija/">GALERIJA</a>
 					<a href="http://localhost:8080/wordpress/naujienos/">NAUJIENOS</a> -->
 				</div>
+
+
 			</nav>
 		</div>
 	</header>
