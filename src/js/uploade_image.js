@@ -71,21 +71,21 @@ class ImageUploade {
                                             deleteDiv[j].setAttribute("id", deleteId);
                                             actionBtn.classList.remove("EventBoxHidden");
                                             actionBtn.classList.add("boxImg");
-
+                                            console.log(j);
                                             let renderActionBtn = (e) => {
-
+                                                console.log(j);
                                                 e.stopPropagation();
 
-                                                actionBtn.removeEventListener("click", renderActionBtn, true);
-                                                const checked = document.querySelector(".albumImage");
+                                                actionBtn.removeEventListener("click", renderActionBtn);
+                                                const check = document.querySelector(".albumImage");
 
-                                                if (checkBox.checked && !checked) {
+                                                if (checkBox.checked && !check) {
+                                                    console.log(checkBox.checked);
                                                     deleteDiv[j].classList.add("albumImage");
                                                     image[j].setAttribute("data", "true");
-                                                    actionBtn.removeEventListener;
                                                     deleteDiv[j].removeAttribute("id", deleteId);
-                                                } else if (checkBox.checked && checked) {
 
+                                                } else if (checkBox.checked && check) {
                                                     image[j].setAttribute("data", "false");
                                                     deleteDiv[j].classList.remove("albumImage");
                                                 }
@@ -141,7 +141,6 @@ class ImageUploade {
     }
 
     sendImageData(filesAll) {
-
         let obj;
         let images = []
         let tags = [];
@@ -161,21 +160,21 @@ class ImageUploade {
                     tags.push(image[i].getAttribute("tag"));
                     albums.push(image[i].getAttribute("data"));
                 }
-        
+
                 obj = {
                     tag: tags,
                     album: albums,
                     albumTitle: album.value,
                     api: api
                 }
-        
+
                 let axios = new Api;
                 axios.formDataApi(obj, images);
                 location.reload();
-            }else{
+            } else {
                 alert("Nepasirinkatas albumo paveikslelis !!!")
             }
-        }else{
+        } else {
             alert("Nera albumo pavadinimo !!!")
         }
     }
