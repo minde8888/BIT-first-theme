@@ -15,6 +15,7 @@ class ImageUploade {
 
     imageShow() {
         const DOM = document.getElementById(this.target);
+        // console.log(111111)
 
         if (DOM) {
 
