@@ -19,9 +19,17 @@ class FrontMenu {
             let axios = new Api;
             let HTML = await axios.getDAta(api);
             DOM.innerHTML = HTML;
+            // this.renderSideMenu();
         }
     }
 
+    renderSideMenu() {
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector('.navMenu');
+        hamburger.addEventListener("click", () => {
+            navMenu.classList.toggle("hiden");     
+        })
+    }
 }
 
 export default FrontMenu;

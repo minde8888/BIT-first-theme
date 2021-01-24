@@ -1,35 +1,75 @@
 /** @format */
 
 .site-footer {
-  margin: 20px 0 0 0;
+  margin         : 40px 0 0 0;
+  display        : flex;
+  justify-content: center;
+  align-items    : flex-end;
+  flex-direction : row-reverse;
+
   .dropdown {
     position: relative;
-    display: inline-block;
+    display : inline-block;
+
     .dropbtn {
-      text-transform: uppercase;
+      text-transform : uppercase;
       text-decoration: none;
-      font-weight: bold;
-      color: black;
-      padding: 16px;
-      font-size: 16px;
-      border: none;
+      font-weight    : bold;
+      color          : black;
+      padding        : 16px;
+      font-size      : 16px;
+      border         : none;
     }
+
     .dropdown-content {
-      display: none;
-      // display: block;
-      margin-top: 20px;
-      margin-left: 10px;
-      position: absolute;
+      display         : none;
+      margin-top      : 20px;
+      margin-left     : 10px;
+      position        : absolute;
       background-color: $white;
-      // background-color: #f1f1f1;
-      min-width: 100px;
-      box-shadow: 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
-      z-index: 1;
+      min-width       : 100px;
+      box-shadow      : 0px 8px 16px 0px rgba(0, 0, 0, 0.2);
+      z-index         : 1;
+
       a {
-        color: black;
-        padding: 12px 16px;
+        color          : black;
+        padding        : 12px 16px;
         text-decoration: none;
-        display: block;
+        display        : block;
+      }
+    }
+  }
+}
+
+.footerContainer {
+  display        : flex;
+  justify-content: center;
+
+  .topContainer {
+    width: 100px;
+
+    div {
+      margin-bottom: auto;
+      margin       : 40px 0 0 8px;
+    }
+  }
+}
+
+
+@media (max-width: 880px) {
+  .customize-support {
+    footer {
+      display  : flex;
+      flex-wrap: wrap;
+  
+      .dropdown {
+        .dropbtn {
+          line-height: 30px;
+        }
+
+        .dropbtn:hover {
+          color: crimson;
+        }
       }
     }
   }

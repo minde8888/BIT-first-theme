@@ -6,7 +6,6 @@ class FooterMenu {
 
     constructor(target) {
         this.target = target;
-        console.log(target)
         this.DOM = null;
         this.init();
     }
