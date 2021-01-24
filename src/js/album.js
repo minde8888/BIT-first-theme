@@ -1,25 +1,24 @@
 "use strict";
 
-import Api from './api'
+import Pagination from './pagination';
 
-class Album {
+class Album extends Pagination{
 
     constructor(target) {
-
+        super();
+        this.api = "album-create-admin";
         this.target = target;
-        this.DOM = null;
+        this.pages = 5;
+        this.changes;
+        this.watch = document.querySelector(".albumImages");
         this.init();
-    
     }
 
     async init() {
         const DOM = document.querySelector(this.target);
         if (DOM) {
-            const container = document.getElementById("albumContainer");
-            const api = 'album-create-admin';
-            let axios = new Api;
-            let HTML = await axios.getDAta(api);
-            container.innerHTML = HTML;
+            this.hashChange();
+            this.paging();
         }
     }
 }

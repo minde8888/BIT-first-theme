@@ -8,8 +8,7 @@
 </head>
 
 <body>
-	<?php
-	?>
+
 	<header class="grid-container center" id="masthead">
 		<div class="sm-7-8 bl wdm">
 			<div class="topContainer">
@@ -37,14 +36,14 @@
 					<a href="<?= site_url() ?>"><img src="<?= site_url() ?>/wp-content/themes/BIT-first-theme/img/logo.jpg" alt="logo"></a>
 				</div>
 				<div class="hamburger">
-
 					<div class="line"></div>
 					<div class="line"></div>
 					<div class="line"></div>
 				</div>
-				<div class="navMenu show">
+				<div class="navMenu hiden">
 					
 				</div>
+
 			</nav>
 		</div>
 	</header>

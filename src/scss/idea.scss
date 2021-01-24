@@ -1,21 +1,7 @@
     /*-----------idejos-----------------*/
-    .al {
-      height: 420px;
 
-      .bl {
-        background-color: $light-silver-gray;
-        width           : 100%;
-        height          : 160px;
-      }
-
-      .dl {
-        height          : 300px;
-        width           : 100%;
-      }
-    }
 
     .idea-container {
-      height: 550px;
 
       .idea {
         display: inline-block;
@@ -82,7 +68,6 @@
 
 
     .gallery-container {
-      height: 525px;
 
       .idea {
         display: inline-block;
@@ -251,11 +236,12 @@
     }
 
     @media (max-width: 600px) {
-
-      textarea,
-      .container {
-        width: 260px;
+      .idea {
+        textarea {
+          width: 100%;
+        }
       }
+
 
       .like__number {
         margin: 10px 0 0 0;

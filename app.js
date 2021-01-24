@@ -2914,10 +2914,12 @@ try {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
+/* harmony import */ var _pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pagination */ "./src/js/pagination.js");
 
 
 
+
+function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -2929,44 +2931,61 @@ function _defineProperties(target, props) { for (var i = 0; i < props.length; i+
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
 
+function _inherits(subClass, superClass) { if (typeof superClass !== "function" && superClass !== null) { throw new TypeError("Super expression must either be null or a function"); } subClass.prototype = Object.create(superClass && superClass.prototype, { constructor: { value: subClass, writable: true, configurable: true } }); if (superClass) _setPrototypeOf(subClass, superClass); }
+
+function _setPrototypeOf(o, p) { _setPrototypeOf = Object.setPrototypeOf || function _setPrototypeOf(o, p) { o.__proto__ = p; return o; }; return _setPrototypeOf(o, p); }
+
+function _createSuper(Derived) { var hasNativeReflectConstruct = _isNativeReflectConstruct(); return function _createSuperInternal() { var Super = _getPrototypeOf(Derived), result; if (hasNativeReflectConstruct) { var NewTarget = _getPrototypeOf(this).constructor; result = Reflect.construct(Super, arguments, NewTarget); } else { result = Super.apply(this, arguments); } return _possibleConstructorReturn(this, result); }; }
+
+function _possibleConstructorReturn(self, call) { if (call && (_typeof(call) === "object" || typeof call === "function")) { return call; } return _assertThisInitialized(self); }
+
+function _assertThisInitialized(self) { if (self === void 0) { throw new ReferenceError("this hasn't been initialised - super() hasn't been called"); } return self; }
+
+function _isNativeReflectConstruct() { if (typeof Reflect === "undefined" || !Reflect.construct) return false; if (Reflect.construct.sham) return false; if (typeof Proxy === "function") return true; try { Date.prototype.toString.call(Reflect.construct(Date, [], function () {})); return true; } catch (e) { return false; } }
+
+function _getPrototypeOf(o) { _getPrototypeOf = Object.setPrototypeOf ? Object.getPrototypeOf : function _getPrototypeOf(o) { return o.__proto__ || Object.getPrototypeOf(o); }; return _getPrototypeOf(o); }
 
 
-var Album = /*#__PURE__*/function () {
+
+var Album = /*#__PURE__*/function (_Pagination) {
+  _inherits(Album, _Pagination);
+
+  var _super = _createSuper(Album);
+
   function Album(target) {
+    var _this;
+
     _classCallCheck(this, Album);
 
-    this.target = target;
-    this.DOM = null;
-    this.init();
+    _this = _super.call(this);
+    _this.api = "album-create-admin";
+    _this.target = target;
+    _this.pages = 5;
+    _this.changes;
+    _this.watch = document.querySelector(".albumImages");
+
+    _this.init();
+
+    return _this;
   }
 
   _createClass(Album, [{
     key: "init",
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var DOM, container, api, axios, HTML;
+        var DOM;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
               case 0:
                 DOM = document.querySelector(this.target);
 
-                if (!DOM) {
-                  _context.next = 9;
-                  break;
+                if (DOM) {
+                  this.hashChange();
+                  this.paging();
                 }
 
-                container = document.getElementById("albumContainer");
-                api = 'album-create-admin';
-                axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
-                _context.next = 7;
-                return axios.getDAta(api);
-
-              case 7:
-                HTML = _context.sent;
-                container.innerHTML = HTML;
-
-              case 9:
+              case 2:
               case "end":
                 return _context.stop();
             }
@@ -2983,7 +3002,7 @@ var Album = /*#__PURE__*/function () {
   }]);
 
   return Album;
-}();
+}(_pagination__WEBPACK_IMPORTED_MODULE_1__["default"]);
 
 /* harmony default export */ __webpack_exports__["default"] = (Album);
 
@@ -3044,6 +3063,7 @@ var Api = /*#__PURE__*/function () {
         }
 
         console.log(error);
+        console.log("Data from the server is not available !!!");
       });
     }
   }, {
@@ -3077,7 +3097,7 @@ var Api = /*#__PURE__*/function () {
                 _context.prev = 8;
                 _context.t0 = _context["catch"](0);
                 console.error(_context.t0);
-                console.log("Duomenys is serveverio nepasiekiami !!!");
+                console.log("Data from the server is not available !!!");
 
               case 12:
               case "end":
@@ -3111,6 +3131,7 @@ var Api = /*#__PURE__*/function () {
         }
 
         console.log(error);
+        console.log("Data from the server is not available !!!");
       });
     }
   }, {
@@ -3158,7 +3179,7 @@ var Api = /*#__PURE__*/function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!obj.api) {
-                  _context2.next = 17;
+                  _context2.next = 20;
                   break;
                 }
 
@@ -3167,42 +3188,49 @@ var Api = /*#__PURE__*/function () {
 
                 for (key in obj) {
                   formData.append(key, obj[key]);
-                } // console.log(Object.fromEntries(formData))
+                }
 
-
-                _context2.next = 6;
+                console.log(Object.fromEntries(formData));
+                _context2.next = 7;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + obj.api, formData, {});
 
-              case 6:
+              case 7:
                 response = _context2.sent;
 
                 if (!(response.status == 200 && response.statusText == "OK")) {
-                  _context2.next = 11;
+                  _context2.next = 12;
                   break;
                 }
 
-                _context2.next = 10;
+                _context2.next = 11;
                 return response.data.html;
 
-              case 10:
+              case 11:
                 return _context2.abrupt("return", _context2.sent);
 
-              case 11:
-                _context2.next = 17;
+              case 12:
+                _context2.next = 18;
                 break;
 
-              case 13:
-                _context2.prev = 13;
+              case 14:
+                _context2.prev = 14;
                 _context2.t0 = _context2["catch"](1);
                 console.error(_context2.t0);
-                console.log("Duomenys is serveverio nepasiekiami !!!");
+                console.log("Data from the server is not available !!!");
 
-              case 17:
+              case 18:
+                _context2.next = 21;
+                break;
+
+              case 20:
+                throw 'can not find API';
+
+              case 21:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[1, 13]]);
+        }, _callee2, this, [[1, 14]]);
       }));
 
       function getPostData(_x2) {
@@ -3210,46 +3238,126 @@ var Api = /*#__PURE__*/function () {
       }
 
       return getPostData;
-    }() // formDataApi(obj) {
-    //     let val = Object.values(obj);
-    //     let formData = new FormData();
-    //     if (obj.api) {
-    //         for (var key in obj) {
-    //             // console.log(key)
-    //             // console.log(obj[key])
-    //             formData.append(key, obj[key])
-    //         }
-    //         for (let i = 0; i < val.length; i++) {
-    //             for (let j = 0; j < val[i].length; j++) {
-    //                 if (typeof val[i][j] == "object") {
-    //                     formData.append(val[i][j].name, val[i][j])
-    //                 }
-    //             }
-    //         }
-    //         console.log(Object.fromEntries(formData))
-    //         axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
-    //             if (error.response) {
-    //                 console.log(error.response.data);
-    //                 console.log(error.response.status);
-    //                 console.log(error.response.headers);
-    //             } else if (error.request) {
-    //                 console.log(error.request);
-    //             } else {
-    //                 console.log('Error', error.message);
-    //             }
-    //             console.log(error);
-    //         });
-    //     } else {
-    //         throw 'can not find API';
-    //     }
-    // }
-
+    }()
   }]);
 
   return Api;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (Api);
+/* harmony default export */ __webpack_exports__["default"] = (Api); // "use strict";
+// import axios from 'axios';
+// class Api {
+//     constructor() {
+//         this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+//         this.uri = document.location.origin;
+//         this.html = null;
+//     }
+//     delete(api, id) {
+//         axios
+//             .post(
+//                 this.uri + this.path +
+//                 api + id, {
+//                 deleteId: id,
+//             }
+//             )
+//             .catch(function (error) {
+//                 if (error.response) {
+//                     console.log(error.response.data);
+//                     console.log(error.response.status);
+//                     console.log(error.response.headers);
+//                 } else if (error.request) {
+//                     console.log(error.request);
+//                 } else {
+//                     console.log('Error', error.message);
+//                 }
+//                 console.log(error);
+//             });
+//     }
+//     async getDAta(api) {
+//         try {
+//             let response = await axios.post(this.uri + this.path + api,)
+//             if (response.status == 200 && response.statusText == "OK") {
+//                 return response.data.html;
+//             }
+//         } catch (e) {
+//             console.error(e);
+//             console.log("Duomenys is serveverio nepasiekiami !!!");
+//         }
+//     }
+//     saveContent(api, id, content) {
+//         axios
+//             .post(
+//                 this.uri + this.path + api, {
+//                 id: id,
+//                 content: content,
+//             }
+//             )
+//             .catch(function (error) {
+//                 if (error.response) {
+//                     console.log(error.response.data);
+//                     console.log(error.response.status);
+//                     console.log(error.response.headers);
+//                 } else if (error.request) {
+//                     console.log(error.request);
+//                 } else {
+//                     console.log('Error', error.message);
+//                 }
+//                 console.log(error);
+//             });
+//     }
+//     async getPostData(obj) {
+//         if (obj.api) {
+//             try {
+//                 let formData = new FormData();
+//                 for (var key in obj) {
+//                     formData.append(key, obj[key])
+//                 }
+//                 // console.log(Object.fromEntries(formData))
+//                 let response = await axios.post(this.uri + this.path + obj.api, formData, {});
+//                 if (response.status == 200 && response.statusText == "OK") {
+//                     return await response.data.html;
+//                 }
+//             } catch (e) {
+//                 console.error(e);
+//                 console.log("Duomenys is serveverio nepasiekiami !!!");
+//             }
+//         }
+//     }
+//     // formDataApi(obj) {
+//     //     let val = Object.values(obj);
+//     //     let formData = new FormData();
+//     //     if (obj.api) {
+//     //         for (var key in obj) {
+//     //             // console.log(key)
+//     //             // console.log(obj[key])
+//     //             formData.append(key, obj[key])
+//     //         }
+//     //         for (let i = 0; i < val.length; i++) {
+//     //             for (let j = 0; j < val[i].length; j++) {
+//     //                 if (typeof val[i][j] == "object") {
+//     //                     formData.append(val[i][j].name, val[i][j])
+//     //                 }
+//     //             }
+//     //         }
+//     //         console.log(Object.fromEntries(formData))
+//     //         axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
+//     //             if (error.response) {
+//     //                 console.log(error.response.data);
+//     //                 console.log(error.response.status);
+//     //                 console.log(error.response.headers);
+//     //             } else if (error.request) {
+//     //                 console.log(error.request);
+//     //             } else {
+//     //                 console.log('Error', error.message);
+//     //             }
+//     //             console.log(error);
+//     //         });
+//     //     } else {
+//     //         throw 'can not find API';
+//     //     }
+//     // }
+// }
+// export default Api;
 
 /***/ }),
 
@@ -3464,7 +3572,7 @@ var Calendar = /*#__PURE__*/function () {
               }
 
               if (count < 2 && value.event_date == date && !eTime) {
-                HTML1 = "<span class=\"eTime\">(".concat(value.event_time, "):</span>");
+                HTML1 = "<div class=\"eTime\">\u0160IANDIENOS \u012EVYKIAI (".concat(value.event_time, "):</div>");
               }
             }
 
@@ -3758,9 +3866,94 @@ var Events = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/js/frontmenu.js":
+/***/ "./src/js/footerMenu.js":
+/*!******************************!*\
+  !*** ./src/js/footerMenu.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
+
+
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var FooterMenu = /*#__PURE__*/function () {
+  function FooterMenu(target) {
+    _classCallCheck(this, FooterMenu);
+
+    this.target = target;
+    this.DOM = null;
+    this.init();
+  }
+
+  _createClass(FooterMenu, [{
+    key: "init",
+    value: function () {
+      var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+        var DOM, api, axios, HTML;
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+          while (1) {
+            switch (_context.prev = _context.next) {
+              case 0:
+                DOM = document.querySelector(this.target);
+
+                if (!DOM) {
+                  _context.next = 8;
+                  break;
+                }
+
+                api = 'frontmenu_create';
+                axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
+                _context.next = 6;
+                return axios.getDAta(api);
+
+              case 6:
+                HTML = _context.sent;
+                DOM.innerHTML = HTML;
+
+              case 8:
+              case "end":
+                return _context.stop();
+            }
+          }
+        }, _callee, this);
+      }));
+
+      function init() {
+        return _init.apply(this, arguments);
+      }
+
+      return init;
+    }()
+  }]);
+
+  return FooterMenu;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (FooterMenu);
+
+/***/ }),
+
+/***/ "./src/js/frontMenu.js":
 /*!*****************************!*\
-  !*** ./src/js/frontmenu.js ***!
+  !*** ./src/js/frontMenu.js ***!
   \*****************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
@@ -3791,11 +3984,7 @@ var FrontMenu = /*#__PURE__*/function () {
     _classCallCheck(this, FrontMenu);
 
     this.target = target;
-    console.log(target);
-    this.DOM = null; // this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    // this.uri = document.location.origin;
-
-    this.renderSideMenu();
+    this.DOM = null;
     this.init();
   }
 
@@ -3811,13 +4000,10 @@ var FrontMenu = /*#__PURE__*/function () {
                 DOM = document.querySelector(this.target);
 
                 if (!DOM) {
-                  _context.next = 8;
+                  _context.next = 9;
                   break;
                 }
 
-                // console.log(111111);
-                // const container = document.querySelector(".navMenu.show");
-                // console.log(container)
                 api = 'frontmenu_create';
                 axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
                 _context.next = 6;
@@ -3826,8 +4012,9 @@ var FrontMenu = /*#__PURE__*/function () {
               case 6:
                 HTML = _context.sent;
                 DOM.innerHTML = HTML;
+                this.renderSideMenu();
 
-              case 8:
+              case 9:
               case "end":
                 return _context.stop();
             }
@@ -3844,8 +4031,11 @@ var FrontMenu = /*#__PURE__*/function () {
   }, {
     key: "renderSideMenu",
     value: function renderSideMenu() {
-      var hamburger = document.querySelector('.hamburger');
-      console.log(hamburger);
+      var hamburger = document.querySelector(".hamburger");
+      var navMenu = document.querySelector('.navMenu');
+      hamburger.addEventListener("click", function () {
+        navMenu.classList.toggle("hiden");
+      });
     }
   }]);
 
@@ -4209,6 +4399,243 @@ var LightBox = /*#__PURE__*/function () {
 
 /***/ }),
 
+/***/ "./src/js/pagination.js":
+/*!******************************!*\
+  !*** ./src/js/pagination.js ***!
+  \******************************/
+/*! exports provided: default */
+/***/ (function(module, __webpack_exports__, __webpack_require__) {
+
+"use strict";
+__webpack_require__.r(__webpack_exports__);
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
+/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
+
+
+function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
+
+function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
+
+function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
+
+function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
+
+function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
+
+
+var Pagination = /*#__PURE__*/function () {
+  function Pagination() {
+    _classCallCheck(this, Pagination);
+
+    this.axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
+    this.hash;
+  }
+
+  _createClass(Pagination, [{
+    key: "paging",
+    value: function paging() {
+      var page = document.querySelectorAll(".paging");
+
+      if (page.length) {
+        var _loop = function _loop(i) {
+          var nextPage = function nextPage() {
+            page[i].addEventListener('click', nextPage);
+            var id = parseInt(page[i].id);
+            location.hash = id;
+            page[i].removeEventListener("click", nextPage);
+          };
+
+          page[i].addEventListener('click', nextPage);
+        };
+
+        for (var i = 0; i < page.length; i++) {
+          _loop(i);
+        }
+      }
+    }
+  }, {
+    key: "hashChange",
+    value: function () {
+      var _hashChange = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee2() {
+        var _this = this;
+
+        var hash,
+            HTML,
+            page,
+            _hash,
+            pages,
+            obj,
+            _hash2,
+            _obj,
+            _page,
+            addColor,
+            changes,
+            option,
+            selected,
+            _args2 = arguments;
+
+        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee2$(_context2) {
+          while (1) {
+            switch (_context2.prev = _context2.next) {
+              case 0:
+                hash = _args2.length > 0 && _args2[0] !== undefined ? _args2[0] : null;
+                HTML = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : null;
+
+                if (!(HTML && hash)) {
+                  _context2.next = 10;
+                  break;
+                }
+
+                console.log(11111111);
+                this.watch.innerHTML = HTML;
+                page = document.querySelectorAll(".paging");
+                _hash = location.hash.split('#')[1];
+
+                if (_hash > page.length - 4) {
+                  _hash = 1;
+                  location.hash = _hash;
+                }
+
+                _context2.next = 29;
+                break;
+
+              case 10:
+                if (!(hash && HTML == null)) {
+                  _context2.next = 19;
+                  break;
+                }
+
+                console.log(22222222);
+                pages = this.pages;
+                obj = {
+                  api: this.api,
+                  pageSelected: pages,
+                  hash: hash
+                };
+                _context2.next = 16;
+                return this.axios.getPostData(obj);
+
+              case 16:
+                this.watch.innerHTML = _context2.sent;
+                _context2.next = 29;
+                break;
+
+              case 19:
+                console.log(333333333);
+                _hash2 = location.hash.split('#')[1];
+                location.hash = _hash2;
+                _obj = {
+                  api: this.api,
+                  pageSelected: this.pages,
+                  hash: _hash2
+                };
+                _context2.next = 25;
+                return this.axios.getPostData(_obj);
+
+              case 25:
+                this.watch.innerHTML = _context2.sent;
+                _page = document.querySelectorAll(".paging");
+
+                if (_hash2 > _page.length - 4) {
+                  _hash2 = 1;
+                  location.hash = _hash2;
+                }
+
+                console.log(_obj);
+
+              case 29:
+                this.paging();
+                HTML = "";
+                addColor = document.querySelector('.nr-' + location.hash.split('#')[1]);
+
+                if (addColor) {
+                  addColor.classList.add("active");
+                }
+
+                changes = /*#__PURE__*/function () {
+                  var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
+                    var _pages, _obj2;
+
+                    return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
+                      while (1) {
+                        switch (_context.prev = _context.next) {
+                          case 0:
+                            hash = location.hash.split('#')[1];
+
+                            if (!(hash != undefined && hash != null && hash > 0 && hash != "" && hash != NaN && hash != Infinity)) {
+                              _context.next = 9;
+                              break;
+                            }
+
+                            _pages = _this.pages;
+                            _obj2 = {
+                              api: _this.api,
+                              pageSelected: _pages,
+                              hash: hash
+                            };
+                            _context.next = 6;
+                            return _this.axios.getPostData(_obj2);
+
+                          case 6:
+                            HTML = _context.sent;
+                            window.removeEventListener('hashchange', changes);
+
+                            _this.hashChange(hash, HTML);
+
+                          case 9:
+                          case "end":
+                            return _context.stop();
+                        }
+                      }
+                    }, _callee);
+                  }));
+
+                  return function changes() {
+                    return _ref.apply(this, arguments);
+                  };
+                }();
+
+                window.addEventListener('hashchange', changes);
+                this.changes = changes;
+                option = document.getElementById("items");
+                option.value = this.pages;
+
+                selected = function selected() {
+                  _this.pages = option.value;
+                  location.hash = 1;
+                  window.removeEventListener('hashchange', changes);
+                  changes();
+                  option.removeEventListener('change', selected);
+                };
+
+                option.addEventListener('change', selected); // child class implements button listeners or etc html functions 
+                // this.addAction();
+
+              case 40:
+              case "end":
+                return _context2.stop();
+            }
+          }
+        }, _callee2, this);
+      }));
+
+      function hashChange() {
+        return _hashChange.apply(this, arguments);
+      }
+
+      return hashChange;
+    }()
+  }]);
+
+  return Pagination;
+}();
+
+/* harmony default export */ __webpack_exports__["default"] = (Pagination);
+
+/***/ }),
+
 /***/ "./src/js/uploade_image.js":
 /*!*********************************!*\
   !*** ./src/js/uploade_image.js ***!
@@ -4441,23 +4868,26 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
 /* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
 /* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
-/* harmony import */ var _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontmenu.js */ "./src/js/frontmenu.js");
-
- // import startGallery from './js/gallery.js';
-
-
+/* harmony import */ var _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontMenu.js */ "./src/js/frontMenu.js");
+/* harmony import */ var _js_footerMenu_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/footerMenu.js */ "./src/js/footerMenu.js");
+/* harmony import */ var _js_pagination_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/pagination.js */ "./src/js/pagination.js");
 
 
 
 
- // import SideMenu from './js/sidemenu.js';
+
+
+
+
+
 
 new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
-new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.album');
-new _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
+new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.inner');
+new _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
+new _js_footerMenu_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.site-footer');
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
-new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery"); // new SideMenu(".topContainer");
+new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
 
 /***/ }),
 
@@ -4468,8 +4898,8 @@ new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery"); // new 
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/main.js */"./src/main.js");
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/app.scss */"./src/app.scss");
+__webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\main.js */"./src/main.js");
+module.exports = __webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\app.scss */"./src/app.scss");
 
 
 /***/ })
