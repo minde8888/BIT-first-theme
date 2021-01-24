@@ -134,7 +134,7 @@ class Calendar {
     }
 
     renderEvents() {
-        let path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+        let path = '/wp-content/plugins/BIT_first/api/?route=';
         let uri = document.location.origin;
         axios.post(uri + path + 'calendar-create-front', {
 

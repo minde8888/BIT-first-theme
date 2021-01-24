@@ -7,7 +7,7 @@ class Events {
     constructor(target) {
         this.target = target;
         this.DOM = null;
-        this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+        this.path = "/wp-content/plugins/BIT_first/api/?route=";
         this.uri = document.location.origin;
         this.calendar = new Calendar;
         this.d = this.calendar.date.getDate();

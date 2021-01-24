@@ -1,5 +1,5 @@
 const uri = document.location.origin;
-const path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+const path = '/wp-content/plugins/BIT_first/api/?route=';
 
 const startIdeas = document.getElementById('startIdeas');
 

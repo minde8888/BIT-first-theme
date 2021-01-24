@@ -4,7 +4,7 @@ import axios from 'axios';
 
 class Api {
     constructor() {
-        this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+        this.path = "/wp-content/plugins/BIT_first/api/?route=";
         this.uri = document.location.origin;
         this.html = null;
     }

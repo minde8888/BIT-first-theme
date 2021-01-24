@@ -3022,7 +3022,7 @@ var Api = /*#__PURE__*/function () {
   function Api() {
     _classCallCheck(this, Api);
 
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+    this.path = "/wp-content/plugins/BIT_first/api/?route=";
     this.uri = document.location.origin;
     this.html = null;
   }
@@ -3415,7 +3415,7 @@ var Calendar = /*#__PURE__*/function () {
   }, {
     key: "renderEvents",
     value: function renderEvents() {
-      var path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+      var path = '/wp-content/plugins/BIT_first/api/?route=';
       var uri = document.location.origin;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(uri + path + 'calendar-create-front', {}).then(function (response) {
         if (response.status == 200 && response.statusText == 'OK') {
@@ -3637,7 +3637,7 @@ var Events = /*#__PURE__*/function () {
 
     this.target = target;
     this.DOM = null;
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+    this.path = "/wp-content/plugins/BIT_first/api/?route=";
     this.uri = document.location.origin;
     this.calendar = new _calendar_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.d = this.calendar.date.getDate();
@@ -3866,7 +3866,7 @@ var FrontMenu = /*#__PURE__*/function () {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var uri = document.location.origin;
-var path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+var path = '/wp-content/plugins/BIT_first/api/?route=';
 /*----------------------- save content axios----------------------------*/
 
 function getText() {
@@ -4008,7 +4008,7 @@ function renderTreeColons() {
 "use strict";
 __webpack_require__.r(__webpack_exports__);
 var uri = document.location.origin;
-var path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+var path = '/wp-content/plugins/BIT_first/api/?route=';
 var startIdeas = document.getElementById('startIdeas');
 
 function startAllIdeas() {
@@ -4247,7 +4247,7 @@ var ImageUploade = /*#__PURE__*/function () {
 
     this.target = target;
     this.DOM = null;
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+    this.path = "/wp-content/plugins/BIT_first/api/?route=";
     this.uri = document.location.origin;
     this.index = 0;
     this.imageShow();
