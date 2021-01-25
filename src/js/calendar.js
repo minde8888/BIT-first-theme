@@ -136,7 +136,7 @@ class Calendar {
     }
 
     renderEvents() {
-        let path = Api.getApiPath();
+        let path = WPURLS.apiUrl;
         axios.post(path + 'calendar-create-front', {
 
             })
