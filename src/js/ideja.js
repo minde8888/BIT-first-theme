@@ -24,10 +24,11 @@ function getText() {
 function likeAdd(like) {
 
   if (like != undefined && like != null && like.length >= -1 && like != "" && like != NaN) {
-
+    console.log( idea_like)
     axios.post(path + 'idea-create-front', {
       idea_like: like,
     });
+   
     setTimeout(renderTreeColons, 500);
   }
 };
