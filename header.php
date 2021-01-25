@@ -33,7 +33,7 @@
 			</div>
 			<nav>
 				<div class="logo">
-					<a href="<?= site_url() ?>"><img src="<?= site_url() ?>/wp-content/themes/BIT-first-theme/img/logo.jpg" alt="logo"></a>
+					<a href="<?= site_url() ?>"><img src="<?= get_template_directory_uri() ?>/img/logo.jpg" alt="logo"></a>
 				</div>
 				<div class="hamburger">
 					<div class="line"></div>

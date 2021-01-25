@@ -6,10 +6,9 @@ class FrontMenu {
 
     constructor(target) {
 
-        this.target = target;
+    this.target = target;
         // this.DOM = null;
         this.renderSideMenu();
-    //  this.init();
     }
 
     // async init() {

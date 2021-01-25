@@ -22,7 +22,7 @@
     </div>
 </div>
 <div class="sm-1 imgBlock">
-    <img class="imgHome" src="<?= site_url() ?>/wp-content/themes/BIT-first/img/kava.jpg" alt="kava">
+    <img class="imgHome" src="<?= get_template_directory_uri() ?>/img/kava.jpg" alt="kava">
     <div class="homeImgContainer">
         <div class="welcome">
             Welcome to the Rally Template

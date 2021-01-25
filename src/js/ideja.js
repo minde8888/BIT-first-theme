@@ -1,5 +1,4 @@
-const uri = document.location.origin;
-const path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+const path = WPURLS.apiUrl;
 /*----------------------- save content axios----------------------------*/
 
 function getText() {
@@ -10,7 +9,7 @@ function getText() {
   if (txt != undefined && txt != null && txt.length >= 0 && txt != "" && txt != NaN) {
     let words = txt.split(/\s+/);
     textArea.value = '';
-    axios.post(uri + path + 'idea-create-front', {
+    axios.post(path + 'idea-create-front', {
       idea: words,
     }).catch(err => {
       console.log(err instanceof TypeError);
@@ -26,7 +25,7 @@ function likeAdd(like) {
 
   if (like != undefined && like != null && like.length >= -1 && like != "" && like != NaN) {
 
-    axios.post(uri + path + 'idea-create-front', {
+    axios.post(path + 'idea-create-front', {
       idea_like: like,
     });
     setTimeout(renderTreeColons, 500);
@@ -60,7 +59,7 @@ function startHomeIdea() {
 }
 
 function renderTreeColons() {
-  axios.get(uri + path + 'idea-render-front', {})
+  axios.get(path + 'idea-render-front', {})
     .then(function(response) {
       if (response.status == 200 && response.statusText == 'OK') {
         const data = response.data.allData;
