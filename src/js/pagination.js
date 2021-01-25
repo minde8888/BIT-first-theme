@@ -58,7 +58,7 @@ class Pagination {
                 location.hash = hash
             }
 
-            console.log(obj)
+            // console.log(obj)
 
         }
         this.paging();
@@ -84,7 +84,7 @@ class Pagination {
                     hash: hash
                 }
                 HTML = await this.axios.getPostData(obj);
-
+console.log(obj)
                 window.removeEventListener('hashchange', changes);
                 this.hashChange(hash, HTML);
             }

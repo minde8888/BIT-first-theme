@@ -1,5 +1,7 @@
 <footer class="site-footer">
-
+    <?php
+    do_action('print', 'frontMenu/headerfront.php');
+    ?>
 </footer> <!-- #colophon -->
 <?php wp_footer(); ?>
 <div class="footerContainer">

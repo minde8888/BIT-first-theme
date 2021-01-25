@@ -48,7 +48,7 @@
             <label>
                 IDĖJOS
             </label>
-            <a href="<?=site_url()?>/idejos/">Pamatyti visas idėjas</a>
+            <a href="<?= site_url() ?>/idejos/">Pamatyti visas idėjas</a>
         </div>
         <div class="cont">
             <div class="backdrop">
@@ -71,7 +71,7 @@
             <label>
                 GALERIJA
             </label>
-            <a href="<?=site_url()?>/galerija/">Pamatyti visą galeriją</a>
+            <a href="<?= site_url() ?>/galerija/">Pamatyti visą galeriją</a>
         </div>
         <div class="idea-container">
             <?= $album; ?>
