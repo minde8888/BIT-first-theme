@@ -5,7 +5,6 @@ import Calendar from './js/calendar.js';
 import Album from './js/album.js';
 import Events from './js/events.js';
 import ImageUploade from './js/uploade_image';
-
 import LightBox from './js/lightBox';
 import FrontMenu from './js/frontMenu.js';
 // import FooterMenu from './js/footerMenu.js';
