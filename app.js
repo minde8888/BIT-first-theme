@@ -3529,7 +3529,7 @@ var Calendar = /*#__PURE__*/function () {
   }, {
     key: "renderEvents",
     value: function renderEvents() {
-      var path = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getApiPath();
+      var path = WPURLS.apiUrl;
       axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(path + 'calendar-create-front', {}).then(function (response) {
         if (response.status == 200 && response.statusText == 'OK') {
           (function () {
