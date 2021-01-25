@@ -8,20 +8,21 @@ class FrontMenu {
 
         this.target = target;
         // this.DOM = null;
-        this.init();
+        this.renderSideMenu();
+    //  this.init();
     }
 
-    async init() {
-        const DOM = document.querySelector(this.target);
-        if (DOM) {
-            console.log(DOM);
-            const api = 'frontmenu_create';
-            let axios = new Api;
-            let HTML = await axios.getDAta(api);
-            DOM.innerHTML = HTML;
-            // this.renderSideMenu();
-        }
-    }
+    // async init() {
+    //     const DOM = document.querySelector(this.target);
+    //     if (DOM) {
+    //         console.log(DOM);
+    //         const api = 'frontmenu_create';
+    //         let axios = new Api;
+    //         let HTML = await axios.getDAta(api);
+    //         DOM.innerHTML = HTML;
+    //         // this.renderSideMenu();
+    //     }
+    // }
 
     renderSideMenu() {
         const hamburger = document.querySelector(".hamburger");

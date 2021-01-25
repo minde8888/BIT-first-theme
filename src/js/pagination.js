@@ -24,6 +24,7 @@ class Pagination {
     async hashChange(hash = null, HTML = null) {
         if (HTML && hash) {
             console.log(11111111);
+            // console.log(document.currentScript.src);
             this.watch.innerHTML = HTML
             const page = document.querySelectorAll(".paging");
             let hash = location.hash.split('#')[1];
@@ -32,7 +33,7 @@ class Pagination {
                 location.hash = hash
             }
         } else if (hash && HTML == null) {
-console.log(22222222);
+
             let pages = this.pages;
             let obj = {
                 api: this.api,
@@ -61,7 +62,7 @@ console.log(333333333);
                 location.hash = hash
             }
 
-            console.log(obj)
+            // console.log(obj)
 
         }
         this.paging();
@@ -87,7 +88,7 @@ console.log(333333333);
                     hash: hash
                 }
                 HTML = await this.axios.getPostData(obj);
-
+console.log(obj)
                 window.removeEventListener('hashchange', changes);
                 this.hashChange(hash, HTML);
             }

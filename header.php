@@ -41,7 +41,9 @@
 					<div class="line"></div>
 				</div>
 				<div class="navMenu hiden">
-
+					<?php
+					do_action('print', 'frontMenu/headerfront.php');
+					?>
 				</div>
 
 			</nav>

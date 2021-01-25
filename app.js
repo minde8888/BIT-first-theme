@@ -137,19 +137,12 @@ module.exports = function xhrAdapter(config) {
       delete requestHeaders['Content-Type']; // Let the browser set it
     }
 
-    if (
-      (utils.isBlob(requestData) || utils.isFile(requestData)) &&
-      requestData.type
-    ) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
     var request = new XMLHttpRequest();
 
     // HTTP basic authentication
     if (config.auth) {
       var username = config.auth.username || '';
-      var password = unescape(encodeURIComponent(config.auth.password)) || '';
+      var password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
@@ -364,6 +357,9 @@ axios.all = function all(promises) {
 };
 axios.spread = __webpack_require__(/*! ./helpers/spread */ "./node_modules/axios/lib/helpers/spread.js");
 
+// Expose isAxiosError
+axios.isAxiosError = __webpack_require__(/*! ./helpers/isAxiosError */ "./node_modules/axios/lib/helpers/isAxiosError.js");
+
 module.exports = axios;
 
 // Allow use of default import syntax in TypeScript
@@ -574,7 +570,8 @@ utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData
   Axios.prototype[method] = function(url, config) {
     return this.request(mergeConfig(config || {}, {
       method: method,
-      url: url
+      url: url,
+      data: (config || {}).data
     }));
   };
 });
@@ -1362,6 +1359,29 @@ module.exports = function isAbsoluteURL(url) {
   // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
   // by any combination of letters, digits, plus, period, or hyphen.
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/isAxiosError.js":
+/*!********************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/isAxiosError.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the payload is an error thrown by Axios
+ *
+ * @param {*} payload The value to test
+ * @returns {boolean} True if the payload is an error thrown by Axios, otherwise false
+ */
+module.exports = function isAxiosError(payload) {
+  return (typeof payload === 'object') && (payload.isAxiosError === true);
 };
 
 
@@ -2917,9 +2937,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pagination */ "./src/js/pagination.js");
 
 
-
-
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -3021,6 +3041,117 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
+// "use strict";
+// import axios from 'axios';
+// class Api {
+//     constructor() {
+//         this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
+//         this.uri = document.location.origin;
+//         this.html = null;
+//     }
+//     delete(api, id) {
+//         axios
+//             .post(
+//                 this.uri + this.path +
+//                 api + id,
+//                 {
+//                     deleteId: id,
+//                 }
+//             )
+//             .catch(function (error) {
+//                 if (error.response) {
+//                     console.log(error.response.data);
+//                     console.log(error.response.status);
+//                     console.log(error.response.headers);
+//                 } else if (error.request) {
+//                     console.log(error.request);
+//                 } else {
+//                     console.log('Error', error.message);
+//                 }
+//                 console.log(error);
+//                 console.log("Data from the server is not available !!!");
+//             });
+//     }
+//     async getDAta(api) {
+//         try {
+//             let response = await axios.post(this.uri + this.path + api,)
+//             if (response.status == 200 && response.statusText == "OK") {
+//                 return response.data.html;
+//             }
+//         } catch (e) {
+//             console.error(e);
+//             console.log("Data from the server is not available !!!");
+//         }
+//     }
+//     saveContent(api, id, content) {
+//         axios
+//             .post(
+//                 this.uri + this.path + api,
+//                 {
+//                     id: id,
+//                     content: content,
+//                 }
+//             )
+//             .catch(function (error) {
+//                 if (error.response) {
+//                     console.log(error.response.data);
+//                     console.log(error.response.status);
+//                     console.log(error.response.headers);
+//                 } else if (error.request) {
+//                     console.log(error.request);
+//                 } else {
+//                     console.log('Error', error.message);
+//                 }
+//                 console.log(error);
+//                 console.log("Data from the server is not available !!!");
+//             });
+//     }
+//     formDataApi(obj) {
+//         let formData = new FormData();
+//         if (obj.api) {
+//             for (var key in obj) {
+//                 formData.append(key, obj[key])
+//             }
+//             console.log(Object.fromEntries(formData))
+//             axios.post(this.uri + this.path + obj.api, formData, {}).then(function (response) { }).catch(function (error) {
+//                 if (error.response) {
+//                     console.log(error.response.data);
+//                     console.log(error.response.status);
+//                     console.log(error.response.headers);
+//                 } else if (error.request) {
+//                     console.log(error.request);
+//                 } else {
+//                     console.log('Error', error.message);
+//                     console.log("Data from the server is not available !!!");
+//                 }
+//                 console.log(error);
+//             });
+//         } else {
+//             throw 'can not find API';
+//         }
+//     }
+//     async getPostData(obj) {
+//         if (obj.api) {
+//             try {
+//                 let formData = new FormData();
+//                 for (var key in obj) {
+//                     formData.append(key, obj[key])
+//                 }
+//                 console.log(Object.fromEntries(formData))
+//                 let response = await axios.post(this.uri + this.path + obj.api, formData, {});
+//                 if (response.status == 200 && response.statusText == "OK") {
+//                     return await response.data.html;
+//                 }
+//             } catch (e) {
+//                 console.error(e);
+//                 console.log("Data from the server is not available !!!");
+//             }
+//         }else{
+//             throw 'can not find API';
+//         }
+//     }
+// }
+// export default Api;
 
 
 
@@ -3149,9 +3280,9 @@ var Api = /*#__PURE__*/function () {
           for (var i = 0; i < images.length; i++) {
             formData.append('image[' + i + ']', images[i]);
           }
-        }
+        } // console.log(Object.fromEntries(formData))
 
-        console.log(Object.fromEntries(formData));
+
         axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + obj.api, formData, {}).then(function (response) {})["catch"](function (error) {
           if (error.response) {
             console.log(error.response.data);
@@ -3179,7 +3310,7 @@ var Api = /*#__PURE__*/function () {
             switch (_context2.prev = _context2.next) {
               case 0:
                 if (!obj.api) {
-                  _context2.next = 20;
+                  _context2.next = 19;
                   break;
                 }
 
@@ -3188,49 +3319,49 @@ var Api = /*#__PURE__*/function () {
 
                 for (key in obj) {
                   formData.append(key, obj[key]);
-                }
+                } // console.log(Object.fromEntries(formData))
 
-                console.log(Object.fromEntries(formData));
-                _context2.next = 7;
+
+                _context2.next = 6;
                 return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + obj.api, formData, {});
 
-              case 7:
+              case 6:
                 response = _context2.sent;
 
                 if (!(response.status == 200 && response.statusText == "OK")) {
-                  _context2.next = 12;
+                  _context2.next = 11;
                   break;
                 }
 
-                _context2.next = 11;
+                _context2.next = 10;
                 return response.data.html;
 
-              case 11:
+              case 10:
                 return _context2.abrupt("return", _context2.sent);
 
-              case 12:
-                _context2.next = 18;
+              case 11:
+                _context2.next = 17;
                 break;
 
-              case 14:
-                _context2.prev = 14;
+              case 13:
+                _context2.prev = 13;
                 _context2.t0 = _context2["catch"](1);
                 console.error(_context2.t0);
                 console.log("Data from the server is not available !!!");
 
-              case 18:
-                _context2.next = 21;
+              case 17:
+                _context2.next = 20;
                 break;
 
-              case 20:
+              case 19:
                 throw 'can not find API';
 
-              case 21:
+              case 20:
               case "end":
                 return _context2.stop();
             }
           }
-        }, _callee2, this, [[1, 14]]);
+        }, _callee2, this, [[1, 13]]);
       }));
 
       function getPostData(_x2) {
@@ -3356,8 +3487,8 @@ var Api = /*#__PURE__*/function () {
 //     //         throw 'can not find API';
 //     //     }
 //     // }
-// }
-// export default Api;
+// // }
+// // export default Api;
 
 /***/ }),
 
@@ -3866,91 +3997,6 @@ var Events = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/js/footerMenu.js":
-/*!******************************!*\
-  !*** ./src/js/footerMenu.js ***!
-  \******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
-
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-var FooterMenu = /*#__PURE__*/function () {
-  function FooterMenu(target) {
-    _classCallCheck(this, FooterMenu);
-
-    this.target = target;
-    this.DOM = null;
-    this.init();
-  }
-
-  _createClass(FooterMenu, [{
-    key: "init",
-    value: function () {
-      var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var DOM, api, axios, HTML;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                DOM = document.querySelector(this.target);
-
-                if (!DOM) {
-                  _context.next = 8;
-                  break;
-                }
-
-                api = 'frontmenu_create';
-                axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
-                _context.next = 6;
-                return axios.getDAta(api);
-
-              case 6:
-                HTML = _context.sent;
-                DOM.innerHTML = HTML;
-
-              case 8:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function init() {
-        return _init.apply(this, arguments);
-      }
-
-      return init;
-    }()
-  }]);
-
-  return FooterMenu;
-}();
-
-/* harmony default export */ __webpack_exports__["default"] = (FooterMenu);
-
-/***/ }),
-
 /***/ "./src/js/frontMenu.js":
 /*!*****************************!*\
   !*** ./src/js/frontMenu.js ***!
@@ -3960,16 +4006,8 @@ var FooterMenu = /*#__PURE__*/function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
 
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3983,52 +4021,23 @@ var FrontMenu = /*#__PURE__*/function () {
   function FrontMenu(target) {
     _classCallCheck(this, FrontMenu);
 
-    this.target = target;
-    this.DOM = null;
-    this.init();
-  }
+    this.target = target; // this.DOM = null;
+
+    this.renderSideMenu(); //  this.init();
+  } // async init() {
+  //     const DOM = document.querySelector(this.target);
+  //     if (DOM) {
+  //         console.log(DOM);
+  //         const api = 'frontmenu_create';
+  //         let axios = new Api;
+  //         let HTML = await axios.getDAta(api);
+  //         DOM.innerHTML = HTML;
+  //         // this.renderSideMenu();
+  //     }
+  // }
+
 
   _createClass(FrontMenu, [{
-    key: "init",
-    value: function () {
-      var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var DOM, api, axios, HTML;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                DOM = document.querySelector(this.target);
-
-                if (!DOM) {
-                  _context.next = 9;
-                  break;
-                }
-
-                api = 'frontmenu_create';
-                axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
-                _context.next = 6;
-                return axios.getDAta(api);
-
-              case 6:
-                HTML = _context.sent;
-                DOM.innerHTML = HTML;
-                this.renderSideMenu();
-
-              case 9:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function init() {
-        return _init.apply(this, arguments);
-      }
-
-      return init;
-    }()
-  }, {
     key: "renderSideMenu",
     value: function renderSideMenu() {
       var hamburger = document.querySelector(".hamburger");
@@ -4488,7 +4497,8 @@ var Pagination = /*#__PURE__*/function () {
                   break;
                 }
 
-                console.log(11111111);
+                console.log(11111111); // console.log(document.currentScript.src);
+
                 this.watch.innerHTML = HTML;
                 page = document.querySelectorAll(".paging");
                 _hash = location.hash.split('#')[1];
@@ -4498,31 +4508,30 @@ var Pagination = /*#__PURE__*/function () {
                   location.hash = _hash;
                 }
 
-                _context2.next = 29;
+                _context2.next = 27;
                 break;
 
               case 10:
                 if (!(hash && HTML == null)) {
-                  _context2.next = 19;
+                  _context2.next = 18;
                   break;
                 }
 
-                console.log(22222222);
                 pages = this.pages;
                 obj = {
                   api: this.api,
                   pageSelected: pages,
                   hash: hash
                 };
-                _context2.next = 16;
+                _context2.next = 15;
                 return this.axios.getPostData(obj);
 
-              case 16:
+              case 15:
                 this.watch.innerHTML = _context2.sent;
-                _context2.next = 29;
+                _context2.next = 27;
                 break;
 
-              case 19:
+              case 18:
                 console.log(333333333);
                 _hash2 = location.hash.split('#')[1];
                 location.hash = _hash2;
@@ -4531,21 +4540,20 @@ var Pagination = /*#__PURE__*/function () {
                   pageSelected: this.pages,
                   hash: _hash2
                 };
-                _context2.next = 25;
+                _context2.next = 24;
                 return this.axios.getPostData(_obj);
 
-              case 25:
+              case 24:
                 this.watch.innerHTML = _context2.sent;
                 _page = document.querySelectorAll(".paging");
 
                 if (_hash2 > _page.length - 4) {
                   _hash2 = 1;
                   location.hash = _hash2;
-                }
+                } // console.log(obj)
 
-                console.log(_obj);
 
-              case 29:
+              case 27:
                 this.paging();
                 HTML = "";
                 addColor = document.querySelector('.nr-' + location.hash.split('#')[1]);
@@ -4565,7 +4573,7 @@ var Pagination = /*#__PURE__*/function () {
                             hash = location.hash.split('#')[1];
 
                             if (!(hash != undefined && hash != null && hash > 0 && hash != "" && hash != NaN && hash != Infinity)) {
-                              _context.next = 9;
+                              _context.next = 10;
                               break;
                             }
 
@@ -4580,11 +4588,12 @@ var Pagination = /*#__PURE__*/function () {
 
                           case 6:
                             HTML = _context.sent;
+                            console.log(_obj2);
                             window.removeEventListener('hashchange', changes);
 
                             _this.hashChange(hash, HTML);
 
-                          case 9:
+                          case 10:
                           case "end":
                             return _context.stop();
                         }
@@ -4613,7 +4622,7 @@ var Pagination = /*#__PURE__*/function () {
                 option.addEventListener('change', selected); // child class implements button listeners or etc html functions 
                 // this.addAction();
 
-              case 40:
+              case 38:
               case "end":
                 return _context2.stop();
             }
@@ -4685,7 +4694,7 @@ var ImageUploade = /*#__PURE__*/function () {
     value: function imageShow() {
       var _this = this;
 
-      var DOM = document.getElementById(this.target);
+      var DOM = document.getElementById(this.target); // console.log(111111)
 
       if (DOM) {
         var filesAll = [];
@@ -4869,8 +4878,7 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
 /* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
 /* harmony import */ var _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontMenu.js */ "./src/js/frontMenu.js");
-/* harmony import */ var _js_footerMenu_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/footerMenu.js */ "./src/js/footerMenu.js");
-/* harmony import */ var _js_pagination_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/pagination.js */ "./src/js/pagination.js");
+/* harmony import */ var _js_pagination_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/pagination.js */ "./src/js/pagination.js");
 
 
 
@@ -4878,13 +4886,13 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
-
+ // import FooterMenu from './js/footerMenu.js';
 
 
 new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
 new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.inner');
-new _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
-new _js_footerMenu_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.site-footer');
+new _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu'); // new FooterMenu('.site-footer');
+
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
 new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
@@ -4898,8 +4906,8 @@ new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\main.js */"./src/main.js");
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\app.scss */"./src/app.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first/src/main.js */"./src/main.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first/src/app.scss */"./src/app.scss");
 
 
 /***/ })

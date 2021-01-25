@@ -22,7 +22,7 @@
     </div>
 </div>
 <div class="sm-1 imgBlock">
-    <img class="imgHome" src="<?= site_url() ?>/wp-content/themes/BIT-first-theme/img/kava.jpg" alt="kava">
+    <img class="imgHome" src="<?= site_url() ?>/wp-content/themes/BIT-first/img/kava.jpg" alt="kava">
     <div class="homeImgContainer">
         <div class="welcome">
             Welcome to the Rally Template
@@ -48,7 +48,7 @@
             <label>
                 IDĖJOS
             </label>
-            <a href="<?=site_url()?>/idejos/">Pamatyti visas idėjas</a>
+            <a href="<?= site_url() ?>/idejos/">Pamatyti visas idėjas</a>
         </div>
         <div class="cont">
             <div class="backdrop">
@@ -71,7 +71,7 @@
             <label>
                 GALERIJA
             </label>
-            <a href="<?=site_url()?>/galerija/">Pamatyti visą galeriją</a>
+            <a href="<?= site_url() ?>/galerija/">Pamatyti visą galeriją</a>
         </div>
         <div class="idea-container">
             <?= $album; ?>
