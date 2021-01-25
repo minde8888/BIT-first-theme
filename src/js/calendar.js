@@ -1,4 +1,6 @@
 import axios from 'axios';
+import Api from './api';
+
 
 class Calendar {
 
@@ -134,9 +136,8 @@ class Calendar {
     }
 
     renderEvents() {
-        let path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
-        let uri = document.location.origin;
-        axios.post(uri + path + 'calendar-create-front', {
+        let path = Api.getApiPath();
+        axios.post(path + 'calendar-create-front', {
 
             })
             .then(function(response) {

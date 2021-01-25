@@ -3041,15 +3041,14 @@ var Api = /*#__PURE__*/function () {
   function Api() {
     _classCallCheck(this, Api);
 
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    this.uri = document.location.origin;
+    this.apiPath = WPURLS.apiUrl;
     this.html = null;
   }
 
   _createClass(Api, [{
     key: "delete",
     value: function _delete(api, id) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + api + id, {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + api + id, {
         deleteId: id
       })["catch"](function (error) {
         if (error.response) {
@@ -3077,7 +3076,7 @@ var Api = /*#__PURE__*/function () {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + api);
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + api);
 
               case 3:
                 response = _context.sent;
@@ -3116,7 +3115,7 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "saveContent",
     value: function saveContent(api, id, content) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + api, {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + api, {
         id: id,
         content: content
       })["catch"](function (error) {
@@ -3152,7 +3151,7 @@ var Api = /*#__PURE__*/function () {
         }
 
         console.log(Object.fromEntries(formData));
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + obj.api, formData, {}).then(function (response) {})["catch"](function (error) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + obj.api, formData, {}).then(function (response) {})["catch"](function (error) {
           if (error.response) {
             console.log(error.response.data);
             console.log(error.response.status);
@@ -3192,7 +3191,7 @@ var Api = /*#__PURE__*/function () {
 
                 console.log(Object.fromEntries(formData));
                 _context2.next = 7;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + obj.api, formData, {});
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + obj.api, formData, {});
 
               case 7:
                 response = _context2.sent;
@@ -3239,6 +3238,11 @@ var Api = /*#__PURE__*/function () {
 
       return getPostData;
     }()
+  }], [{
+    key: "getApiPath",
+    value: function getApiPath() {
+      return this.apiPath;
+    }
   }]);
 
   return Api;
@@ -3372,11 +3376,13 @@ var Api = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -3523,9 +3529,8 @@ var Calendar = /*#__PURE__*/function () {
   }, {
     key: "renderEvents",
     value: function renderEvents() {
-      var path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
-      var uri = document.location.origin;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(uri + path + 'calendar-create-front', {}).then(function (response) {
+      var path = _api__WEBPACK_IMPORTED_MODULE_1__["default"].getApiPath();
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(path + 'calendar-create-front', {}).then(function (response) {
         if (response.status == 200 && response.statusText == 'OK') {
           (function () {
             var call = new Calendar();
@@ -3745,8 +3750,7 @@ var Events = /*#__PURE__*/function () {
 
     this.target = target;
     this.DOM = null;
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    this.uri = document.location.origin;
+    this.path = WPURLS.apiUrl;
     this.calendar = new _calendar_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.d = this.calendar.date.getDate();
     this.m = this.calendar.date.getMonth();
@@ -3764,7 +3768,7 @@ var Events = /*#__PURE__*/function () {
       var DOM = document.querySelector(this.target);
 
       if (DOM) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.uri + this.path + 'event-create-front', {}).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.path + 'event-create-front', {}).then(function (response) {
           if (response.status == 200 && response.statusText == 'OK') {
             var action = response.data.html;
             var keys = [];
@@ -4055,8 +4059,7 @@ var FrontMenu = /*#__PURE__*/function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var uri = document.location.origin;
-var path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+var path = WPURLS.apiUrl;
 /*----------------------- save content axios----------------------------*/
 
 function getText() {
@@ -4066,7 +4069,7 @@ function getText() {
   if (txt != undefined && txt != null && txt.length >= 0 && txt != "" && txt != NaN) {
     var words = txt.split(/\s+/);
     textArea.value = '';
-    axios.post(uri + path + 'idea-create-front', {
+    axios.post(path + 'idea-create-front', {
       idea: words
     })["catch"](function (err) {
       console.log(err instanceof TypeError);
@@ -4080,7 +4083,7 @@ function getText() {
 
 function likeAdd(like) {
   if (like != undefined && like != null && like.length >= -1 && like != "" && like != NaN) {
-    axios.post(uri + path + 'idea-create-front', {
+    axios.post(path + 'idea-create-front', {
       idea_like: like
     });
     setTimeout(renderTreeColons, 500);
@@ -4115,7 +4118,7 @@ function startHomeIdea() {
 }
 
 function renderTreeColons() {
-  axios.get(uri + path + 'idea-render-front', {}).then(function (response) {
+  axios.get(path + 'idea-render-front', {}).then(function (response) {
     if (response.status == 200 && response.statusText == 'OK') {
       (function () {
         var data = response.data.allData;
@@ -4197,8 +4200,7 @@ function renderTreeColons() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var uri = document.location.origin;
-var path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+var path = WPURLS.apiUrl;
 var startIdeas = document.getElementById('startIdeas');
 
 function startAllIdeas() {
@@ -4224,7 +4226,7 @@ function startAllIdeas() {
 }
 
 function getData() {
-  axios.get(uri + path + 'ideas-render-front', {}).then(function (response) {
+  axios.get(path + 'ideas-render-front', {}).then(function (response) {
     if (response.status == 200 && response.statusText == 'OK') {
       var data = response.data.allData;
       return renderColons(data);
@@ -4319,7 +4321,7 @@ function getText() {
   if (txt != undefined && txt != null && txt.length >= 0 && txt != "" && txt != NaN) {
     var words = txt.split(/\s+/);
     textArea.value = '';
-    axios.post(uri + path + 'idea-create-front', {
+    axios.post(path + 'idea-create-front', {
       idea: words
     })["catch"](function (error) {
       if (error.response) {
@@ -4484,11 +4486,10 @@ var Pagination = /*#__PURE__*/function () {
                 HTML = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : null;
 
                 if (!(HTML && hash)) {
-                  _context2.next = 10;
+                  _context2.next = 9;
                   break;
                 }
 
-                console.log(11111111);
                 this.watch.innerHTML = HTML;
                 page = document.querySelectorAll(".paging");
                 _hash = location.hash.split('#')[1];
@@ -4498,32 +4499,30 @@ var Pagination = /*#__PURE__*/function () {
                   location.hash = _hash;
                 }
 
-                _context2.next = 29;
+                _context2.next = 26;
                 break;
 
-              case 10:
+              case 9:
                 if (!(hash && HTML == null)) {
-                  _context2.next = 19;
+                  _context2.next = 17;
                   break;
                 }
 
-                console.log(22222222);
                 pages = this.pages;
                 obj = {
                   api: this.api,
                   pageSelected: pages,
                   hash: hash
                 };
-                _context2.next = 16;
+                _context2.next = 14;
                 return this.axios.getPostData(obj);
 
-              case 16:
+              case 14:
                 this.watch.innerHTML = _context2.sent;
-                _context2.next = 29;
+                _context2.next = 26;
                 break;
 
-              case 19:
-                console.log(333333333);
+              case 17:
                 _hash2 = location.hash.split('#')[1];
                 location.hash = _hash2;
                 _obj = {
@@ -4531,10 +4530,10 @@ var Pagination = /*#__PURE__*/function () {
                   pageSelected: this.pages,
                   hash: _hash2
                 };
-                _context2.next = 25;
+                _context2.next = 22;
                 return this.axios.getPostData(_obj);
 
-              case 25:
+              case 22:
                 this.watch.innerHTML = _context2.sent;
                 _page = document.querySelectorAll(".paging");
 
@@ -4545,7 +4544,7 @@ var Pagination = /*#__PURE__*/function () {
 
                 console.log(_obj);
 
-              case 29:
+              case 26:
                 this.paging();
                 HTML = "";
                 addColor = document.querySelector('.nr-' + location.hash.split('#')[1]);
@@ -4613,7 +4612,7 @@ var Pagination = /*#__PURE__*/function () {
                 option.addEventListener('change', selected); // child class implements button listeners or etc html functions 
                 // this.addAction();
 
-              case 40:
+              case 37:
               case "end":
                 return _context2.stop();
             }
@@ -4674,8 +4673,7 @@ var ImageUploade = /*#__PURE__*/function () {
 
     this.target = target;
     this.DOM = null;
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    this.uri = document.location.origin;
+    this.path = WPURLS.apiUrl;
     this.index = 0;
     this.imageShow();
   }
@@ -4898,8 +4896,8 @@ new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\main.js */"./src/main.js");
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\app.scss */"./src/app.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/main.js */"./src/main.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/app.scss */"./src/app.scss");
 
 
 /***/ })
