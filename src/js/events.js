@@ -7,8 +7,7 @@ class Events {
     constructor(target) {
         this.target = target;
         this.DOM = null;
-        this.path = "/wp-content/plugins/BIT_first/api/?route=";
-        this.uri = document.location.origin;
+        this.path = WPURLS.apiUrl;
         this.calendar = new Calendar;
         this.d = this.calendar.date.getDate();
         this.m = this.calendar.date.getMonth();
@@ -20,7 +19,7 @@ class Events {
     init() {
         const DOM = document.querySelector(this.target);
         if (DOM) {
-            axios.post(this.uri + this.path + 'event-create-front', {})
+            axios.post(this.path + 'event-create-front', {})
                 .then((response) => {
 
                     if (response.status == 200 && response.statusText == 'OK') {

@@ -3,15 +3,15 @@
 import axios from 'axios';
 class Api {
     constructor() {
-        this.path = "/wp-content/plugins/BIT_first/api/?route=";
-        this.uri = document.location.origin;
+        this.apiPath = WPURLS.apiUrl;
         this.html = null;
+     
     }
     
     delete(api, id) {
         axios
             .post(
-                this.uri + this.path +
+                this.apiPath +
                 api + id,
                 {
                     deleteId: id,
@@ -33,7 +33,7 @@ class Api {
     }
     async getDAta(api) {
         try {
-            let response = await axios.post(this.uri + this.path + api,)
+            let response = await axios.post(this.apiPath + api,)
             if (response.status == 200 && response.statusText == "OK") {
                 return response.data.html;
             }
@@ -46,7 +46,7 @@ class Api {
     saveContent(api, id, content) {
         axios
             .post(
-                this.uri + this.path + api,
+                this.apiPath + api,
                 {
                     id: id,
                     content: content,
@@ -82,7 +82,7 @@ class Api {
             }
 
             console.log(Object.fromEntries(formData))
-            axios.post(this.uri + this.path + obj.api, formData, {}).then(function (response) { }).catch(function (error) {
+            axios.post(this.apiPath + obj.api, formData, {}).then(function (response) { }).catch(function (error) {
                 if (error.response) {
                     console.log(error.response.data);
                     console.log(error.response.status);
@@ -107,7 +107,7 @@ class Api {
                     formData.append(key, obj[key])
                 }
                 console.log(Object.fromEntries(formData))
-                let response = await axios.post(this.uri + this.path + obj.api, formData, {});
+                let response = await axios.post(this.apiPath + obj.api, formData, {});
                 if (response.status == 200 && response.statusText == "OK") {
                     return await response.data.html;
                 }
@@ -118,6 +118,10 @@ class Api {
         } else {
             throw 'can not find API';
         }
+    }
+
+    static getApiPath(){
+        return this.apiPath;
     }
 }
 export default Api;
