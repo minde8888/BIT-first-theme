@@ -14,12 +14,9 @@ class ImageUploade {
 
     imageShow() {
         const DOM = document.getElementById(this.target);
-        // console.log(111111)
 
         if (DOM) {
-
             let filesAll = [];
-
             if (window.File && window.FileList && window.FileReader) {
 
                 let filesInput = document.getElementById("files");
@@ -124,8 +121,8 @@ class ImageUploade {
                                     }
                                     fileReader.readAsDataURL(files[i]);
                                 })(files[i], i);
-                            } else alert("Tai nera paveikslelio tipo formatas");
-                        } else alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+                            } else alert("Tai nėra paveikslėlio tipo formatas");
+                        } else alert("Paveikslėlio dydis viršija 1MB, rekomenduojamas dydis yra iki 200kb");
                     }
                 });
             }
@@ -172,10 +169,10 @@ class ImageUploade {
                 axios.formDataApi(obj, images);
                 location.reload();
             } else {
-                alert("Nepasirinkatas albumo paveikslelis !!!")
+                alert("Nepasirinktas albumo paveikslėlis!!!")
             }
         } else {
-            alert("Nera albumo pavadinimo !!!")
+            alert("Neįvestas albumo pavadinimas!!!")
         }
     }
 
