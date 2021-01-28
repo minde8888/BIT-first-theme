@@ -21,6 +21,7 @@ class Pagination {
             }
         }
     }
+
     async hashChange(hash = null, HTML = null) {
         if (HTML && hash) {
             this.watch.innerHTML = HTML
@@ -38,10 +39,26 @@ class Pagination {
                 hash: hash
             }
             this.watch.innerHTML = await this.axios.getPostData(obj);
-        } else {
+        } else if (hash == undefined ||
+            hash == null ||
+            hash < 0 ||
+            hash == "" ||
+            hash == NaN ||
+            hash == Infinity) {
+            hash = 1
+            location.hash = hash
+            let pages = this.pages;
+            let obj = {
+                api: this.api,
+                pageSelected: pages,
+                hash: hash
+            }
+            this.watch.innerHTML = await this.axios.getPostData(obj);
+        }else {
             let hash = location.hash.split('#')[1];
 
 
+            
             location.hash = hash
             let obj = {
                 api: this.api,
@@ -49,17 +66,12 @@ class Pagination {
                 hash: hash
             }
             this.watch.innerHTML = await this.axios.getPostData(obj);
-
-
             const page = document.querySelectorAll(".paging");
 
             if (hash > page.length - 4) {
                 hash = 1
                 location.hash = hash
             }
-
-            // console.log(obj)
-
         }
         this.paging();
         HTML = "";
@@ -69,7 +81,6 @@ class Pagination {
 
         }
         var changes = async () => {
-
             hash = location.hash.split('#')[1];
             if (hash != undefined &&
                 hash != null &&
@@ -84,7 +95,6 @@ class Pagination {
                     hash: hash
                 }
                 HTML = await this.axios.getPostData(obj);
-console.log(obj)
                 window.removeEventListener('hashchange', changes);
                 this.hashChange(hash, HTML);
             }

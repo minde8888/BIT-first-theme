@@ -7,7 +7,6 @@ import Events from './js/events.js';
 import ImageUploade from './js/uploade_image';
 import LightBox from './js/lightBox';
 import FrontMenu from './js/frontmenu.js';
-// import FooterMenu from './js/footerMenu.js';
 import Pagination from './js/pagination.js';
 
 
@@ -15,7 +14,6 @@ import Pagination from './js/pagination.js';
 new Calendar('.calendar');
 new Album('.inner');
 new FrontMenu('.navMenu');
-// new FooterMenu('.site-footer');
 new Events('.eventsHome');
 new ImageUploade("loadeGallery");
 

@@ -137,19 +137,12 @@ module.exports = function xhrAdapter(config) {
       delete requestHeaders['Content-Type']; // Let the browser set it
     }
 
-    if (
-      (utils.isBlob(requestData) || utils.isFile(requestData)) &&
-      requestData.type
-    ) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
     var request = new XMLHttpRequest();
 
     // HTTP basic authentication
     if (config.auth) {
       var username = config.auth.username || '';
-      var password = unescape(encodeURIComponent(config.auth.password)) || '';
+      var password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
@@ -364,6 +357,9 @@ axios.all = function all(promises) {
 };
 axios.spread = __webpack_require__(/*! ./helpers/spread */ "./node_modules/axios/lib/helpers/spread.js");
 
+// Expose isAxiosError
+axios.isAxiosError = __webpack_require__(/*! ./helpers/isAxiosError */ "./node_modules/axios/lib/helpers/isAxiosError.js");
+
 module.exports = axios;
 
 // Allow use of default import syntax in TypeScript
@@ -574,7 +570,8 @@ utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData
   Axios.prototype[method] = function(url, config) {
     return this.request(mergeConfig(config || {}, {
       method: method,
-      url: url
+      url: url,
+      data: (config || {}).data
     }));
   };
 });
@@ -1362,6 +1359,29 @@ module.exports = function isAbsoluteURL(url) {
   // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
   // by any combination of letters, digits, plus, period, or hyphen.
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/isAxiosError.js":
+/*!********************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/isAxiosError.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the payload is an error thrown by Axios
+ *
+ * @param {*} payload The value to test
+ * @returns {boolean} True if the payload is an error thrown by Axios, otherwise false
+ */
+module.exports = function isAxiosError(payload) {
+  return (typeof payload === 'object') && (payload.isAxiosError === true);
 };
 
 
@@ -2917,9 +2937,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pagination */ "./src/js/pagination.js");
 
 
-
-
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -3021,117 +3041,6 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_1___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_1__);
-// "use strict";
-// import axios from 'axios';
-// class Api {
-//     constructor() {
-//         this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-//         this.uri = document.location.origin;
-//         this.html = null;
-//     }
-//     delete(api, id) {
-//         axios
-//             .post(
-//                 this.uri + this.path +
-//                 api + id,
-//                 {
-//                     deleteId: id,
-//                 }
-//             )
-//             .catch(function (error) {
-//                 if (error.response) {
-//                     console.log(error.response.data);
-//                     console.log(error.response.status);
-//                     console.log(error.response.headers);
-//                 } else if (error.request) {
-//                     console.log(error.request);
-//                 } else {
-//                     console.log('Error', error.message);
-//                 }
-//                 console.log(error);
-//                 console.log("Data from the server is not available !!!");
-//             });
-//     }
-//     async getDAta(api) {
-//         try {
-//             let response = await axios.post(this.uri + this.path + api,)
-//             if (response.status == 200 && response.statusText == "OK") {
-//                 return response.data.html;
-//             }
-//         } catch (e) {
-//             console.error(e);
-//             console.log("Data from the server is not available !!!");
-//         }
-//     }
-//     saveContent(api, id, content) {
-//         axios
-//             .post(
-//                 this.uri + this.path + api,
-//                 {
-//                     id: id,
-//                     content: content,
-//                 }
-//             )
-//             .catch(function (error) {
-//                 if (error.response) {
-//                     console.log(error.response.data);
-//                     console.log(error.response.status);
-//                     console.log(error.response.headers);
-//                 } else if (error.request) {
-//                     console.log(error.request);
-//                 } else {
-//                     console.log('Error', error.message);
-//                 }
-//                 console.log(error);
-//                 console.log("Data from the server is not available !!!");
-//             });
-//     }
-//     formDataApi(obj) {
-//         let formData = new FormData();
-//         if (obj.api) {
-//             for (var key in obj) {
-//                 formData.append(key, obj[key])
-//             }
-//             console.log(Object.fromEntries(formData))
-//             axios.post(this.uri + this.path + obj.api, formData, {}).then(function (response) { }).catch(function (error) {
-//                 if (error.response) {
-//                     console.log(error.response.data);
-//                     console.log(error.response.status);
-//                     console.log(error.response.headers);
-//                 } else if (error.request) {
-//                     console.log(error.request);
-//                 } else {
-//                     console.log('Error', error.message);
-//                     console.log("Data from the server is not available !!!");
-//                 }
-//                 console.log(error);
-//             });
-//         } else {
-//             throw 'can not find API';
-//         }
-//     }
-//     async getPostData(obj) {
-//         if (obj.api) {
-//             try {
-//                 let formData = new FormData();
-//                 for (var key in obj) {
-//                     formData.append(key, obj[key])
-//                 }
-//                 console.log(Object.fromEntries(formData))
-//                 let response = await axios.post(this.uri + this.path + obj.api, formData, {});
-//                 if (response.status == 200 && response.statusText == "OK") {
-//                     return await response.data.html;
-//                 }
-//             } catch (e) {
-//                 console.error(e);
-//                 console.log("Data from the server is not available !!!");
-//             }
-//         }else{
-//             throw 'can not find API';
-//         }
-//     }
-// }
-// export default Api;
 
 
 
@@ -4072,7 +3981,6 @@ function getText() {
 
 function likeAdd(like) {
   if (like != undefined && like != null && like.length >= -1 && like != "" && like != NaN) {
-    console.log(idea_like);
     axios.post(path + 'idea-create-front', {
       idea_like: like
     });
@@ -4459,8 +4367,10 @@ var Pagination = /*#__PURE__*/function () {
             _hash,
             pages,
             obj,
-            _hash2,
+            _pages,
             _obj,
+            _hash2,
+            _obj2,
             _page,
             addColor,
             changes,
@@ -4489,7 +4399,7 @@ var Pagination = /*#__PURE__*/function () {
                   location.hash = _hash;
                 }
 
-                _context2.next = 25;
+                _context2.next = 35;
                 break;
 
               case 9:
@@ -4509,31 +4419,52 @@ var Pagination = /*#__PURE__*/function () {
 
               case 14:
                 this.watch.innerHTML = _context2.sent;
-                _context2.next = 25;
+                _context2.next = 35;
                 break;
 
               case 17:
+                if (!(hash == undefined || hash == null || hash < 0 || hash == "" || hash == NaN || hash == Infinity)) {
+                  _context2.next = 27;
+                  break;
+                }
+
+                hash = 1;
+                location.hash = hash;
+                _pages = this.pages;
+                _obj = {
+                  api: this.api,
+                  pageSelected: _pages,
+                  hash: hash
+                };
+                _context2.next = 24;
+                return this.axios.getPostData(_obj);
+
+              case 24:
+                this.watch.innerHTML = _context2.sent;
+                _context2.next = 35;
+                break;
+
+              case 27:
                 _hash2 = location.hash.split('#')[1];
                 location.hash = _hash2;
-                _obj = {
+                _obj2 = {
                   api: this.api,
                   pageSelected: this.pages,
                   hash: _hash2
                 };
-                _context2.next = 22;
-                return this.axios.getPostData(_obj);
+                _context2.next = 32;
+                return this.axios.getPostData(_obj2);
 
-              case 22:
+              case 32:
                 this.watch.innerHTML = _context2.sent;
                 _page = document.querySelectorAll(".paging");
 
                 if (_hash2 > _page.length - 4) {
                   _hash2 = 1;
                   location.hash = _hash2;
-                } // console.log(obj)
+                }
 
-
-              case 25:
+              case 35:
                 this.paging();
                 HTML = "";
                 addColor = document.querySelector('.nr-' + location.hash.split('#')[1]);
@@ -4544,7 +4475,7 @@ var Pagination = /*#__PURE__*/function () {
 
                 changes = /*#__PURE__*/function () {
                   var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-                    var _pages, _obj2;
+                    var _pages2, _obj3;
 
                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
                       while (1) {
@@ -4553,27 +4484,26 @@ var Pagination = /*#__PURE__*/function () {
                             hash = location.hash.split('#')[1];
 
                             if (!(hash != undefined && hash != null && hash > 0 && hash != "" && hash != NaN && hash != Infinity)) {
-                              _context.next = 10;
+                              _context.next = 9;
                               break;
                             }
 
-                            _pages = _this.pages;
-                            _obj2 = {
+                            _pages2 = _this.pages;
+                            _obj3 = {
                               api: _this.api,
-                              pageSelected: _pages,
+                              pageSelected: _pages2,
                               hash: hash
                             };
                             _context.next = 6;
-                            return _this.axios.getPostData(_obj2);
+                            return _this.axios.getPostData(_obj3);
 
                           case 6:
                             HTML = _context.sent;
-                            console.log(_obj2);
                             window.removeEventListener('hashchange', changes);
 
                             _this.hashChange(hash, HTML);
 
-                          case 10:
+                          case 9:
                           case "end":
                             return _context.stop();
                         }
@@ -4602,7 +4532,7 @@ var Pagination = /*#__PURE__*/function () {
                 option.addEventListener('change', selected); // child class implements button listeners or etc html functions 
                 // this.addAction();
 
-              case 36:
+              case 46:
               case "end":
                 return _context2.stop();
             }
@@ -4673,7 +4603,7 @@ var ImageUploade = /*#__PURE__*/function () {
     value: function imageShow() {
       var _this = this;
 
-      var DOM = document.getElementById(this.target); // console.log(111111)
+      var DOM = document.getElementById(this.target);
 
       if (DOM) {
         var filesAll = [];
@@ -4774,8 +4704,8 @@ var ImageUploade = /*#__PURE__*/function () {
 
                     fileReader.readAsDataURL(files[i]);
                   })(files[i], i);
-                } else alert("Tai nera paveikslelio tipo formatas");
-              } else alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+                } else alert("Tai nėra paveikslėlio tipo formatas");
+              } else alert("Paveikslėlio dydis viršija 1MB, rekomenduojamas dydis yra iki 200kb");
             }
           });
         }
@@ -4820,10 +4750,10 @@ var ImageUploade = /*#__PURE__*/function () {
           axios.formDataApi(obj, images);
           location.reload();
         } else {
-          alert("Nepasirinkatas albumo paveikslelis !!!");
+          alert("Nepasirinktas albumo paveikslėlis!!!");
         }
       } else {
-        alert("Nera albumo pavadinimo !!!");
+        alert("Neįvestas albumo pavadinimas!!!");
       }
     }
   }, {
@@ -4865,13 +4795,11 @@ __webpack_require__.r(__webpack_exports__);
 
 
 
- // import FooterMenu from './js/footerMenu.js';
 
 
 new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
 new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.inner');
-new _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu'); // new FooterMenu('.site-footer');
-
+new _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
 new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
@@ -4885,8 +4813,8 @@ new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/main.js */"./src/main.js");
-module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first-theme/src/app.scss */"./src/app.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first/src/main.js */"./src/main.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first/src/app.scss */"./src/app.scss");
 
 
 /***/ })
