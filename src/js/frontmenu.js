@@ -6,27 +6,29 @@ class FrontMenu {
 
     constructor(target) {
 
-        this.target = target;
-        this.DOM = null;
+    this.target = target;
+        // this.DOM = null;
         this.renderSideMenu();
-        this.init();
     }
 
-    async init() {
-        const DOM = document.querySelector(this.target);
-        if (DOM) {
-            // console.log(DOM);
-            const api = 'frontmenu_create';
-            let axios = new Api;
-            let HTML = await axios.getDAta(api);
-            DOM.innerHTML = HTML;
-        }
-    }
+    // async init() {
+    //     const DOM = document.querySelector(this.target);
+    //     if (DOM) {
+    //         console.log(DOM);
+    //         const api = 'frontmenu_create';
+    //         let axios = new Api;
+    //         let HTML = await axios.getDAta(api);
+    //         DOM.innerHTML = HTML;
+    //         // this.renderSideMenu();
+    //     }
+    // }
 
     renderSideMenu() {
-        let hamburger = document.querySelector('.hamburger');
-        // console.log(hamburger);
-
+        const hamburger = document.querySelector(".hamburger");
+        const navMenu = document.querySelector('.navMenu');
+        hamburger.addEventListener("click", () => {
+            navMenu.classList.toggle("hiden");     
+        })
     }
 }
 

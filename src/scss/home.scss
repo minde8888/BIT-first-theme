@@ -57,7 +57,7 @@
 	.imgHome {
 		object-fit: cover;
 		height    : 650px;
-		width: 100%;
+		width     : 100%;
 	}
 
 	.homeImgContainer {
@@ -105,7 +105,9 @@
 }
 
 .albums {
+
 	.galleryImage {
+		height       : 500px;
 		margin-bottom: 20px;
 		padding      : 0;
 		border       : none;

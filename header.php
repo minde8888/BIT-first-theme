@@ -8,8 +8,7 @@
 </head>
 
 <body>
-	<?php
-	?>
+
 	<header class="grid-container center" id="masthead">
 		<div class="sm-7-8 bl wdm">
 			<div class="topContainer">
@@ -34,17 +33,19 @@
 			</div>
 			<nav>
 				<div class="logo">
-					<a href="<?= site_url() ?>"><img src="<?= site_url() ?>/wp-content/themes/BIT-first-theme/img/logo.jpg" alt="logo"></a>
+					<a href="<?= site_url() ?>"><img src="<?= get_template_directory_uri() ?>/img/logo.jpg" alt="logo"></a>
 				</div>
 				<div class="hamburger">
+					<div class="line"></div>
+					<div class="line"></div>
+					<div class="line"></div>
+				</div>
+				<div class="navMenu hiden">
+					<?php
+					do_action('print', 'frontMenu/headerfront.php');
+					?>
+				</div>
 
-					<div class="line"></div>
-					<div class="line"></div>
-					<div class="line"></div>
-				</div>
-				<div class="navMenu show">
-					
-				</div>
 			</nav>
 		</div>
 	</header>

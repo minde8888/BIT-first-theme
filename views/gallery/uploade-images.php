@@ -1,5 +1,5 @@
 <h1>
-    Sukurti nauja nuorauku albuma
+    Sukurti naują nuotraukų albumą
 </h1>
 <div class="form__group">
     <input type="text" class="form__input" id="albumName" placeholder="Iveskite albumo pavadinima" required="" />
@@ -32,7 +32,7 @@
     </div>
     <div class="checkboxUploade">
         <li>
-            <label for="c1"> Naudoti kaip virselio nuotrauka</label>
+            <label for="c1"> Naudoti kaip viršelio nuotrauka</label>
             <input id="c1" type="checkbox">
         </li>
     </div>
