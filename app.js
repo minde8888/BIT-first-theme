@@ -137,19 +137,12 @@ module.exports = function xhrAdapter(config) {
       delete requestHeaders['Content-Type']; // Let the browser set it
     }
 
-    if (
-      (utils.isBlob(requestData) || utils.isFile(requestData)) &&
-      requestData.type
-    ) {
-      delete requestHeaders['Content-Type']; // Let the browser set it
-    }
-
     var request = new XMLHttpRequest();
 
     // HTTP basic authentication
     if (config.auth) {
       var username = config.auth.username || '';
-      var password = unescape(encodeURIComponent(config.auth.password)) || '';
+      var password = config.auth.password ? unescape(encodeURIComponent(config.auth.password)) : '';
       requestHeaders.Authorization = 'Basic ' + btoa(username + ':' + password);
     }
 
@@ -364,6 +357,9 @@ axios.all = function all(promises) {
 };
 axios.spread = __webpack_require__(/*! ./helpers/spread */ "./node_modules/axios/lib/helpers/spread.js");
 
+// Expose isAxiosError
+axios.isAxiosError = __webpack_require__(/*! ./helpers/isAxiosError */ "./node_modules/axios/lib/helpers/isAxiosError.js");
+
 module.exports = axios;
 
 // Allow use of default import syntax in TypeScript
@@ -574,7 +570,8 @@ utils.forEach(['delete', 'get', 'head', 'options'], function forEachMethodNoData
   Axios.prototype[method] = function(url, config) {
     return this.request(mergeConfig(config || {}, {
       method: method,
-      url: url
+      url: url,
+      data: (config || {}).data
     }));
   };
 });
@@ -1362,6 +1359,29 @@ module.exports = function isAbsoluteURL(url) {
   // RFC 3986 defines scheme name as a sequence of characters beginning with a letter and followed
   // by any combination of letters, digits, plus, period, or hyphen.
   return /^([a-z][a-z\d\+\-\.]*:)?\/\//i.test(url);
+};
+
+
+/***/ }),
+
+/***/ "./node_modules/axios/lib/helpers/isAxiosError.js":
+/*!********************************************************!*\
+  !*** ./node_modules/axios/lib/helpers/isAxiosError.js ***!
+  \********************************************************/
+/*! no static exports found */
+/***/ (function(module, exports, __webpack_require__) {
+
+"use strict";
+
+
+/**
+ * Determines whether the payload is an error thrown by Axios
+ *
+ * @param {*} payload The value to test
+ * @returns {boolean} True if the payload is an error thrown by Axios, otherwise false
+ */
+module.exports = function isAxiosError(payload) {
+  return (typeof payload === 'object') && (payload.isAxiosError === true);
 };
 
 
@@ -2917,9 +2937,9 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _pagination__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./pagination */ "./src/js/pagination.js");
 
 
-
-
 function _typeof(obj) { "@babel/helpers - typeof"; if (typeof Symbol === "function" && typeof Symbol.iterator === "symbol") { _typeof = function _typeof(obj) { return typeof obj; }; } else { _typeof = function _typeof(obj) { return obj && typeof Symbol === "function" && obj.constructor === Symbol && obj !== Symbol.prototype ? "symbol" : typeof obj; }; } return _typeof(obj); }
+
+
 
 function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
 
@@ -3041,15 +3061,14 @@ var Api = /*#__PURE__*/function () {
   function Api() {
     _classCallCheck(this, Api);
 
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    this.uri = document.location.origin;
+    this.apiPath = WPURLS.apiUrl;
     this.html = null;
   }
 
   _createClass(Api, [{
     key: "delete",
     value: function _delete(api, id) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + api + id, {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + api + id, {
         deleteId: id
       })["catch"](function (error) {
         if (error.response) {
@@ -3077,7 +3096,7 @@ var Api = /*#__PURE__*/function () {
               case 0:
                 _context.prev = 0;
                 _context.next = 3;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + api);
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + api);
 
               case 3:
                 response = _context.sent;
@@ -3116,7 +3135,7 @@ var Api = /*#__PURE__*/function () {
   }, {
     key: "saveContent",
     value: function saveContent(api, id, content) {
-      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + api, {
+      axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + api, {
         id: id,
         content: content
       })["catch"](function (error) {
@@ -3152,7 +3171,7 @@ var Api = /*#__PURE__*/function () {
         }
 
         console.log(Object.fromEntries(formData));
-        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + obj.api, formData, {}).then(function (response) {})["catch"](function (error) {
+        axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + obj.api, formData, {}).then(function (response) {})["catch"](function (error) {
           if (error.response) {
             console.log(error.response.data);
             console.log(error.response.status);
@@ -3192,7 +3211,7 @@ var Api = /*#__PURE__*/function () {
 
                 console.log(Object.fromEntries(formData));
                 _context2.next = 7;
-                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.uri + this.path + obj.api, formData, {});
+                return axios__WEBPACK_IMPORTED_MODULE_1___default.a.post(this.apiPath + obj.api, formData, {});
 
               case 7:
                 response = _context2.sent;
@@ -3239,6 +3258,11 @@ var Api = /*#__PURE__*/function () {
 
       return getPostData;
     }()
+  }], [{
+    key: "getApiPath",
+    value: function getApiPath() {
+      return this.apiPath;
+    }
   }]);
 
   return Api;
@@ -3356,8 +3380,8 @@ var Api = /*#__PURE__*/function () {
 //     //         throw 'can not find API';
 //     //     }
 //     // }
-// }
-// export default Api;
+// // }
+// // export default Api;
 
 /***/ }),
 
@@ -3372,11 +3396,13 @@ var Api = /*#__PURE__*/function () {
 __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! axios */ "./node_modules/axios/index.js");
 /* harmony import */ var axios__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(axios__WEBPACK_IMPORTED_MODULE_0__);
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
 function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
 
 function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
+
 
 
 
@@ -3523,9 +3549,8 @@ var Calendar = /*#__PURE__*/function () {
   }, {
     key: "renderEvents",
     value: function renderEvents() {
-      var path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
-      var uri = document.location.origin;
-      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(uri + path + 'calendar-create-front', {}).then(function (response) {
+      var path = WPURLS.apiUrl;
+      axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(path + 'calendar-create-front', {}).then(function (response) {
         if (response.status == 200 && response.statusText == 'OK') {
           (function () {
             var call = new Calendar();
@@ -3745,8 +3770,7 @@ var Events = /*#__PURE__*/function () {
 
     this.target = target;
     this.DOM = null;
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    this.uri = document.location.origin;
+    this.path = WPURLS.apiUrl;
     this.calendar = new _calendar_js__WEBPACK_IMPORTED_MODULE_1__["default"]();
     this.d = this.calendar.date.getDate();
     this.m = this.calendar.date.getMonth();
@@ -3764,7 +3788,7 @@ var Events = /*#__PURE__*/function () {
       var DOM = document.querySelector(this.target);
 
       if (DOM) {
-        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.uri + this.path + 'event-create-front', {}).then(function (response) {
+        axios__WEBPACK_IMPORTED_MODULE_0___default.a.post(this.path + 'event-create-front', {}).then(function (response) {
           if (response.status == 200 && response.statusText == 'OK') {
             var action = response.data.html;
             var keys = [];
@@ -3866,110 +3890,17 @@ var Events = /*#__PURE__*/function () {
 
 /***/ }),
 
-/***/ "./src/js/footerMenu.js":
-/*!******************************!*\
-  !*** ./src/js/footerMenu.js ***!
-  \******************************/
-/*! exports provided: default */
-/***/ (function(module, __webpack_exports__, __webpack_require__) {
-
-"use strict";
-__webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
-
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
-
-function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
-
-function _defineProperties(target, props) { for (var i = 0; i < props.length; i++) { var descriptor = props[i]; descriptor.enumerable = descriptor.enumerable || false; descriptor.configurable = true; if ("value" in descriptor) descriptor.writable = true; Object.defineProperty(target, descriptor.key, descriptor); } }
-
-function _createClass(Constructor, protoProps, staticProps) { if (protoProps) _defineProperties(Constructor.prototype, protoProps); if (staticProps) _defineProperties(Constructor, staticProps); return Constructor; }
-
-
-
-var FooterMenu = /*#__PURE__*/function () {
-  function FooterMenu(target) {
-    _classCallCheck(this, FooterMenu);
-
-    this.target = target;
-    this.DOM = null;
-    this.init();
-  }
-
-  _createClass(FooterMenu, [{
-    key: "init",
-    value: function () {
-      var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var DOM, api, axios, HTML;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                DOM = document.querySelector(this.target);
-
-                if (!DOM) {
-                  _context.next = 8;
-                  break;
-                }
-
-                api = 'frontmenu_create';
-                axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
-                _context.next = 6;
-                return axios.getDAta(api);
-
-              case 6:
-                HTML = _context.sent;
-                DOM.innerHTML = HTML;
-
-              case 8:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function init() {
-        return _init.apply(this, arguments);
-      }
-
-      return init;
-    }()
-  }]);
-
-  return FooterMenu;
-}();
-
-/* harmony default export */ __webpack_exports__["default"] = (FooterMenu);
-
-/***/ }),
-
-/***/ "./src/js/frontMenu.js":
+/***/ "./src/js/frontmenu.js":
 /*!*****************************!*\
-  !*** ./src/js/frontMenu.js ***!
+  !*** ./src/js/frontmenu.js ***!
   \*****************************/
 /*! exports provided: default */
 /***/ (function(module, __webpack_exports__, __webpack_require__) {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! @babel/runtime/regenerator */ "./node_modules/@babel/runtime/regenerator/index.js");
-/* harmony import */ var _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default = /*#__PURE__*/__webpack_require__.n(_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0__);
-/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_1__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
+/* harmony import */ var _api__WEBPACK_IMPORTED_MODULE_0__ = __webpack_require__(/*! ./api */ "./src/js/api.js");
 
-
-
-
-function asyncGeneratorStep(gen, resolve, reject, _next, _throw, key, arg) { try { var info = gen[key](arg); var value = info.value; } catch (error) { reject(error); return; } if (info.done) { resolve(value); } else { Promise.resolve(value).then(_next, _throw); } }
-
-function _asyncToGenerator(fn) { return function () { var self = this, args = arguments; return new Promise(function (resolve, reject) { var gen = fn.apply(self, args); function _next(value) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "next", value); } function _throw(err) { asyncGeneratorStep(gen, resolve, reject, _next, _throw, "throw", err); } _next(undefined); }); }; }
 
 function _classCallCheck(instance, Constructor) { if (!(instance instanceof Constructor)) { throw new TypeError("Cannot call a class as a function"); } }
 
@@ -3983,52 +3914,23 @@ var FrontMenu = /*#__PURE__*/function () {
   function FrontMenu(target) {
     _classCallCheck(this, FrontMenu);
 
-    this.target = target;
-    this.DOM = null;
-    this.init();
-  }
+    this.target = target; // this.DOM = null;
+
+    this.renderSideMenu();
+  } // async init() {
+  //     const DOM = document.querySelector(this.target);
+  //     if (DOM) {
+  //         console.log(DOM);
+  //         const api = 'frontmenu_create';
+  //         let axios = new Api;
+  //         let HTML = await axios.getDAta(api);
+  //         DOM.innerHTML = HTML;
+  //         // this.renderSideMenu();
+  //     }
+  // }
+
 
   _createClass(FrontMenu, [{
-    key: "init",
-    value: function () {
-      var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var DOM, api, axios, HTML;
-        return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
-          while (1) {
-            switch (_context.prev = _context.next) {
-              case 0:
-                DOM = document.querySelector(this.target);
-
-                if (!DOM) {
-                  _context.next = 9;
-                  break;
-                }
-
-                api = 'frontmenu_create';
-                axios = new _api__WEBPACK_IMPORTED_MODULE_1__["default"]();
-                _context.next = 6;
-                return axios.getDAta(api);
-
-              case 6:
-                HTML = _context.sent;
-                DOM.innerHTML = HTML;
-                this.renderSideMenu();
-
-              case 9:
-              case "end":
-                return _context.stop();
-            }
-          }
-        }, _callee, this);
-      }));
-
-      function init() {
-        return _init.apply(this, arguments);
-      }
-
-      return init;
-    }()
-  }, {
     key: "renderSideMenu",
     value: function renderSideMenu() {
       var hamburger = document.querySelector(".hamburger");
@@ -4055,8 +3957,7 @@ var FrontMenu = /*#__PURE__*/function () {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var uri = document.location.origin;
-var path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+var path = WPURLS.apiUrl;
 /*----------------------- save content axios----------------------------*/
 
 function getText() {
@@ -4066,7 +3967,7 @@ function getText() {
   if (txt != undefined && txt != null && txt.length >= 0 && txt != "" && txt != NaN) {
     var words = txt.split(/\s+/);
     textArea.value = '';
-    axios.post(uri + path + 'idea-create-front', {
+    axios.post(path + 'idea-create-front', {
       idea: words
     })["catch"](function (err) {
       console.log(err instanceof TypeError);
@@ -4080,7 +3981,7 @@ function getText() {
 
 function likeAdd(like) {
   if (like != undefined && like != null && like.length >= -1 && like != "" && like != NaN) {
-    axios.post(uri + path + 'idea-create-front', {
+    axios.post(path + 'idea-create-front', {
       idea_like: like
     });
     setTimeout(renderTreeColons, 500);
@@ -4115,7 +4016,7 @@ function startHomeIdea() {
 }
 
 function renderTreeColons() {
-  axios.get(uri + path + 'idea-render-front', {}).then(function (response) {
+  axios.get(path + 'idea-render-front', {}).then(function (response) {
     if (response.status == 200 && response.statusText == 'OK') {
       (function () {
         var data = response.data.allData;
@@ -4197,8 +4098,7 @@ function renderTreeColons() {
 
 "use strict";
 __webpack_require__.r(__webpack_exports__);
-var uri = document.location.origin;
-var path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+var path = WPURLS.apiUrl;
 var startIdeas = document.getElementById('startIdeas');
 
 function startAllIdeas() {
@@ -4224,7 +4124,7 @@ function startAllIdeas() {
 }
 
 function getData() {
-  axios.get(uri + path + 'ideas-render-front', {}).then(function (response) {
+  axios.get(path + 'ideas-render-front', {}).then(function (response) {
     if (response.status == 200 && response.statusText == 'OK') {
       var data = response.data.allData;
       return renderColons(data);
@@ -4319,7 +4219,7 @@ function getText() {
   if (txt != undefined && txt != null && txt.length >= 0 && txt != "" && txt != NaN) {
     var words = txt.split(/\s+/);
     textArea.value = '';
-    axios.post(uri + path + 'idea-create-front', {
+    axios.post(path + 'idea-create-front', {
       idea: words
     })["catch"](function (error) {
       if (error.response) {
@@ -4467,8 +4367,10 @@ var Pagination = /*#__PURE__*/function () {
             _hash,
             pages,
             obj,
-            _hash2,
+            _pages,
             _obj,
+            _hash2,
+            _obj2,
             _page,
             addColor,
             changes,
@@ -4484,11 +4386,10 @@ var Pagination = /*#__PURE__*/function () {
                 HTML = _args2.length > 1 && _args2[1] !== undefined ? _args2[1] : null;
 
                 if (!(HTML && hash)) {
-                  _context2.next = 10;
+                  _context2.next = 9;
                   break;
                 }
 
-                console.log(11111111);
                 this.watch.innerHTML = HTML;
                 page = document.querySelectorAll(".paging");
                 _hash = location.hash.split('#')[1];
@@ -4498,43 +4399,63 @@ var Pagination = /*#__PURE__*/function () {
                   location.hash = _hash;
                 }
 
-                _context2.next = 29;
+                _context2.next = 35;
                 break;
 
-              case 10:
+              case 9:
                 if (!(hash && HTML == null)) {
-                  _context2.next = 19;
+                  _context2.next = 17;
                   break;
                 }
 
-                console.log(22222222);
                 pages = this.pages;
                 obj = {
                   api: this.api,
                   pageSelected: pages,
                   hash: hash
                 };
-                _context2.next = 16;
+                _context2.next = 14;
                 return this.axios.getPostData(obj);
 
-              case 16:
+              case 14:
                 this.watch.innerHTML = _context2.sent;
-                _context2.next = 29;
+                _context2.next = 35;
                 break;
 
-              case 19:
-                console.log(333333333);
+              case 17:
+                if (!(hash == undefined || hash == null || hash < 0 || hash == "" || hash == NaN || hash == Infinity)) {
+                  _context2.next = 27;
+                  break;
+                }
+
+                hash = 1;
+                location.hash = hash;
+                _pages = this.pages;
+                _obj = {
+                  api: this.api,
+                  pageSelected: _pages,
+                  hash: hash
+                };
+                _context2.next = 24;
+                return this.axios.getPostData(_obj);
+
+              case 24:
+                this.watch.innerHTML = _context2.sent;
+                _context2.next = 35;
+                break;
+
+              case 27:
                 _hash2 = location.hash.split('#')[1];
                 location.hash = _hash2;
-                _obj = {
+                _obj2 = {
                   api: this.api,
                   pageSelected: this.pages,
                   hash: _hash2
                 };
-                _context2.next = 25;
-                return this.axios.getPostData(_obj);
+                _context2.next = 32;
+                return this.axios.getPostData(_obj2);
 
-              case 25:
+              case 32:
                 this.watch.innerHTML = _context2.sent;
                 _page = document.querySelectorAll(".paging");
 
@@ -4543,9 +4464,7 @@ var Pagination = /*#__PURE__*/function () {
                   location.hash = _hash2;
                 }
 
-                console.log(_obj);
-
-              case 29:
+              case 35:
                 this.paging();
                 HTML = "";
                 addColor = document.querySelector('.nr-' + location.hash.split('#')[1]);
@@ -4556,7 +4475,7 @@ var Pagination = /*#__PURE__*/function () {
 
                 changes = /*#__PURE__*/function () {
                   var _ref = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-                    var _pages, _obj2;
+                    var _pages2, _obj3;
 
                     return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
                       while (1) {
@@ -4569,14 +4488,14 @@ var Pagination = /*#__PURE__*/function () {
                               break;
                             }
 
-                            _pages = _this.pages;
-                            _obj2 = {
+                            _pages2 = _this.pages;
+                            _obj3 = {
                               api: _this.api,
-                              pageSelected: _pages,
+                              pageSelected: _pages2,
                               hash: hash
                             };
                             _context.next = 6;
-                            return _this.axios.getPostData(_obj2);
+                            return _this.axios.getPostData(_obj3);
 
                           case 6:
                             HTML = _context.sent;
@@ -4613,7 +4532,7 @@ var Pagination = /*#__PURE__*/function () {
                 option.addEventListener('change', selected); // child class implements button listeners or etc html functions 
                 // this.addAction();
 
-              case 40:
+              case 46:
               case "end":
                 return _context2.stop();
             }
@@ -4674,8 +4593,7 @@ var ImageUploade = /*#__PURE__*/function () {
 
     this.target = target;
     this.DOM = null;
-    this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-    this.uri = document.location.origin;
+    this.path = WPURLS.apiUrl;
     this.index = 0;
     this.imageShow();
   }
@@ -4786,8 +4704,8 @@ var ImageUploade = /*#__PURE__*/function () {
 
                     fileReader.readAsDataURL(files[i]);
                   })(files[i], i);
-                } else alert("Tai nera paveikslelio tipo formatas");
-              } else alert("Paveikslelio dydis virsija 1MB, rekomneduojamas dydis yra iki 200kb");
+                } else alert("Tai nėra paveikslėlio tipo formatas");
+              } else alert("Paveikslėlio dydis viršija 1MB, rekomenduojamas dydis yra iki 200kb");
             }
           });
         }
@@ -4832,10 +4750,10 @@ var ImageUploade = /*#__PURE__*/function () {
           axios.formDataApi(obj, images);
           location.reload();
         } else {
-          alert("Nepasirinkatas albumo paveikslelis !!!");
+          alert("Nepasirinktas albumo paveikslėlis!!!");
         }
       } else {
-        alert("Nera albumo pavadinimo !!!");
+        alert("Neįvestas albumo pavadinimas!!!");
       }
     }
   }, {
@@ -4868,10 +4786,8 @@ __webpack_require__.r(__webpack_exports__);
 /* harmony import */ var _js_events_js__WEBPACK_IMPORTED_MODULE_4__ = __webpack_require__(/*! ./js/events.js */ "./src/js/events.js");
 /* harmony import */ var _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__ = __webpack_require__(/*! ./js/uploade_image */ "./src/js/uploade_image.js");
 /* harmony import */ var _js_lightBox__WEBPACK_IMPORTED_MODULE_6__ = __webpack_require__(/*! ./js/lightBox */ "./src/js/lightBox.js");
-/* harmony import */ var _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontMenu.js */ "./src/js/frontMenu.js");
-/* harmony import */ var _js_footerMenu_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/footerMenu.js */ "./src/js/footerMenu.js");
-/* harmony import */ var _js_pagination_js__WEBPACK_IMPORTED_MODULE_9__ = __webpack_require__(/*! ./js/pagination.js */ "./src/js/pagination.js");
-
+/* harmony import */ var _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__ = __webpack_require__(/*! ./js/frontmenu.js */ "./src/js/frontmenu.js");
+/* harmony import */ var _js_pagination_js__WEBPACK_IMPORTED_MODULE_8__ = __webpack_require__(/*! ./js/pagination.js */ "./src/js/pagination.js");
 
 
 
@@ -4883,8 +4799,7 @@ __webpack_require__.r(__webpack_exports__);
 
 new _js_calendar_js__WEBPACK_IMPORTED_MODULE_2__["default"]('.calendar');
 new _js_album_js__WEBPACK_IMPORTED_MODULE_3__["default"]('.inner');
-new _js_frontMenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
-new _js_footerMenu_js__WEBPACK_IMPORTED_MODULE_8__["default"]('.site-footer');
+new _js_frontmenu_js__WEBPACK_IMPORTED_MODULE_7__["default"]('.navMenu');
 new _js_events_js__WEBPACK_IMPORTED_MODULE_4__["default"]('.eventsHome');
 new _js_uploade_image__WEBPACK_IMPORTED_MODULE_5__["default"]("loadeGallery");
 new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
@@ -4898,8 +4813,8 @@ new _js_lightBox__WEBPACK_IMPORTED_MODULE_6__["default"]("showGallery");
 /*! no static exports found */
 /***/ (function(module, exports, __webpack_require__) {
 
-__webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\main.js */"./src/main.js");
-module.exports = __webpack_require__(/*! D:\xampp\htdocs\wordpress\wp-content\themes\BIT-first-theme\src\app.scss */"./src/app.scss");
+__webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first/src/main.js */"./src/main.js");
+module.exports = __webpack_require__(/*! /Applications/MAMP/htdocs/wordpress/wp-content/themes/BIT-first/src/app.scss */"./src/app.scss");
 
 
 /***/ })

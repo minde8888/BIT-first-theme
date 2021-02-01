@@ -1,5 +1,4 @@
-const uri = document.location.origin;
-const path = '/wordpress/wp-content/plugins/BIT_first/api/?route=';
+const path = WPURLS.apiUrl;
 
 const startIdeas = document.getElementById('startIdeas');
 
@@ -26,7 +25,7 @@ function startAllIdeas() {
 
 function getData() {
 
-    axios.get(uri + path + 'ideas-render-front', {
+    axios.get(path + 'ideas-render-front', {
 
         })
         .then(function(response) {
@@ -160,7 +159,7 @@ function getText() {
     if (txt != undefined && txt != null && txt.length >= 0 && txt != "" && txt != NaN) {
         let words = txt.split(/\s+/);
         textArea.value = '';
-        axios.post(uri + path + 'idea-create-front', {
+        axios.post(path + 'idea-create-front', {
             idea: words,
         }).catch(function(error) {
             if (error.response) {
