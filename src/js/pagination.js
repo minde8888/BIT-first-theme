@@ -21,9 +21,9 @@ class Pagination {
             }
         }
     }
+
     async hashChange(hash = null, HTML = null) {
         if (HTML && hash) {
-            console.log(11111111);
             this.watch.innerHTML = HTML
             const page = document.querySelectorAll(".paging");
             let hash = location.hash.split('#')[1];
@@ -32,7 +32,6 @@ class Pagination {
                 location.hash = hash
             }
         } else if (hash && HTML == null) {
-console.log(22222222);
             let pages = this.pages;
             let obj = {
                 api: this.api,
@@ -40,11 +39,26 @@ console.log(22222222);
                 hash: hash
             }
             this.watch.innerHTML = await this.axios.getPostData(obj);
-        } else {
-console.log(333333333);
+        } else if (hash == undefined ||
+            hash == null ||
+            hash < 0 ||
+            hash == "" ||
+            hash == NaN ||
+            hash == Infinity) {
+            hash = 1
+            location.hash = hash
+            let pages = this.pages;
+            let obj = {
+                api: this.api,
+                pageSelected: pages,
+                hash: hash
+            }
+            this.watch.innerHTML = await this.axios.getPostData(obj);
+        }else {
             let hash = location.hash.split('#')[1];
 
 
+            
             location.hash = hash
             let obj = {
                 api: this.api,
@@ -52,17 +66,12 @@ console.log(333333333);
                 hash: hash
             }
             this.watch.innerHTML = await this.axios.getPostData(obj);
-
-
             const page = document.querySelectorAll(".paging");
 
             if (hash > page.length - 4) {
                 hash = 1
                 location.hash = hash
             }
-
-            console.log(obj)
-
         }
         this.paging();
         HTML = "";
@@ -72,7 +81,6 @@ console.log(333333333);
 
         }
         var changes = async () => {
-
             hash = location.hash.split('#')[1];
             if (hash != undefined &&
                 hash != null &&
@@ -87,7 +95,6 @@ console.log(333333333);
                     hash: hash
                 }
                 HTML = await this.axios.getPostData(obj);
-
                 window.removeEventListener('hashchange', changes);
                 this.hashChange(hash, HTML);
             }
