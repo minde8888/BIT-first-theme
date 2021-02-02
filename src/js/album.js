@@ -17,7 +17,12 @@ class Album extends Pagination{
     async init() {
         const DOM = document.querySelector(this.target);
         if (DOM) {
-            this.hashChange();
+            let hash = location.hash.split('#')[1];
+            if (hash) {
+                this.hashChange(hash);
+            } else {
+                this.hashChange();
+            }
             this.paging();
         }
     }

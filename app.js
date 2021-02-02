@@ -2973,7 +2973,7 @@ var Album = /*#__PURE__*/function (_Pagination) {
     key: "init",
     value: function () {
       var _init = _asyncToGenerator( /*#__PURE__*/_babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.mark(function _callee() {
-        var DOM;
+        var DOM, hash;
         return _babel_runtime_regenerator__WEBPACK_IMPORTED_MODULE_0___default.a.wrap(function _callee$(_context) {
           while (1) {
             switch (_context.prev = _context.next) {
@@ -2981,7 +2981,14 @@ var Album = /*#__PURE__*/function (_Pagination) {
                 DOM = document.querySelector(this.target);
 
                 if (DOM) {
-                  this.hashChange();
+                  hash = location.hash.split('#')[1];
+
+                  if (hash) {
+                    this.hashChange(hash);
+                  } else {
+                    this.hashChange();
+                  }
+
                   this.paging();
                 }
 
@@ -3248,120 +3255,7 @@ var Api = /*#__PURE__*/function () {
   return Api;
 }();
 
-/* harmony default export */ __webpack_exports__["default"] = (Api); // "use strict";
-// import axios from 'axios';
-// class Api {
-//     constructor() {
-//         this.path = "/wordpress/wp-content/plugins/BIT_first/api/?route=";
-//         this.uri = document.location.origin;
-//         this.html = null;
-//     }
-//     delete(api, id) {
-//         axios
-//             .post(
-//                 this.uri + this.path +
-//                 api + id, {
-//                 deleteId: id,
-//             }
-//             )
-//             .catch(function (error) {
-//                 if (error.response) {
-//                     console.log(error.response.data);
-//                     console.log(error.response.status);
-//                     console.log(error.response.headers);
-//                 } else if (error.request) {
-//                     console.log(error.request);
-//                 } else {
-//                     console.log('Error', error.message);
-//                 }
-//                 console.log(error);
-//             });
-//     }
-//     async getDAta(api) {
-//         try {
-//             let response = await axios.post(this.uri + this.path + api,)
-//             if (response.status == 200 && response.statusText == "OK") {
-//                 return response.data.html;
-//             }
-//         } catch (e) {
-//             console.error(e);
-//             console.log("Duomenys is serveverio nepasiekiami !!!");
-//         }
-//     }
-//     saveContent(api, id, content) {
-//         axios
-//             .post(
-//                 this.uri + this.path + api, {
-//                 id: id,
-//                 content: content,
-//             }
-//             )
-//             .catch(function (error) {
-//                 if (error.response) {
-//                     console.log(error.response.data);
-//                     console.log(error.response.status);
-//                     console.log(error.response.headers);
-//                 } else if (error.request) {
-//                     console.log(error.request);
-//                 } else {
-//                     console.log('Error', error.message);
-//                 }
-//                 console.log(error);
-//             });
-//     }
-//     async getPostData(obj) {
-//         if (obj.api) {
-//             try {
-//                 let formData = new FormData();
-//                 for (var key in obj) {
-//                     formData.append(key, obj[key])
-//                 }
-//                 // console.log(Object.fromEntries(formData))
-//                 let response = await axios.post(this.uri + this.path + obj.api, formData, {});
-//                 if (response.status == 200 && response.statusText == "OK") {
-//                     return await response.data.html;
-//                 }
-//             } catch (e) {
-//                 console.error(e);
-//                 console.log("Duomenys is serveverio nepasiekiami !!!");
-//             }
-//         }
-//     }
-//     // formDataApi(obj) {
-//     //     let val = Object.values(obj);
-//     //     let formData = new FormData();
-//     //     if (obj.api) {
-//     //         for (var key in obj) {
-//     //             // console.log(key)
-//     //             // console.log(obj[key])
-//     //             formData.append(key, obj[key])
-//     //         }
-//     //         for (let i = 0; i < val.length; i++) {
-//     //             for (let j = 0; j < val[i].length; j++) {
-//     //                 if (typeof val[i][j] == "object") {
-//     //                     formData.append(val[i][j].name, val[i][j])
-//     //                 }
-//     //             }
-//     //         }
-//     //         console.log(Object.fromEntries(formData))
-//     //         axios.post(this.uri + this.path + obj.api, formData, {}).then(function(response) {}).catch(function(error) {
-//     //             if (error.response) {
-//     //                 console.log(error.response.data);
-//     //                 console.log(error.response.status);
-//     //                 console.log(error.response.headers);
-//     //             } else if (error.request) {
-//     //                 console.log(error.request);
-//     //             } else {
-//     //                 console.log('Error', error.message);
-//     //             }
-//     //             console.log(error);
-//     //         });
-//     //     } else {
-//     //         throw 'can not find API';
-//     //     }
-//     // }
-// // }
-// // export default Api;
+/* harmony default export */ __webpack_exports__["default"] = (Api);
 
 /***/ }),
 
@@ -4379,32 +4273,33 @@ var Pagination = /*#__PURE__*/function () {
                   location.hash = _hash;
                 }
 
-                _context2.next = 35;
+                _context2.next = 36;
                 break;
 
               case 9:
                 if (!(hash && HTML == null)) {
-                  _context2.next = 17;
+                  _context2.next = 18;
                   break;
                 }
 
+                console.log(11111111);
                 pages = this.pages;
                 obj = {
                   api: this.api,
                   pageSelected: pages,
                   hash: hash
                 };
-                _context2.next = 14;
+                _context2.next = 15;
                 return this.axios.getPostData(obj);
 
-              case 14:
+              case 15:
                 this.watch.innerHTML = _context2.sent;
-                _context2.next = 35;
+                _context2.next = 36;
                 break;
 
-              case 17:
+              case 18:
                 if (!(hash == undefined || hash == null || hash < 0 || hash == "" || hash == NaN || hash == Infinity)) {
-                  _context2.next = 27;
+                  _context2.next = 28;
                   break;
                 }
 
@@ -4416,15 +4311,15 @@ var Pagination = /*#__PURE__*/function () {
                   pageSelected: _pages,
                   hash: hash
                 };
-                _context2.next = 24;
+                _context2.next = 25;
                 return this.axios.getPostData(_obj);
 
-              case 24:
+              case 25:
                 this.watch.innerHTML = _context2.sent;
-                _context2.next = 35;
+                _context2.next = 36;
                 break;
 
-              case 27:
+              case 28:
                 _hash2 = location.hash.split('#')[1];
                 location.hash = _hash2;
                 _obj2 = {
@@ -4432,10 +4327,10 @@ var Pagination = /*#__PURE__*/function () {
                   pageSelected: this.pages,
                   hash: _hash2
                 };
-                _context2.next = 32;
+                _context2.next = 33;
                 return this.axios.getPostData(_obj2);
 
-              case 32:
+              case 33:
                 this.watch.innerHTML = _context2.sent;
                 _page = document.querySelectorAll(".paging");
 
@@ -4444,7 +4339,7 @@ var Pagination = /*#__PURE__*/function () {
                   location.hash = _hash2;
                 }
 
-              case 35:
+              case 36:
                 this.paging();
                 HTML = "";
                 addColor = document.querySelector('.nr-' + location.hash.split('#')[1]);
@@ -4512,7 +4407,7 @@ var Pagination = /*#__PURE__*/function () {
                 option.addEventListener('change', selected); // child class implements button listeners or etc html functions 
                 // this.addAction();
 
-              case 46:
+              case 47:
               case "end":
                 return _context2.stop();
             }
