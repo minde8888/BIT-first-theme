@@ -1,6 +1,4 @@
 <?php
-$news = '';
-$album = ';'
 ?>
 <div class="sm-3-4 ">
     <div class="cl">
@@ -78,7 +76,7 @@ $album = ';'
             <a href="<?= site_url() ?>/galerija/">Pamatyti visą galeriją</a>
         </div>
         <div class="idea-container">
-            <?= $album; ?>
+            <?= $album ?>
         </div>
     </div>
 </div>
