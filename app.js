@@ -3788,21 +3788,9 @@ var FrontMenu = /*#__PURE__*/function () {
   function FrontMenu(target) {
     _classCallCheck(this, FrontMenu);
 
-    this.target = target; // this.DOM = null;
-
+    this.target = target;
     this.renderSideMenu();
-  } // async init() {
-  //     const DOM = document.querySelector(this.target);
-  //     if (DOM) {
-  //         console.log(DOM);
-  //         const api = 'frontmenu_create';
-  //         let axios = new Api;
-  //         let HTML = await axios.getDAta(api);
-  //         DOM.innerHTML = HTML;
-  //         // this.renderSideMenu();
-  //     }
-  // }
-
+  }
 
   _createClass(FrontMenu, [{
     key: "renderSideMenu",
@@ -4140,29 +4128,114 @@ var LightBox = /*#__PURE__*/function () {
 
     this.target = target;
     this.DOM = null;
+    this.box;
+    this.check = true;
     this.ontach();
   }
 
   _createClass(LightBox, [{
     key: "ontach",
     value: function ontach() {
+      var _this = this;
+
       var DOM = document.getElementById(this.target);
 
       if (DOM) {
-        var image = document.querySelectorAll(".imageBox");
-        image.forEach(function (el) {
-          el.addEventListener('touchstart', function (e) {
-            if (!e.target.className) {
-              e.target.className = "lightbox";
-            }
-          });
-          el.addEventListener('touchend', function (e) {
-            if (e.target.className == "lightbox") {
-              e.target.classList.remove("lightbox");
-            }
-          });
-        });
+        (function () {
+          var box = document.querySelectorAll(".imageBox");
+          var footer = document.querySelector(".site-footer");
+          _this.box = box;
+
+          var _loop = function _loop(i) {
+            var image = function image(e) {
+              if (_this.check) {
+                _this.check = false;
+                box[i].classList.add("clickme");
+                box[i].removeEventListener("click", image);
+                var a = box[i];
+                footer.classList.add("hiden");
+                e.stopPropagation();
+                return _this.next(a, i);
+              }
+            };
+
+            box[i].addEventListener('click', image);
+          };
+
+          for (var i = 0; i < box.length; i++) {
+            _loop(i);
+          }
+        })();
       }
+    }
+  }, {
+    key: "next",
+    value: function next(a, i) {
+      var _this2 = this;
+
+      var c = i + 1;
+      var d = i - 1;
+      a.insertAdjacentHTML('beforeend', '<a class="previous">&#10094;</a><a class="next">&#10095;</a>');
+      var prev = document.querySelector(".previous");
+      var next = document.querySelector(".next");
+
+      if (d > -1) {
+        var previous = function previous(e) {
+          a.classList.remove("clickme");
+          a.childNodes[3].remove();
+          a.childNodes[3].remove();
+
+          _this2.box[d].classList.add("clickme");
+
+          var b = _this2.box[d];
+          e.stopPropagation();
+          return _this2.next(b, d);
+        };
+
+        prev.addEventListener('click', previous);
+      }
+
+      if (c < this.box.length) {
+        var second = function second(e) {
+          a.classList.remove("clickme");
+          a.childNodes[3].remove();
+          a.childNodes[3].remove();
+
+          _this2.box[c].classList.add("clickme");
+
+          var b = _this2.box[c];
+          e.stopPropagation();
+          return _this2.next(b, c);
+        };
+
+        next.addEventListener('click', second);
+      }
+
+      var close = document.querySelector(".pointer");
+      close.classList.remove("hiden");
+
+      var closed = function closed(e) {
+        var clickme = document.querySelector(".clickme");
+        var footer = document.querySelector(".site-footer");
+
+        if (clickme) {
+          clickme.classList.remove("clickme");
+
+          var _prev = document.querySelector(".previous");
+
+          var _next = document.querySelector(".next");
+
+          _next.remove();
+
+          _prev.remove();
+
+          footer.classList.remove("hiden");
+          _this2.check = true;
+          return _this2.ontach();
+        }
+      };
+
+      close.addEventListener("click", closed);
     }
   }]);
 
@@ -4215,7 +4288,6 @@ var Pagination = /*#__PURE__*/function () {
       if (page.length) {
         var _loop = function _loop(i) {
           var nextPage = function nextPage() {
-            page[i].addEventListener('click', nextPage);
             var id = parseInt(page[i].id);
             location.hash = id;
             page[i].removeEventListener("click", nextPage);
