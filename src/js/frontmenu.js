@@ -1,6 +1,6 @@
 "use strict";
 
-import Api from './api'
+// import Api from './api'
 
 class FrontMenu {
 
