@@ -1285,6 +1285,7 @@ button:focus {
   grid-template-rows: 1fr 10fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  height: 60vh;
 }
 
 .calendarContainer .calendar {
@@ -1937,15 +1938,6 @@ nav div {
   }
 }
 
-.grid-container .pic .imageBox .lightbox {
-  border-radius: 2%;
-  transition: transform 0.2s;
-}
-
-.grid-container .pic .imageBox .lightbox:hover {
-  transform: scale(1.5);
-}
-
 .homeNewsContainer {
   display: flex;
   flex-wrap: wrap;
@@ -2253,7 +2245,6 @@ nav div {
 
 .galleryContainer .wrapper {
   width: 100%;
-  height: 100%;
   display: flex;
   align-items: center;
   justify-content: center;
@@ -2836,6 +2827,22 @@ html {
   width: 100%;
 }
 
+@media (max-width: 1200px) {
+  .pic {
+    margin-top: 20px;
+  }
+
+  .pic .imageBox {
+    width: 50%;
+  }
+}
+
+@media (max-width: 700px) {
+  .grid-container .pic .imageBox {
+    width: 100%;
+  }
+}
+
 .postContainer {
   display: flex;
   flex-wrap: wrap;
@@ -2940,6 +2947,480 @@ html {
 
   .customize-support footer .dropdown .dropbtn:hover {
     color: crimson;
+  }
+}
+
+.cls-1 {
+  fill: #ffc541;
+}
+
+.cls-2 {
+  fill: #4e4066;
+}
+
+.cls-3 {
+  fill: #6f5b92;
+}
+
+.cls-4 {
+  fill: #f78d5e;
+}
+
+.cls-5 {
+  fill: #fa976c;
+}
+
+.cls-6,
+.cls-7,
+.cls-8 {
+  fill: #b65c32;
+}
+
+.cls-10,
+.cls-6 {
+  opacity: 0.6;
+}
+
+.cls-7 {
+  opacity: 0.4;
+}
+
+.cls-9 {
+  fill: #f4b73b;
+}
+
+.cls-11 {
+  fill: #f9c358;
+}
+
+.cls-12 {
+  fill: #9b462c;
+}
+
+.cls-13 {
+  fill: #aa512e;
+}
+
+.cls-14 {
+  fill: #7d6aa5;
+}
+
+/* animations */
+
+.wheel {
+  -webkit-animation: wheel-rotate 6s ease infinite;
+          animation: wheel-rotate 6s ease infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@-webkit-keyframes wheel-rotate {
+  50% {
+    transform: rotate(360deg);
+    -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+            animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  }
+
+  100% {
+    transform: rotate(960deg);
+  }
+}
+
+@keyframes wheel-rotate {
+  50% {
+    transform: rotate(360deg);
+    -webkit-animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+            animation-timing-function: cubic-bezier(0.55, 0.085, 0.68, 0.53);
+  }
+
+  100% {
+    transform: rotate(960deg);
+  }
+}
+
+.clock-hand-1 {
+  -webkit-animation: clock-rotate 3s linear infinite;
+          animation: clock-rotate 3s linear infinite;
+  transform-origin: bottom;
+  transform-box: fill-box;
+}
+
+.clock-hand-2 {
+  -webkit-animation: clock-rotate 6s linear infinite;
+          animation: clock-rotate 6s linear infinite;
+  transform-origin: bottom;
+  transform-box: fill-box;
+}
+
+@-webkit-keyframes clock-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+@keyframes clock-rotate {
+  100% {
+    transform: rotate(360deg);
+  }
+}
+
+#box-top {
+  -webkit-animation: box-top-anim 2s linear infinite;
+          animation: box-top-anim 2s linear infinite;
+  transform-origin: right top;
+  transform-box: fill-box;
+}
+
+@-webkit-keyframes box-top-anim {
+  50% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes box-top-anim {
+  50% {
+    transform: rotate(-5deg);
+  }
+}
+
+#umbrella {
+  -webkit-animation: umbrella-anim 6s linear infinite;
+          animation: umbrella-anim 6s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@-webkit-keyframes umbrella-anim {
+  25% {
+    transform: translateY(10px) rotate(5deg);
+  }
+
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes umbrella-anim {
+  25% {
+    transform: translateY(10px) rotate(5deg);
+  }
+
+  75% {
+    transform: rotate(-5deg);
+  }
+}
+
+#cup {
+  -webkit-animation: cup-rotate 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+          animation: cup-rotate 3s cubic-bezier(0.455, 0.03, 0.515, 0.955) infinite;
+  transform-origin: top left;
+  transform-box: fill-box;
+}
+
+@-webkit-keyframes cup-rotate {
+  50% {
+    transform: rotate(-5deg);
+  }
+}
+
+@keyframes cup-rotate {
+  50% {
+    transform: rotate(-5deg);
+  }
+}
+
+#pillow {
+  -webkit-animation: pillow-anim 3s linear infinite;
+          animation: pillow-anim 3s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@-webkit-keyframes pillow-anim {
+  25% {
+    transform: rotate(10deg) translateY(5px);
+  }
+
+  75% {
+    transform: rotate(-10deg);
+  }
+}
+
+@keyframes pillow-anim {
+  25% {
+    transform: rotate(10deg) translateY(5px);
+  }
+
+  75% {
+    transform: rotate(-10deg);
+  }
+}
+
+#stripe {
+  -webkit-animation: stripe-anim 3s linear infinite;
+          animation: stripe-anim 3s linear infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@-webkit-keyframes stripe-anim {
+  25% {
+    transform: translate(10px, 0) rotate(-10deg);
+  }
+
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+@keyframes stripe-anim {
+  25% {
+    transform: translate(10px, 0) rotate(-10deg);
+  }
+
+  75% {
+    transform: translateX(10px);
+  }
+}
+
+#bike {
+  -webkit-animation: bike-anim 6s ease infinite;
+          animation: bike-anim 6s ease infinite;
+}
+
+@-webkit-keyframes bike-anim {
+  0% {
+    transform: translateX(-1300px);
+  }
+
+  50% {
+    transform: translateX(0);
+    -webkit-animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+            animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+  }
+
+  100% {
+    transform: translateX(1300px);
+  }
+}
+
+@keyframes bike-anim {
+  0% {
+    transform: translateX(-1300px);
+  }
+
+  50% {
+    transform: translateX(0);
+    -webkit-animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+            animation-timing-function: cubic-bezier(0.47, 0, 0.745, 0.715);
+  }
+
+  100% {
+    transform: translateX(1300px);
+  }
+}
+
+#rucksack {
+  -webkit-animation: ruck-anim 3s linear infinite;
+          animation: ruck-anim 3s linear infinite;
+  transform-origin: top;
+  transform-box: fill-box;
+}
+
+@-webkit-keyframes ruck-anim {
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+@keyframes ruck-anim {
+  50% {
+    transform: rotate(5deg);
+  }
+}
+
+.circle {
+  -webkit-animation: circle-anim ease infinite;
+          animation: circle-anim ease infinite;
+  transform-origin: center;
+  transform-box: fill-box;
+  perspective: 0px;
+}
+
+.circle.c1 {
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+}
+
+.circle.c2 {
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+}
+
+.circle.c3 {
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+}
+
+.circle.c4 {
+  -webkit-animation-duration: 1s;
+          animation-duration: 1s;
+}
+
+.circle.c5 {
+  -webkit-animation-duration: 2s;
+          animation-duration: 2s;
+}
+
+.circle.c6 {
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+}
+
+@-webkit-keyframes circle-anim {
+  50% {
+    transform: scale(0.2) rotateX(360deg) rotateY(360deg);
+  }
+}
+
+@keyframes circle-anim {
+  50% {
+    transform: scale(0.2) rotateX(360deg) rotateY(360deg);
+  }
+}
+
+.four,
+#ou {
+  -webkit-animation: four-anim cubic-bezier(0.39, 0.575, 0.565, 1) infinite;
+          animation: four-anim cubic-bezier(0.39, 0.575, 0.565, 1) infinite;
+}
+
+.four.a {
+  transform-origin: bottom left;
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+  transform-box: fill-box;
+}
+
+.four.b {
+  transform-origin: bottom right;
+  -webkit-animation-duration: 3s;
+          animation-duration: 3s;
+  transform-box: fill-box;
+}
+
+#ou {
+  -webkit-animation-duration: 6s;
+          animation-duration: 6s;
+  transform-origin: center;
+  transform-box: fill-box;
+}
+
+@-webkit-keyframes four-anim {
+  50% {
+    transform: scale(0.98);
+  }
+}
+
+@keyframes four-anim {
+  50% {
+    transform: scale(0.98);
+  }
+}
+
+.pic .clickme {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: black;
+}
+
+.pic .clickme .lightbox {
+  left: 25%;
+  top: 15%;
+  height: 70%;
+  width: 50%;
+  position: absolute;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.pic .clickme .previous,
+.pic .clickme .next {
+  cursor: pointer;
+  position: relative;
+  top: 50%;
+  left: 20%;
+  width: auto;
+  padding: 16px;
+  color: #B4B9BE;
+  font-weight: bold;
+  font-size: 40px;
+  transition: 0.6s ease;
+  border-radius: 5%;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+}
+
+.pic .clickme .next {
+  float: right;
+  margin-right: 40%;
+  top: 47%;
+}
+
+.next {
+  right: 0;
+  border-radius: 1%;
+}
+
+.previous:hover,
+.next:hover {
+  opacity: 0.3;
+  background-color: #999;
+}
+
+.close {
+  color: white;
+  position: fixed;
+  top: 2%;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hiden {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .pic .clickme {
+    width: 100%;
+  }
+}
+
+@media (max-width: 870px) {
+  .content-area .pic .clickme .lightbox {
+    left: 15%;
+    top: 15%;
+    width: 72%;
+  }
+
+  .content-area .pic .next,
+  .content-area .pic .previous {
+    left: 0;
+    margin-right: 0;
   }
 }
 

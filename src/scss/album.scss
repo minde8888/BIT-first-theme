@@ -2,13 +2,13 @@
 
 .galleryTitle {
   display: inline-block;
-  margin: 0 0 50px 0;
+  margin : 0 0 50px 0;
 
   a {
-    float: right;
-    text-transform: uppercase;
+    float          : right;
+    text-transform : uppercase;
     text-decoration: none;
-    color: black;
+    color          : black;
   }
 
   a:hover {
@@ -22,27 +22,27 @@
       flex-wrap: wrap;
 
       .galleryImage {
-        height: 450px;
+        height  : 450px;
         position: relative;
-        margin: 0 2% 0 0;
+        margin  : 0 2% 0 0;
 
         img {
-          height: 310px;
+          height    : 310px;
           object-fit: cover;
-          width: 100%;
+          width     : 100%;
         }
 
         div {
-          margin: 25px 0 25px 0;
-          color: #c8c3bf;
+          margin    : 25px 0 25px 0;
+          color     : #c8c3bf;
           font-style: italic;
         }
 
         a {
           text-decoration: none;
-          color: $ultra-dark-gray;
-          font-size: 26px;
-          line-height: 30px;
+          color          : $ultra-dark-gray;
+          font-size      : 26px;
+          line-height    : 30px;
         }
       }
     }
@@ -50,17 +50,37 @@
 }
 
 .pic {
-  display: flex;
-  flex-wrap: wrap;
+  display        : flex;
+  flex-wrap      : wrap;
   justify-content: center;
 
   .imageBox {
     border: 1px solid black;
 
     img {
-      height: 335px;
+      height    : 335px;
       object-fit: cover;
-      width: 100%;
+      width     : 100%;
+    }
+  }
+}
+
+@media (max-width: 1200px) {
+  .pic {
+    margin-top: 20px;
+
+    .imageBox {
+      width: 50%;
+    }
+  }
+}
+
+@media (max-width: 700px) {
+  .grid-container {
+    .pic {
+      .imageBox {
+        width: 100%;
+      }
     }
   }
 }

@@ -1,10 +1,12 @@
 
 import Api from './api';
+
 class Pagination {
     constructor() {
         this.axios = new Api();
         this.hash;
     }
+
     paging() {
         const page = document.querySelectorAll(".paging");
         if (page.length) {
@@ -12,7 +14,7 @@ class Pagination {
             for (let i = 0; i < page.length; i++) {
 
                 let nextPage = () => {
-                    page[i].addEventListener('click', nextPage);
+         
                     let id = parseInt(page[i].id);
                     location.hash = id;
                     page[i].removeEventListener("click", nextPage);
@@ -32,6 +34,7 @@ class Pagination {
                 location.hash = hash
             }
         } else if (hash && HTML == null) {
+            console.log(11111111);
             let pages = this.pages;
             let obj = {
                 api: this.api,

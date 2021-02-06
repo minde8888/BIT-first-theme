@@ -16,8 +16,7 @@ new Album('.inner');
 new FrontMenu('.navMenu');
 new Events('.eventsHome');
 new ImageUploade("loadeGallery");
-
-new LightBox("showGallery")
+new LightBox("showGallery");
 
 
 
