@@ -1285,6 +1285,7 @@ button:focus {
   grid-template-rows: 1fr 10fr;
   grid-column-gap: 0px;
   grid-row-gap: 0px;
+  height: 60vh;
 }
 
 .calendarContainer .calendar {
@@ -1935,15 +1936,6 @@ nav div {
   .idea textarea {
     width: 80%;
   }
-}
-
-.grid-container .pic .imageBox .lightbox {
-  border-radius: 2%;
-  transition: transform 0.2s;
-}
-
-.grid-container .pic .imageBox .lightbox:hover {
-  transform: scale(1.5);
 }
 
 .homeNewsContainer {
@@ -2835,6 +2827,22 @@ html {
   width: 100%;
 }
 
+@media (max-width: 1200px) {
+  .pic {
+    margin-top: 20px;
+  }
+
+  .pic .imageBox {
+    width: 50%;
+  }
+}
+
+@media (max-width: 700px) {
+  .grid-container .pic .imageBox {
+    width: 100%;
+  }
+}
+
 .postContainer {
   display: flex;
   flex-wrap: wrap;
@@ -3317,6 +3325,102 @@ html {
 @keyframes four-anim {
   50% {
     transform: scale(0.98);
+  }
+}
+
+.pic .clickme {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100%;
+  height: 100%;
+  overflow: hidden;
+  background-color: black;
+}
+
+.pic .clickme .lightbox {
+  left: 25%;
+  top: 15%;
+  height: 70%;
+  width: 50%;
+  position: absolute;
+  -o-object-fit: cover;
+     object-fit: cover;
+}
+
+.pic .clickme .previous,
+.pic .clickme .next {
+  cursor: pointer;
+  position: relative;
+  top: 50%;
+  left: 20%;
+  width: auto;
+  padding: 16px;
+  color: #B4B9BE;
+  font-weight: bold;
+  font-size: 40px;
+  transition: 0.6s ease;
+  border-radius: 5%;
+  -moz-user-select: none;
+   -ms-user-select: none;
+       user-select: none;
+  -webkit-user-select: none;
+}
+
+.pic .clickme .next {
+  float: right;
+  margin-right: 40%;
+  top: 47%;
+}
+
+.next {
+  right: 0;
+  border-radius: 1%;
+}
+
+.previous:hover,
+.next:hover {
+  opacity: 0.3;
+  background-color: #999;
+}
+
+.close {
+  color: white;
+  position: fixed;
+  top: 2%;
+  right: 25px;
+  font-size: 35px;
+  font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+  color: #999;
+  text-decoration: none;
+  cursor: pointer;
+}
+
+.hiden {
+  display: none;
+}
+
+@media (max-width: 1200px) {
+  .pic .clickme {
+    width: 100%;
+  }
+}
+
+@media (max-width: 870px) {
+  .content-area .pic .clickme .lightbox {
+    left: 15%;
+    top: 15%;
+    width: 72%;
+  }
+
+  .content-area .pic .next,
+  .content-area .pic .previous {
+    left: 0;
+    margin-right: 0;
   }
 }
 
