@@ -3328,6 +3328,8 @@ html {
   }
 }
 
+/** @format */
+
 .pic .clickme {
   position: fixed;
   left: 0;
@@ -3398,10 +3400,6 @@ html {
   color: #999;
   text-decoration: none;
   cursor: pointer;
-}
-
-.hiden {
-  display: none;
 }
 
 @media (max-width: 1200px) {

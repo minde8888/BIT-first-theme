@@ -1,5 +1,3 @@
-<?php
-?>
 <div class="sm-3-4 ">
     <div class="cl">
         <div class="eventsHome">
